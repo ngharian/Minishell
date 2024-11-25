@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:10:44 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/25 13:25:25 by gdero            ###   ########.fr       */
+/*   Updated: 2024/11/25 18:05:47 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static int	change_pwd(char ***var, char *line, char *to_find)
 			(*var)[index] = newpath;
 		}
 	}
-	if (update_oldpwd(&(*var), oldpwd, 0))
+	if (update_oldpwd(&(*var), oldpwd, 0) || update_oldpwd(&(*var), oldpwd, 1))
 		return (1);
 	return (0);
 }
@@ -201,6 +201,11 @@ static int	change_directory(t_env_vars *vars, int mode, char *line, char *home)
 		newpath = user_path(vars->env, line, home);
 		line = newpath;
 	}
+	else if (mode == 9)
+	{
+		newpath = get_path_line(vars->env, "OLDPWD=", 0);
+		line = newpath;
+	}
 	else
 		return (2);
 	if (chdir(newpath) == -1)
@@ -240,6 +245,8 @@ static int	type_of_cd(char *line)
 		return (6);
 	else if (line[0] == '~' && ft_isalpha(line[1]))
 		return (8);
+	else if (line[0] == '-' && !line[1])
+		return (9);
 	return (-1);
 }
 

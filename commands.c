@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:15:36 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/11 15:36:06 by gdero            ###   ########.fr       */
+/*   Updated: 2024/11/25 14:33:22 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ static void	previous_struct(t_commands *cmd)
 	t_commands	*temp;
 
 	cmd->previous = NULL;
+	if (!cmd->next)
+	{
+		cmd->last_cmd = 1;
+		return ;
+	}
 	while (cmd->next != NULL)
 	{
 		temp = cmd;

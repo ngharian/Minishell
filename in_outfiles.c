@@ -98,6 +98,10 @@ int	checking_in_and_out(t_commands *cmd, char *splitted, char type)
 	str_index = -1;
 	while (splitted[++str_index])
 	{
+		if (splitted[str_index] == 39 || splitted[str_index] == '"')
+			str_index = skip_quotes(splitted, str_index);
+		if (splitted[str_index] == '\0')
+			return (0);
 		if (splitted[str_index] == '>' || splitted[str_index] == '<')
 		{
 			type = splitted[str_index];

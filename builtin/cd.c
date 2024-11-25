@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:10:44 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/19 14:47:56 by gdero            ###   ########.fr       */
+/*   Updated: 2024/11/25 13:25:25 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,9 +184,8 @@ static int	change_directory(t_env_vars *vars, int mode, char *line, char *home)
 		newpath = "/";
 	else if (mode == 4)
 	{
-		if (add_to_path(&newpath, line, home, 0))
-			return (1);
 		change_to_parent(vars, &newpath);
+		line = newpath;
 	}
 	else if (mode == 6)
 	{
@@ -206,9 +205,16 @@ static int	change_directory(t_env_vars *vars, int mode, char *line, char *home)
 		return (2);
 	if (chdir(newpath) == -1)
 	{
+		if (access(newpath, F_OK) == 0)
+		{
+			printf("minishell: cd: %s: Not a directory\n", ft_strrchr(line, '/') + 1);
+			return (2);
+		}
 		printf("minishell: cd: %s: No such file or directory\n", line);
 		return (2);
 	}
+	if (line[ft_strlen(line) - 1] == '/')
+		line[ft_strlen(line) - 1] = '\0';
 	if (change_pwd(&vars->env, line, "PWD=") || change_pwd(&vars->exp, line, "declare -x PWD=\""))
 		return (-1);
 	return (2);
@@ -225,20 +231,18 @@ static int	type_of_cd(char *line)
 	else if (line[0] == '/' && (!line[1] || (line[1] == '.' && line[1] == '\0') || (line[1] == '.' && line[1] == '.' && !line[2])))
 		return (2);
 	else if (line[0] == '.' && line[1] == '/')
-		return (3);
+		return (6);
 	else if (line[0] == '.' && line[1] == '.')
 		return (4);
-	else if (line[0] == '/' && ft_isalpha(line[1]))
-		return (5);
-	else if (ft_isalpha(line[0]))
+	/*else if (line[0] == '/' && ft_isalpha(line[1])) // semble pas necessaire
+		return (-1);*/
+	else if (ft_isalnum(line[0]))
 		return (6);
 	else if (line[0] == '~' && ft_isalpha(line[1]))
 		return (8);
 	return (-1);
 }
-//mode 1 == .. ; mode 2 == ~ (seul == cd simple); mode 3 == directory ??? !!! "not a directory"
-//cd ~/.. va plus loin que HOME (Users)
-//cd / va plus loin que Users
+
 int	ft_cd(t_commands *cmd, t_env_vars *vars) //prend juste le 1er arg, s'en fout si plus
 {
 	int		index;

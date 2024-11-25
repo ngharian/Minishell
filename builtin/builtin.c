@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:21:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/19 14:50:47 by gdero            ###   ########.fr       */
+/*   Updated: 2024/11/25 14:06:17 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ int	ft_builtins(t_commands *cmd, t_env_vars *vars)
     if (ft_strncmp(lower_cmd, "env", 3) == 0)
         condition_met = ft_env(cmd->cmd, vars, 0);
     if (ft_strncmp(lower_cmd, "exit", 4) == 0) //ne fonctionne QUE s'il n'y a pas de pipe
-        condition_met = ft_exit(cmd);
+        condition_met = ft_exit(cmd, lower_cmd, vars);
 	return (free(lower_cmd), condition_met);
 }

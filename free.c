@@ -31,6 +31,15 @@ int	free_struct(t_commands **cmd, int error)
 	return (error);
 }
 
+int	free_env(t_env_vars *vars, int error)
+{
+	free_split(vars->env);
+	free_split(vars->exp);
+	free(vars);
+	vars = NULL;
+	return (error);
+}
+
 int exit_parsing(int mode) // !!! rajouter exit codes !!!
 {
 	if (mode == -1)

@@ -82,6 +82,7 @@ void	free_split(char **split);
 int		free_struct(t_commands **cmd, int error);
 int		exit_parsing(int mode);
 void	print_exit_error(char *message, int exit_code);
+int		free_env(t_env_vars *vars, int error);
 
 //execution
 int		execution(t_commands **cmd, t_env_vars **vars);
@@ -94,7 +95,7 @@ void	make_order(t_env_vars *vars, int index);
 int		ft_cd(t_commands *cmd, t_env_vars *vars);
 int		ft_echo(char **cmd);
 int		ft_env(char **cmd, t_env_vars *vars, int mode);
-int		ft_exit(t_commands *cmd);
+int		ft_exit(t_commands *cmd, char *lower_cmd, t_env_vars *vars);
 int		ft_export(char **cmd, t_env_vars *vars);
 int		ft_pwd(char **cmd, t_env_vars *vars);
 int		ft_unset(char **cmd, t_env_vars *vars);

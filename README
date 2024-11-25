@@ -1,0 +1,101 @@
+GARDER CONTROLE SUR EXECVE
+3 trigger POUR PIPES -> LA 1ERE, TOUTES LES INTERMEDIAIRES ET LA DERNIERE
+ctrl C ou D dans delimiter
+Variable globale -> signaux ?
+PROMPT = REPERTOIRE COURANT ?
+
+!!! gerer si guillemets fermes mais vides
+
+symboles chiants entre pipes :
+
+ | < > >> <<*/  wesh c'est gere ca maintenant !
+ 
+export n'export rien s'il y a une pipe
+
+exit coucou 123 -> va exit + message erreur aussi
+exit 123 coucou -> va pas exit
+
+<< ne prend pas les variables d'environnement -> <<"$del" attendra $del ----> chez nous, attend "$del"
+
+ c'est le dernier infile qui a prio sur les autres :
+ cat <Makefile << del
+ ou cat <<del <Makefile
+
+si infile forcé, la commande arrive en 2e : <Makefile wc --->Comment le mettre dans la struct sans se faire chier ?
+
+code exit ctrl-C = 1 
+code exit parsing syntaxe = 258
+!!! exit_code doit rester un int dans la structure ENV (sinon ca peut pas etre egal a 258) -> c'est dans exit qu'il faut mettre en
+Usigned char pour gerer l'overflow ( si exit 255 -> exit_code = 255, si exit 256 -> exit_code = 0)
+
+test megasplit =    hello "comment | ca va" oui | aurait on "|fini?" << file | telle 'est la qu|estion' <file
+--------
+
+<> on s'en branle, c'est un operateur en plus dont on ne doit pas s'occuper
+
+
+fct arrow_parse
+ext_parsing dans le fonction get_line
+gerer infile outfile apres fork
+
+pid_t waitpid(pid_t pid, int *stat_loc, int options);
+option : WNOHANG -> va pas attendre le process child et renvoie 0 tant que le process n'est pas fini
+
+Apres le megasplit, si <(<) ou >(>), on sait que la chaine de car suivante est soit infile, soit outfile -> ont met a jour nos structs
+et on supprime les chaines de car dans le split
+MAIS gerer variables environnement AVANT 
+
+!!!! si erreur de parsing ne faisant pas exit -> mettre a jour historique sinon segfault!!!!
+
+Creer outfiles doit etre fait AVANT virer les quotes :
+> ">coucou" -> creera fichier >coucou
+> >coucou  ->syntax error
+
+Quand une commande a un outfile, rien n'est envoye dans la pipe ! :
+ls > test | grep builtin >test2 -----> Rien dans test2 ;
+ls | grep builtin >test2		-----> builtin dans test2
+
+si infile pas accessible -> cmd s'execute pas - PAR COMMANDE :
+< dsiohg ls | ls >test
+
+TOUT debut de programme -> on utilise notre propre export pour update une variable '?' pour nos codes d'erreur
+-> mettre un flag en debut pour nous autoriser a export ?, puis le changer pour plus qu'on puisse le faire apres
+
+Question des whitespace dans les commandes : Faut-il vraiment gerer les tab et que sais-je ?
+->pour l'instant, il n'y a que les fct check_pipes qui les prennent en compte
+
+!!! $? seul fonctionne dans bash -> donne le code d'erreur + "command not found" - >normal car $? est remplace par sa valeur, et onc il prend la valeur comme le nom d'une commande 
+(ex: "abcd" renvoie zsh: command not found: abcd. donc si $? = 3 et que commande "$?" -> la commande est transorfmee en "3" -> renvoie zsh: command not found: 3)
+
+!!! if export te"st=cou"cou --->ca vire les guillemets !
+
+$$ = donne une valeur qui semble random ???
+-> NON : donne le PID
+
+PROBLEME : export prend en compte les quotes....
+-> export test="''"coucou"'"
+-> Faire le export en premier, avant tout, a part ?
+
+OMG export c'est env dans l'ordre alphabetique...
+Pas tout a fait idem que dans bash car:
+--->Parce que ./minishell dans zsh
+--->derniere ligne dans env est pas la meme ./minishell ou usr/bin/env dans bash
+
+!!HEADER
+
+!! cd - ->>>normalement faut pas s'en occuper
+creer dossier/changer terminal/supprimer dossier, quid ?
+export a+=b
+export -aaa
+
+export coucou= rien dans env --> FAUX
+
+export test=""""""coucou"""""" fera """coucou""" dans le notre 
+et "coucou" dans bash, mais il peut aller se faire foutre.
+
+faut-il virer la ligne OLDPWD de l'env et la remplacer par un OLDPWD vide UNIQUEMENT dans export ? (si nouveau terminal)
+->super chiant pour pas grand chose...
+
+!! /bin/ls devrait fonctionner...
+
+variable SHLVL important ou pas dans gestion signale ? (si on lance un minishell dans un minishell, d'ailleurs, "command not found", donc essayer de lancer le programme depuis le path actuel avant de chercher dans $PATH?

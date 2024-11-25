@@ -1,0 +1,85 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 12:28:50 by ngharian          #+#    #+#             */
+/*   Updated: 2024/11/23 13:32:42 by ngharian         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+/*
+codes d'erreur que get_line peut recevoir d'une des fonctions qu'elle appele:
+-1 = readline erreur (->quitter)
+-2 = quottes unclosed (->continuer)
+-3 = parsing erreur (->continue)
+-4 = malloc error (->quitter)
+-5 = empty_line -> (continue)
+*/
+/*char 	*exit_parsing(int i) // testing purpose
+{
+	if (i == -2)
+		write(1, "Non closed quotes->undefined behavior in bash\n", 46);
+	if (i == -1 || i == -4)
+		write(1, "Malloc error while parsing\n", 27);
+	return (NULL); // !!! Probleme quand on veut aller plus haut dans l'historique apres etre passe par ici
+}*/
+
+/*void	ft_init_signal(void)
+{
+	struct termios	term;
+
+	tcgetattr(0, &term);
+	term.c_lflag &= ~(ECHOCTL);
+	tcsetattr(0, TCSANOW, &term);
+	ft_set_sig(1);
+}*/
+
+int main(int argc, char **argv, char **env)
+{
+	char		*input;
+	char		**splitted;
+	t_commands	*cmd;
+	t_here_doc	*here_doc;
+	t_env_vars	*env_vars;
+
+	cmd = NULL;
+	++argc;
+	argv = NULL;
+	//here_doc
+	here_doc = NULL;
+	//env_vars
+	env_vars = (t_env_vars *)malloc(sizeof(t_env_vars));
+	if (fill_env(env, env_vars))
+		return (1);
+	env_vars->exit_code = 0;
+	env_vars->pid = getpid(); //pense pas qu'on puisse l'utiliser, non effectivement
+	if (!env_vars)
+		return (1);
+	//boucle programme
+	g_signal = 0;
+	while (1)
+	{
+		ft_set_sig(1);
+		if (get_line(&input, &here_doc, &env_vars))
+			continue ;
+		add_history(input);
+		if (input == NULL)
+			continue ;
+		if (expander(&input, env_vars)) //checker que le strncmp soit TOUT ce qu'il y a avant le '=' && les MAJ importent !
+			exit(1);
+		if (split_mini(input, &splitted, '|'))
+			return (printf("Malloc error\n")); //gerer l'erreur -> soit 1 soit 2 et tous les deux des malloc errors
+		if (fill_cmd_struct(&cmd, splitted))
+			return (printf("fill_struct_err\n")); //erreur -> 1 = malloc error pour les structs ; 2 = malloc error pour les strings sans quotes*/
+		if (execution(&cmd, &env_vars))
+			return (printf("Exec error\n")); //!! changer les printf par des sterror pour afficher derniere erreur systeme(no such file or directory, command not found, etc...)
+		/*if (ft_builtins(cmd, env_vars))
+			exit (1);*/
+		free_struct(&cmd, 0);
+	}
+}

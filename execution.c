@@ -89,7 +89,7 @@ int	execute(t_commands **cmd, t_env_vars **vars)
 	ft_set_sig(3);
 	if (!temp->next)
 	{
-		if (ft_builtins((*cmd), *vars) > 0)
+		if (ft_builtins((*cmd), *vars) < 0)
 			return (1);
 	}
 	while (temp != NULL)

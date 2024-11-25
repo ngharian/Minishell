@@ -8,7 +8,7 @@ PROMPT = REPERTOIRE COURANT ?
 
 symboles chiants entre pipes :
 
- | < > >> <<*/  wesh c'est gere ca maintenant !
+ | < > >> <<   c'est gere ca maintenant !
  
 export n'export rien s'il y a une pipe
 
@@ -47,9 +47,10 @@ MAIS gerer variables environnement AVANT
 
 !!!! si erreur de parsing ne faisant pas exit -> mettre a jour historique sinon segfault!!!!
 
-Creer outfiles doit etre fait AVANT virer les quotes :
+Creer outfiles doit etre fait AVANT virer les quotes mais apres l'expander et la redirection de pipe:
 > ">coucou" -> creera fichier >coucou
 > >coucou  ->syntax error
+> si ca fail, reprendre le nom de infile pour pouvoir ecrire l'erreur une fois dans le process fille
 
 Quand une commande a un outfile, rien n'est envoye dans la pipe ! :
 ls > test | grep builtin >test2 -----> Rien dans test2 ;

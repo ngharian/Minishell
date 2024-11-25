@@ -61,6 +61,7 @@ static int	child(t_commands *cmd, t_env_vars *vars)
 		//close(cmd->exchange[1]);
 		execute_cmd(vars, cmd);
 	}
+	
 	/*if (cmd->previous != NULL)
 		dup2(cmd->exchange[1], cmd->previous->exchange[0]);
 	if (cmd->infile > 0)
@@ -86,13 +87,13 @@ int	execute(t_commands **cmd, t_env_vars **vars)
 
 	temp = (*cmd);
 	ft_set_sig(3);
-	while (temp != NULL)
+	if (!temp->next)
 	{
 		if (ft_builtins((*cmd), *vars) > 0)
-		{
-			temp = temp->next;
-			continue ;
-		}
+			return (1);
+	}
+	while (temp != NULL)
+	{
 		temp->process = fork();
 		if (temp->process < 0)
 		{

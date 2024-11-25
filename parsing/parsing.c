@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:32:56 by ngharian          #+#    #+#             */
-/*   Updated: 2024/11/22 14:40:22 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/11/25 13:47:42 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ int	get_line(char **readed_line, t_here_doc **heredoc, t_env_vars **env_vars)
 	int		i;
 
 	i = 0;
-	//printf("%s ", get_path_line((*env_vars)->env, "PWD="));
+	//printf("%s ", ft_strrchr(get_path_line((*env_vars)->env, "PWD=", 1), '/') + 1);
+	//printf("%s ", ft_strrchr(get_path_line((*env_vars)->env, "LOGNAME", 1), '=') + 1);
 	*readed_line = readline("minishell$ ");
     if (!(*readed_line))
 		exit_parsing(-1);

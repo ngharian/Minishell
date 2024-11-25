@@ -6,16 +6,16 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 16:30:35 by gdero             #+#    #+#             */
-/*   Updated: 2023/11/22 18:28:27 by gdero            ###   ########.fr       */
+/*   Updated: 2024/11/25 16:50:19 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+unsigned long long	ft_atoi(const char *str)
 {
-	int		neg;
-	long	result;
+	int					neg;
+	unsigned long long	result;
 
 	neg = 1;
 	result = 0;
@@ -34,14 +34,12 @@ int	ft_atoi(const char *str)
 	}
 	if (result == 2147483648 && neg == -1)
 		return (-2147483648);
-	if (result > INT_MAX)
-		return (1);
 	return (result * neg);
 }
 
 /*int main(void)
 {
-	char test[] = "  \016 15";
+	char test[] = "55555555";
 	printf("%i\n", atoi(test));
 	printf("%i\n", ft_atoi(test));
 }*/

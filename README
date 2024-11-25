@@ -99,3 +99,12 @@ faut-il virer la ligne OLDPWD de l'env et la remplacer par un OLDPWD vide UNIQUE
 !! /bin/ls devrait fonctionner...
 
 variable SHLVL important ou pas dans gestion signale ? (si on lance un minishell dans un minishell, d'ailleurs, "command not found", donc essayer de lancer le programme depuis le path actuel avant de chercher dans $PATH?
+
+1!!! child pas dans process fille si commande seule !!
+childs :
+-Path absolu
+-builtin
+-construction path sinon error
+-execve
+
+waitpid dans une boucle a la fin de tous les fork et pas dans le boucle de fork en elle meme 

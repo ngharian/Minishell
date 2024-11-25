@@ -40,7 +40,7 @@ typedef struct	s_env_vars
 	char	**env;
 	char	**exp;
 	int		nb_string;
-	unsigned char	exit_code;
+	unsigned long long	exit_code;
 	pid_t	pid;
 	char	*paths;
 	char	**split_path;
@@ -95,7 +95,7 @@ void	make_order(t_env_vars *vars, int index);
 int		ft_cd(t_commands *cmd, t_env_vars *vars);
 int		ft_echo(char **cmd);
 int		ft_env(char **cmd, t_env_vars *vars, int mode);
-int		ft_exit(t_commands *cmd, char *lower_cmd, t_env_vars *vars);
+int		ft_exit(t_commands *cmd, t_env_vars *vars);
 int		ft_export(char **cmd, t_env_vars *vars);
 int		ft_pwd(char **cmd, t_env_vars *vars);
 int		ft_unset(char **cmd, t_env_vars *vars);

@@ -6,13 +6,13 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:11:10 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/15 17:43:49 by gdero            ###   ########.fr       */
+/*   Updated: 2024/11/25 13:46:39 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h" 
 
-char	*get_path_line(char **env, char *line)
+char	*get_path_line(char **env, char *line, int mode)
 {
 	int		index;
 	char	*path;
@@ -22,7 +22,10 @@ char	*get_path_line(char **env, char *line)
 	{
 		if (ft_strncmp(env[index], line, ft_strlen(line)) == 0)
 		{
-			path = ft_strchr(env[index], '/');
+			if (mode == 0)
+				path = ft_strchr(env[index], '/');
+			else
+				path = ft_strchr(env[index], '=');
 			return (path);
 		}
 	}
@@ -38,7 +41,7 @@ int	ft_pwd(char **cmd, t_env_vars *vars) //trouver exactement la longueur de la 
 		printf("minishell: pwd: Too many arguments\n");
 		return (3);
 	}
-	path = get_path_line(vars->env, "PWD=");
+	path = get_path_line(vars->env, "PWD=", 0);
 	if (!path)
 	{
 		printf("minishell: pwd: could not find path ; where are you?!\n");

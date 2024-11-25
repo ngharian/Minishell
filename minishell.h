@@ -101,7 +101,7 @@ int		ft_unset(char **cmd, t_env_vars *vars);
 int		is_there_equal(char *str, int mode);
 int		already_exists(char *str, t_env_vars **vars, \
 		int *index_mode, int index_str);
-char	*get_path_line(char **env, char *line);
+char	*get_path_line(char **env, char *line, int mode);
 
 
 int	execute_cmd(t_env_vars *vars, t_commands *temp);

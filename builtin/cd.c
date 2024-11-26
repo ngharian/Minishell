@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:10:44 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/25 18:05:47 by gdero            ###   ########.fr       */
+/*   Updated: 2024/11/26 13:39:42 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,7 @@ static int	change_directory(t_env_vars *vars, int mode, char *line, char *home)
 
 static int	type_of_cd(char *line)
 {
-	if (line[0] == '~' && line[1] == '/') //!!! si ~19 a la place de ~/19 ; fonctionne avec ~gdero
+	if (line[0] == '~' && line[1] == '/')
 	{
 		if (line[2] == '.' && line[3] == '.' && !line[4])
 			return (7);
@@ -237,7 +237,7 @@ static int	type_of_cd(char *line)
 		return (2);
 	else if (line[0] == '.' && line[1] == '/')
 		return (6);
-	else if (line[0] == '.' && line[1] == '.')
+	else if (line[0] == '.' && line[1] == '.') //!! si dossier supprime
 		return (4);
 	/*else if (line[0] == '/' && ft_isalpha(line[1])) // semble pas necessaire
 		return (-1);*/
@@ -245,7 +245,7 @@ static int	type_of_cd(char *line)
 		return (6);
 	else if (line[0] == '~' && ft_isalpha(line[1]))
 		return (8);
-	else if (line[0] == '-' && !line[1])
+	else if (line[0] == '-' && !line[1]) // !!! si dossier supprime
 		return (9);
 	return (-1);
 }

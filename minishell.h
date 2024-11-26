@@ -18,12 +18,12 @@ typedef struct s_commands
 {
 	int					infile;
 	int					outfile;
-	bool				builtin;
 	int					exchange[2];
 	char				**cmd;
 	int					right_command;
 	pid_t				process;
 	int					last_cmd;
+	bool				absolute_path;
 	struct s_commands	*previous;
 	struct s_commands	*next;
 }	t_commands;

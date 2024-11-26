@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:21:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/25 14:47:10 by gdero            ###   ########.fr       */
+/*   Updated: 2024/11/26 14:26:07 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	ft_builtins(t_commands *cmd, t_env_vars *vars)
 	int	    index;
 	int	    condition_met;
     char    *lower_cmd;
-    char *const ls = "ls"; //debilos, surtout pour pas oublier
 
 	condition_met = 0;
 	index = -1;
@@ -26,8 +25,6 @@ int	ft_builtins(t_commands *cmd, t_env_vars *vars)
         return (-1); //??
 	while (cmd->cmd[0][++index])
 		lower_cmd[index] = ft_tolower(cmd->cmd[0][index]);
-    if (ft_strncmp(lower_cmd, "/bin/ls", 7) == 0) //ligne debile, 1er check de l'eval
-        execve("/bin/ls", &ls, vars->env);
 	if (ft_strncmp(lower_cmd, "echo", 4) == 0)
         condition_met = ft_echo(cmd->cmd);
     if (ft_strncmp(lower_cmd, "cd", 2) == 0)
@@ -40,7 +37,8 @@ int	ft_builtins(t_commands *cmd, t_env_vars *vars)
 		condition_met = ft_unset(cmd->cmd, vars);
     if (ft_strncmp(lower_cmd, "env", 3) == 0)
         condition_met = ft_env(cmd->cmd, vars, 0);
-    if (ft_strncmp(lower_cmd, "exit", 4) == 0) //ne fonctionne QUE s'il n'y a pas de pipe
+    if (ft_strncmp(lower_cmd, "exit", 4) == 0)
         condition_met = ft_exit(cmd, vars);
+    //exit_code;
 	return (free(lower_cmd), condition_met);
 }

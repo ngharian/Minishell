@@ -4,11 +4,15 @@ int	check_access(t_env_vars *vars, t_commands *temp)
 {
 	char		*path;
 	int			index;
-	int			i;
 
-	index = 0;
-	i = 0;
-	while (vars->true_paths[index])
+	index = -1;
+	if (access(temp->cmd[0], X_OK) == 0)
+	{
+		temp->absolute_path = true;
+		temp->right_command = 0;
+		return (0);
+	}
+	while (vars->true_paths[++index])
 	{
 		path = ft_strjoin(vars->true_paths[index], temp->cmd[0]);
 		if (!path)
@@ -16,13 +20,12 @@ int	check_access(t_env_vars *vars, t_commands *temp)
 		if (access(path, X_OK) == 0)
 		{
 			temp->right_command = index;
-			i = 1;
+			free(path);
+			return (0);
 		}
 		free(path);
-		index++;
 	}
-	if (i < 1)
-		printf("minishell: %s: command not found\n", temp->cmd[0]);
+	printf("minishell: %s: command not found\n", temp->cmd[0]);
 	return (0);
 }
 
@@ -30,17 +33,20 @@ int	execute_cmd(t_env_vars *vars, t_commands *temp)
 {
 	char		*command;
 
+	temp->absolute_path = false;
 	temp->right_command = -1;
-	if (temp->builtin == true)
-		return (0);
 	if (check_access(vars, temp))
 		return (1);
 	if (temp->right_command < 0)
 		return (1);
-	command = ft_strjoin(vars->true_paths[temp->right_command], temp->cmd[0]);
+	if (temp->absolute_path == true)
+		command = temp->cmd[0];
+	else
+		command = ft_strjoin(vars->true_paths[temp->right_command], \
+		temp->cmd[0]);
 	if (!command)
 		return (1);
-	execve(command, temp->cmd, &vars->paths);
+	execve(command, temp->cmd, vars->env);
 	free(command);
 	return (0);
 }
@@ -61,7 +67,7 @@ static int	child(t_commands *cmd, t_env_vars *vars)
 		//close(cmd->exchange[1]);
 		execute_cmd(vars, cmd);
 	}
-	
+	//if (cmd->cmd[0] == '/')  ---------> pour check path absolu /!\  ////bin/ls fonctionne -> marchera dans execve ?
 	/*if (cmd->previous != NULL)
 		dup2(cmd->exchange[1], cmd->previous->exchange[0]);
 	if (cmd->infile > 0)
@@ -83,14 +89,18 @@ static int	child(t_commands *cmd, t_env_vars *vars)
 int	execute(t_commands **cmd, t_env_vars **vars)
 {
 	int			status;
+	int			builtin_flag;
 	t_commands	*temp;
 
 	temp = (*cmd);
 	ft_set_sig(3);
 	if (!temp->next)
 	{
-		if (ft_builtins((*cmd), *vars) < 0)
+		builtin_flag = ft_builtins((*cmd), *vars);
+		if (builtin_flag < 0) //faire un truc ici -> NECESSAIRE
 			return (1);
+		if (builtin_flag > 0)
+			return (0);
 	}
 	while (temp != NULL)
 	{
@@ -147,10 +157,7 @@ static int	in_the_pipes(t_commands **cmd)
 			temp->exchange[0] = exchange[0];
 		}
 		else if (temp->previous != NULL && temp->next == NULL)
-		{
 			temp->exchange[1] = exchange[1];
-			temp->last_cmd = 1;
-		}
 		temp = temp->next;
 	}
 	return (0);

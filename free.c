@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/26 16:54:58 by gdero             #+#    #+#             */
+/*   Updated: 2024/11/26 16:54:59 by gdero            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	free_split(char **split)
@@ -40,7 +52,7 @@ int	free_env(t_env_vars *vars, int error)
 	return (error);
 }
 
-int exit_parsing(int mode) // !!! rajouter exit codes !!!
+int	exit_parsing(int mode) // !!! rajouter exit codes !!!
 {
 	if (mode == -1)
 	{

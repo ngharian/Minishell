@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:11:10 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/25 13:46:39 by gdero            ###   ########.fr       */
+/*   Updated: 2024/11/26 16:48:59 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*get_path_line(char **env, char *line, int mode)
 	return (NULL);
 }
 
-int	ft_pwd(char **cmd, t_env_vars *vars) //trouver exactement la longueur de la string du path (pour malloc le buffer et pour la size du getcwd)
+int	ft_pwd(char **cmd, t_env_vars *vars)
 {
 	char	*path;
 

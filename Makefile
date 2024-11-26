@@ -7,6 +7,7 @@ SRCS = minishell.c \
 		./parsing/pipe_join.c \
 		./builtin/builtin.c \
 		./builtin/cd.c \
+		./builtin/cd2.c \
 		./builtin/echo.c \
 		./builtin/env.c \
 		./builtin/exit.c \

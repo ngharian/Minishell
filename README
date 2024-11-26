@@ -108,4 +108,17 @@ childs :
 -construction path sinon error
 -execve
 
-waitpid dans une boucle a la fin de tous les fork et pas dans le boucle de fork en elle meme 
+waitpid dans une boucle a la fin de tous les fork et pas dans le boucle de fork en elle meme
+
+CE QUI EST OK ET AUX NORMES :
+- pwd.c
+- unset.c
+- exit.c
+- env.c
+- echo.c
+- pipe_parse.c
+- expander.c
+- free.c
+- commands.c
+- del_quotes.c
+

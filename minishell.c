@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:28:50 by ngharian          #+#    #+#             */
-/*   Updated: 2024/11/23 13:32:42 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/11/25 17:27:11 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int main(int argc, char **argv, char **env)
 	if (fill_env(env, env_vars))
 		return (1);
 	env_vars->exit_code = 0;
+	
 	env_vars->pid = getpid(); //pense pas qu'on puisse l'utiliser, non effectivement
 	if (!env_vars)
 		return (1);

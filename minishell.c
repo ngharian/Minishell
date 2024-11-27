@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:28:50 by ngharian          #+#    #+#             */
-/*   Updated: 2024/11/25 17:27:11 by gdero            ###   ########.fr       */
+/*   Updated: 2024/11/27 12:54:05 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,29 @@ codes d'erreur que get_line peut recevoir d'une des fonctions qu'elle appele:
 	tcsetattr(0, TCSANOW, &term);
 	ft_set_sig(1);
 }*/
+
+void	print_cmd(t_commands *cmd)
+{
+	int	i = 0;
+	int	j = 0;
+	while(cmd != NULL)
+	{
+		printf("struct %d:\n", j);
+		printf("infile: %d outfile : %d \n", cmd->infile, cmd->outfile);
+		//printf("%d", cmd->outfile);
+		i = 0;
+		printf("ligne: ");
+		while(cmd->cmd[i])
+		{
+			printf("%s[]", cmd->cmd[i]);
+			++i;
+		}
+		write(1, "\n", 1);
+		++j;
+		cmd = cmd->next;
+	}
+}
+
 
 int main(int argc, char **argv, char **env)
 {
@@ -77,6 +100,9 @@ int main(int argc, char **argv, char **env)
 			return (printf("Malloc error\n")); //gerer l'erreur -> soit 1 soit 2 et tous les deux des malloc errors
 		if (fill_cmd_struct(&cmd, splitted))
 			return (printf("fill_struct_err\n")); //erreur -> 1 = malloc error pour les structs ; 2 = malloc error pour les strings sans quotes*/
+		//print_cmd(cmd);
+		//if (get_in_out(&cmd, &here_doc))
+			//exit(1);
 		if (execution(&cmd, &env_vars))
 			return (printf("Exec error\n")); //!! changer les printf par des sterror pour afficher derniere erreur systeme(no such file or directory, command not found, etc...)
 		/*if (ft_builtins(cmd, env_vars))

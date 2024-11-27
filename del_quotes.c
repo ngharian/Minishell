@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:33:04 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/11 15:40:42 by gdero            ###   ########.fr       */
+/*   Updated: 2024/11/27 17:38:16 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	no_more_quotes(char *string, char *new_string)
 			type = string[str_index];
 			while (string[++str_index] != type)
 				new_string[str_index2++] = string[str_index];
-			str_index++;
+			continue ;
 		}
 		if (string[str_index] == '\0')
 			break ;
@@ -59,15 +59,17 @@ int	cmd_without_quotes(char **string)
 	size_t	str_j;
 	char	*new_string;
 
-	str_i = -1;
+	str_i = 0;
 	str_j = ft_strlen(*string);
-	while (++str_i < ft_strlen(*string))
+	while (str_i < ft_strlen(*string))
 	{
 		if ((*string)[str_i] == 39 || (*string)[str_i] == '"')
 		{
 			str_i = skip_quotes((*string), str_i);
 			str_j -= 2;
+			continue ;
 		}
+		str_i++;
 	}
 	new_string = malloc((str_j + 1) * sizeof(char));
 	if (!new_string)

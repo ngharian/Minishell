@@ -122,3 +122,4 @@ CE QUI EST OK ET AUX NORMES :
 - commands.c
 - del_quotes.c
 
+> "'"test 7'"'

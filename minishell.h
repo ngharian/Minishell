@@ -24,6 +24,7 @@ typedef struct s_commands
 	pid_t				process;
 	int					last_cmd;
 	bool				absolute_path;
+	int					errno_file;
 	struct s_commands	*previous;
 	struct s_commands	*next;
 }	t_commands;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:15:36 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/25 14:33:22 by gdero            ###   ########.fr       */
+/*   Updated: 2024/11/27 12:15:01 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static int	pipe_node(t_commands **cmd, char *splitted)
 		return (1);
 	new_node->infile = 0;
 	new_node->outfile = 0;
-	if (checking_in_and_out(new_node, splitted, 0))
-		return (1);
+	//if (checking_in_and_out(new_node, splitted, 0))
+		//return (1);
 	if (split_mini(splitted, &new_node->cmd, ' '))
 		return (2);
 	new_node->next = NULL;
@@ -35,6 +35,7 @@ static int	pipe_node(t_commands **cmd, char *splitted)
 		while (current->next != NULL)
 			current = current->next;
 		current->next = new_node;
+		new_node->previous = current;
 	}
 	return (0);
 }

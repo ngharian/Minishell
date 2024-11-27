@@ -108,6 +108,9 @@ childs :
 -construction path sinon error
 -execve
 
+!!!! pour redirection de fichier et here doc, si par exemple <<     """""FIN"""" -> guillemwts supprimes et la chaine end of file est bien [FIN], meme chose pour in/out !!!
+pour les problemes de open() pour les redirections, set in/out -1 et errno_file = errno, puis faire strerr(errno_file); dans le process pour afficher le bon message d'erreur.
+
 waitpid dans une boucle a la fin de tous les fork et pas dans le boucle de fork en elle meme
 
 CE QUI EST OK ET AUX NORMES :

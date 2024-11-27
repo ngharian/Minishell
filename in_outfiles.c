@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:25:38 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/25 15:11:38 by gdero            ###   ########.fr       */
+/*   Updated: 2024/11/27 17:37:50 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ static void	update_trim_string(char *trimmed)
 	while (trimmed[str_index])
 	{
 		if (trimmed[str_index] == 39 || trimmed[str_index] == '"')
+		{
 			str_index = skip_quotes(trimmed, str_index);
+			continue ;
+		}
 		if (trimmed[str_index] == ' ' || trimmed[str_index] == '\0')
 			break ;
 		str_index++;
@@ -116,6 +119,7 @@ int	checking_in_and_out(t_commands *cmd, char *splitted, char type)
 			update_string(&splitted, trimmed, mode, type);
 			if (cmd_without_quotes(&trimmed))
 				return (1);
+			//trimmed = ft_strtrim(trimmed, "\"'");
 			open_files(cmd, trimmed, mode, type);
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:54:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/26 16:54:59 by gdero            ###   ########.fr       */
+/*   Updated: 2024/11/28 17:06:36 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,19 @@ int	free_env(t_env_vars *vars, int error)
 	return (error);
 }
 
-int	exit_parsing(int mode) // !!! rajouter exit codes !!!
+int	exit_parsing(int mode, t_env_vars **env)
 {
 	if (mode == -1)
 	{
 		write(1, "Exit...\n", 8);
-		exit(EXIT_SUCCESS);
+		if ((*env)->exit_code == 258)
+			exit(2);
+		if ((*env)->exit_code != 0)
+			exit((*env)->exit_code);
+		exit(1);
 	}
+	if (mode == -2 || mode == -3)
+		(*env)->exit_code = 258;
 	if (mode == -4)
 		exit(EXIT_FAILURE);
 	return (1);
@@ -66,6 +72,14 @@ int	exit_parsing(int mode) // !!! rajouter exit codes !!!
 
 void	print_exit_error(char *message, int exit_code)
 {
+	//write(2, "Minishell :", 11);
 	write(2, message, ft_strlen(message));
 	exit(exit_code);
 }
+
+/*-1 = ctrl+d (->quitter)
+-2 = quottes unclosed (->continuer) 258
+-3 = parsing erreur (->continue) 258
+-4 = malloc error (->quitter)
+-5 = empty_line -> (continue) sans exit code
+//-6 = ctrl+c (-> continuer + exit code = 1)*/

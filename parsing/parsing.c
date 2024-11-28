@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:32:56 by ngharian          #+#    #+#             */
-/*   Updated: 2024/11/25 13:47:42 by gdero            ###   ########.fr       */
+/*   Updated: 2024/11/28 16:37:08 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	quote_case(char *str, int i)
 	{
 		if (str[i] == '\0')
 		{
-			printf("end of line\n");
+			printf("Quotes unclosed! please retry\n");
 			return (-2);
 		}
 		++i;
@@ -58,6 +58,19 @@ codes d'erreur que get_line peut recevoir d'une des fonctions qu'elle appele:
 	return (NULL); // !!! Probleme quand on veut aller plus haut dans l'historique apres etre passe par ici
 }*/
 
+void	ft_free_here_doc(t_here_doc **heredoc)
+{
+	t_here_doc	*temp;
+
+	while((*heredoc) != NULL)
+	{
+		close((*heredoc)->fd);
+		temp = (*heredoc);
+		*heredoc = (*heredoc)->next;
+		free(temp);	
+	}
+}
+
 int	get_line(char **readed_line, t_here_doc **heredoc, t_env_vars **env_vars)
 {
 	int		i;
@@ -67,9 +80,9 @@ int	get_line(char **readed_line, t_here_doc **heredoc, t_env_vars **env_vars)
 	//printf("%s ", ft_strrchr(get_path_line((*env_vars)->env, "LOGNAME", 1), '=') + 1);
 	*readed_line = readline("minishell$ ");
     if (!(*readed_line))
-		exit_parsing(-1);
+		exit_parsing(-1, env_vars);
 	if (check_empty_line(*readed_line))
-		return (exit_parsing(0));
+		return (exit_parsing(0, env_vars));
 	if (g_signal == SIGINT) // !!! valeur d'erreur processus bloquant? comment gerer?
 	{
 		(*env_vars)->exit_code = 1;
@@ -88,7 +101,8 @@ int	get_line(char **readed_line, t_here_doc **heredoc, t_env_vars **env_vars)
 		if (i < 0)
 		{
 			add_history(*readed_line);
-			return (exit_parsing(i/*, env_vars*/)); //se chargera d'afficher le message d'erreur correspondant
+			ft_free_here_doc(heredoc);
+			return (exit_parsing(i, env_vars)); //se chargera d'afficher le message d'erreur correspondant
 									 //à la valeur de i, donner le code d'erreur à $? puis
 									 //exit si nécessaire, sinon reprendre à l'input (en retournant NULL). + free readad line
 		}

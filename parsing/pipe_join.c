@@ -11,7 +11,8 @@ static char	*pipe_join(char *line, char *to_add)
 	{
 		free(line);
 		free(to_add);
-		write(2, "Malloc Error!\nExit...\n", 22); //faire une fonction ft_malloc_error?
+		write(2, "Malloc Error!\n", 22); //faire une fonction ft_malloc_error?
+		print_exit_error("Malloc Error!\n", 1);
 		exit(EXIT_FAILURE);
 	}
 	i = -1;

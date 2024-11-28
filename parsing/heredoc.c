@@ -6,37 +6,11 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:39:11 by ngharian          #+#    #+#             */
-/*   Updated: 2024/11/22 16:10:38 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:08:08 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static char	*find_eof(char *line, int i)
-{
-	char	*eof;
-	int		len;
-	int		j;
-
-	while (line[i] == 32 || (line[i] > 8 && line[i] < 14))
-		++i;
-	j = i;
-	len = 0;
-	while (line[i] != 32 && (line[i] < 8 || line[i] > 14) && line[i++])
-		++len;
-	eof = malloc(sizeof(char) * (len + 1));
-	if (!eof)
-		return (NULL);
-	i = j;
-	j = 0;
-	while (j < len)
-	{
-		eof[j] = line[i++];
-		++j;
-	}
-	eof[j] ='\0';
-	return (eof);
-}
 
 static void	fill_heredoc(int fd, char *line, int i, t_env_vars *env_vars)
 {
@@ -70,14 +44,12 @@ int ft_wait_single_process(int status, pid_t pid, int fd, int i)
 	{
 		if (waitpid(pid, &status, WNOHANG) < 0)
             print_exit_error("Error while using 'waitpid()'\n", 1);
-		//signal_mode = 1;
 		if (status >> 8 != 0)
 		{
 			if ((status >> 8) == EXIT_FAILURE)
 				exit(EXIT_FAILURE);
 			if ((status >> 8) == 4)
 				exit(0);
-			//signal_mode = 0;
 			if((status >> 8) == SIGINT)
 			{
 				close(fd);

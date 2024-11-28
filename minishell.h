@@ -68,6 +68,7 @@ bool	check_empty_line(char *buffer);
 int		pipe_case(char **line, int i);
 int		arrow_case(char *readed_line, int i, t_here_doc **pipe_hd, t_env_vars *env_vars);
 int		ft_here_doc(t_here_doc **heredoc, char *readed_line, int i, t_env_vars *env_vars);
+char	*find_eof(char *line, int i);
 int		ft_wait_single_process(int status, pid_t pid, int fd, int i);
 int		expander(char **input, t_env_vars *vars);
 int		finish_pipe(char **line, int i);

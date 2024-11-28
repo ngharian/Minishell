@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:12:28 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/26 16:44:55 by gdero            ###   ########.fr       */
+/*   Updated: 2024/11/28 12:36:19 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,26 @@ static int	exit_args(t_commands *cmd, t_env_vars *vars)
 
 int	ft_exit(t_commands *cmd, t_env_vars *vars)
 {
+	char				*temp;
+	unsigned long long	test;
+
 	if (cmd->previous != NULL || cmd->next != NULL)
 		return (7);
 	if (exit_args(cmd, vars))
 		return (7);
 	if (cmd->cmd[1])
 		vars->exit_code = ft_atoi(cmd->cmd[1]);
+	if (cmd->cmd[1][0] == '-')
+	{
+		temp = ft_strchr(cmd->cmd[1], '-') + 1;
+		test = ft_atoi(temp);
+	}
 	printf("exit\n");
-	if ((vars->exit_code > 9223372036854775807 && (cmd->cmd[1][0] != '-')) \
-	|| vars->exit_code <= LONG_LONG_MAX)
+	if (!cmd->cmd[1])
+		exit((unsigned char)vars->exit_code);
+	if ((vars->exit_code > LONG_LONG_MAX && (cmd->cmd[1][0] != '-')) \
+	|| (test > LONG_LONG_MAX \
+	&& ft_strncmp("9223372036854775808", temp, 19) != 0))
 	{
 		printf("minishell: exit: %s: numeric argument required\n", cmd->cmd[1]);
 		vars->exit_code = 255;

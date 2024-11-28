@@ -127,7 +127,6 @@ CE QUI EST OK ET AUX NORMES :
 
 > """" ->aucune idee de ce que le notre va faire
 
+Bien check tous les mallocs (strjoin, strrim) etc
 
-
-
-IUDHGSIHIDUGHIHDGSIHDIGH
+!!! export hello="''"coucou"" -> l'expander semble virer les ''

@@ -5,6 +5,7 @@ SRCS = minishell.c \
 		./parsing/heredoc.c \
 		./parsing/expander.c \
 		./parsing/pipe_join.c \
+		./parsing/find_eof_heredoc.c \
 		./builtin/builtin.c \
 		./builtin/cd.c \
 		./builtin/cd2.c \

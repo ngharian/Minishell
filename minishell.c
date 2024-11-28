@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:28:50 by ngharian          #+#    #+#             */
-/*   Updated: 2024/11/27 12:54:05 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:28:46 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,30 @@ void	print_cmd(t_commands *cmd)
 	}
 }
 
+static int	update_shlvl(char **env)
+{
+	int			shellvl;
+	char		*shlvl;
+	char		*shlvlchar;
+	int			index;
+
+	index = -1;
+	shellvl = ft_atoi(get_path_line(env, "SHLVL=", 1) + 1);
+	shellvl++;
+	shlvlchar = ft_itoa(shellvl);
+	if (!shlvlchar)
+		return (1);
+	shlvl = ft_strjoin("SHLVL=", shlvlchar);
+	free(shlvlchar);
+	if (!shlvl)
+		return (1);
+	while (env[++index])
+	{
+		if (ft_strncmp(env[index], "SHLVL=", 6) == 0)
+			env[index] = shlvl;
+	}
+	return (0);
+}
 
 int main(int argc, char **argv, char **env)
 {
@@ -76,11 +100,12 @@ int main(int argc, char **argv, char **env)
 	//here_doc
 	here_doc = NULL;
 	//env_vars
+	if (update_shlvl(env))
+		exit(0);
 	env_vars = (t_env_vars *)malloc(sizeof(t_env_vars));
 	if (fill_env(env, env_vars))
 		return (1);
 	env_vars->exit_code = 0;
-	
 	env_vars->pid = getpid(); //pense pas qu'on puisse l'utiliser, non effectivement
 	if (!env_vars)
 		return (1);

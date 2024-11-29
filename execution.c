@@ -135,32 +135,31 @@ int	execute(t_commands **cmd, t_env_vars **vars)
 	return (0);
 }
 
-static int	in_the_pipes(t_commands **cmd)
+int	in_the_pipes(t_commands **cmd)
 {
 	int			exchange[2];
 	t_commands	*temp;
 
 	temp = (*cmd);
-	while (temp != NULL)
+	if (temp->next != NULL && temp->previous == NULL)
 	{
-		if (temp->previous == NULL && temp->next != NULL)
+		if (pipe(exchange) < 0)
+			print_exit_error("Error while using pipe()\n", 1);
+		temp->outfile = exchange[1];
+	}
+	while (temp->next != NULL)
+	{
+		if (temp->next != NULL && temp->previous != NULL)
 		{
-			if (pipe(exchange) == -1)
-				return (1);
-			temp->exchange[0] = exchange[0];
+			temp->infile = exchange[0];
+			if (pipe(exchange) < 0)
+				print_exit_error("Error while using pipe()\n", 1);
+			temp->outfile = exchange[1];
 		}
-		else if (temp->previous != NULL && temp->next != NULL)
-		{
-			if (pipe(exchange) == -1)
-				return (1);
-			temp->exchange[1] = exchange[1];
-			temp->exchange[0] = exchange[0];
-		}
-		else if (temp->previous != NULL && temp->next == NULL)
-			temp->exchange[1] = exchange[1];
 		temp = temp->next;
 	}
-	return (0);
+	if(temp->next == NULL && temp->previous != NULL)
+		temp->infile = exchange[0];
 }
 
 int	execution(t_commands **cmd, t_env_vars **pointeur_vars)

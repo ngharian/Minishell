@@ -135,7 +135,7 @@ int	execute(t_commands **cmd, t_env_vars **vars)
 	return (0);
 }
 
-int	in_the_pipes(t_commands **cmd)
+void	in_the_pipes(t_commands **cmd)
 {
 	int			exchange[2];
 	t_commands	*temp;
@@ -160,6 +160,7 @@ int	in_the_pipes(t_commands **cmd)
 	}
 	if(temp->next == NULL && temp->previous != NULL)
 		temp->infile = exchange[0];
+		
 }
 
 int	execution(t_commands **cmd, t_env_vars **pointeur_vars)
@@ -193,8 +194,7 @@ int	execution(t_commands **cmd, t_env_vars **pointeur_vars)
 		index++;
 	}
 	free_split(vars->split_path);
-	if (in_the_pipes(cmd))
-		return (1);
+	in_the_pipes(cmd);
 	if (execute(cmd, pointeur_vars))
 		return (1);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:15:36 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/29 12:58:50 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:28:30 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	pipe_node(t_commands **cmd, char *splitted)
 		return (1);
 	if (split_mini(splitted, &new_node->cmd, ' '))
 		return (2);
-	new_node->last->cmd = 1;
+	new_node->last_cmd = 1;
 	new_node->next = NULL;
 	new_node->previous = NULL;
 	if (*cmd == NULL)
@@ -75,7 +75,7 @@ int	fill_cmd_struct(t_commands **cmd, char **splitted)
 			return (free_struct(cmd, 1));
 		index++;
 	}
-	previous_struct(*cmd);
+	//previous_struct(*cmd);
 	if (delete_quotes(*cmd))
 		return (free_struct(cmd, 2));
 	return (0);

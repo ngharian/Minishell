@@ -26,6 +26,7 @@ static int	pipe_node(t_commands **cmd, char *splitted)
 		return (1);
 	if (split_mini(splitted, &new_node->cmd, ' '))
 		return (2);
+	new_node->last->cmd = 1;
 	new_node->next = NULL;
 	new_node->previous = NULL;
 	if (*cmd == NULL)
@@ -36,7 +37,8 @@ static int	pipe_node(t_commands **cmd, char *splitted)
 		while (current->next != NULL)
 			current = current->next;
 		current->next = new_node;
-		new_node->previous = current;
+		new_node->previous = *current;
+		new_node->previous->last_cmd = 0;
 	}
 	return (0);
 }

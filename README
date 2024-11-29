@@ -134,3 +134,5 @@ Bien check tous les mallocs (strjoin, strrim) etc
 Redirection pipe fonctionnera seule, mais time out si il y a une redirection de fichier avant dans notre program, et bash ne time out pas...
 -> idee : Si jamais outfile est modifie, check cmd->next != NULL et si c'est le cas et que cmd->next->infile != 0, le close et le remettre à 0;
 --> pour ca il faut rechanger in et out, + le moment ou il est exec car sinon ca ne fonctionnera vraiment pas, ou changer le split_space de place, à voir :((
+
+Si une chaine d'expander errone apres une redirection de fichier (ex: ls > $lfgkjfgljglgh) -> erreur et on revient au debut de la loop minishell

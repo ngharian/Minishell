@@ -43,7 +43,7 @@ static int	pipe_node(t_commands **cmd, char *splitted)
 	return (0);
 }
 
-static void	previous_struct(t_commands *cmd)
+/*static void	previous_struct(t_commands *cmd)
 {
 	t_commands	*temp;
 
@@ -63,7 +63,7 @@ static void	previous_struct(t_commands *cmd)
 	cmd->last_cmd = 1;
 	cmd->previous = temp;
 }
-
+*/
 int	fill_cmd_struct(t_commands **cmd, char **splitted)
 {
 	int	index;

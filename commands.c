@@ -37,7 +37,7 @@ static int	pipe_node(t_commands **cmd, char *splitted)
 		while (current->next != NULL)
 			current = current->next;
 		current->next = new_node;
-		new_node->previous = *current;
+		new_node->previous = current;
 		new_node->previous->last_cmd = 0;
 	}
 	return (0);

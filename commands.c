@@ -27,6 +27,7 @@ static int	pipe_node(t_commands **cmd, char *splitted)
 	if (split_mini(splitted, &new_node->cmd, ' '))
 		return (2);
 	new_node->next = NULL;
+	new_node->previous = NULL;
 	if (*cmd == NULL)
 		*cmd = new_node;
 	else

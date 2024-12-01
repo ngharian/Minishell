@@ -6,21 +6,12 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:25:19 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/01 16:37:49 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/01 16:45:15 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
 
-void	default_sigint(int sig)
-{
-	(void) sig;
-	g_signal = SIGINT;
-	printf("\n");
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
 
 static void	set_ctrl_d(int mode)
 {	
@@ -69,6 +60,15 @@ void	ft_set_sig(int mode)
 		signal(SIGQUIT, exit);
 		set_ctrl_d(3);
 	}
+}
+void	default_sigint(int sig)
+{
+	(void) sig;
+	g_signal = SIGINT;
+	printf("\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
 void	sigint_block(int sig)

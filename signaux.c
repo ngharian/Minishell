@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:25:19 by ngharian          #+#    #+#             */
-/*   Updated: 2024/11/23 14:01:35 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/01 16:37:49 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,44 +35,41 @@ static void	set_ctrl_d(int mode)
 	else if (mode == 2)
 	{
 		term.c_cc[VEOF] = _POSIX_VDISABLE;
-		term.c_lflag |= (/*ICANON | */ ECHOCTL);
+		term.c_lflag |= (ECHOCTL);
 	}
 	else if (mode == 3)
 	{
 		term.c_cc[VEOF] = 4;
-		term.c_lflag |= (/*ICANON | */ ECHOCTL);
+		term.c_lflag |= (ECHOCTL);
 	}
 	tcsetattr(0, TCSANOW, &term);
 }
 void	ft_set_sig(int mode)
 {
-	if (mode == 1)//comportement par defaut
+	if (mode == 1)
 	{
 		signal(SIGINT, default_sigint);
 		signal(SIGQUIT, SIG_IGN);
 		set_ctrl_d(1);
 	}
-	if (mode == 2) //processus non bloquants(here_doc, pipe_join)
+	if (mode == 2)
 	{
 		signal(SIGINT, sigint_process);
 		signal(SIGQUIT, SIG_IGN);
-		//modifier ctrl+d? -> differents pour here_doc et pipe_join (voir bash)
 	}
-	if (mode == 3)//processus bloquant
+	if (mode == 3)
 	{
 		signal(SIGINT, sigint_block);
 		signal(SIGQUIT, sigint_block);
 		set_ctrl_d(2);
 	}
-	if (mode == 4)//comportement par defaut
+	if (mode == 4)
 	{
-		signal(SIGINT, default_sigint);
+		signal(SIGINT, sigint_process);
 		signal(SIGQUIT, exit);
 		set_ctrl_d(3);
 	}
 }
-
-//variable SHLVL important ou pas dans gestion signale ? (si on lance un minishell dans un minishell)
 
 void	sigint_block(int sig)
 {

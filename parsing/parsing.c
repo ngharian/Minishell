@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:32:56 by ngharian          #+#    #+#             */
-/*   Updated: 2024/11/28 16:37:08 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/01 16:32:22 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,9 @@ int	get_line(char **readed_line, t_here_doc **heredoc, t_env_vars **env_vars)
 		if ((*readed_line)[i] == '"' || (*readed_line)[i] == 39)
 			i = quote_case(*readed_line, i); //si croise un guillemet, skip jusqu'à celui correspondant. si \0, erreur
 		else if ((*readed_line)[i] == '<' || (*readed_line)[i] == '>')
-			i = arrow_case(*readed_line, i, heredoc, *env_vars);
+			i = arrow_case(*readed_line, i, heredoc, env_vars);
 		else if ((*readed_line)[i] == '|')
-			i = pipe_case(readed_line, i); //erreur si pipe au debut, join si pipe à la fin.
+			i = pipe_case(readed_line, i, env_vars); //erreur si pipe au debut, join si pipe à la fin.
 		else
 			++i;
 		if (i < 0)

@@ -37,7 +37,7 @@ static void	complete_pipe(int outfile, char *line)
 	{
 		to_add = readline("pipe>");
 		if (!to_add)
-			print_exit_error("Exit...\n", 4);
+			print_exit_error("syntax error: unexpected end of file\n", 258);
 		if (check_empty_line(line))
 			continue ;
 		break ;
@@ -47,7 +47,7 @@ static void	complete_pipe(int outfile, char *line)
 	write(outfile, "\0", 1);
 	exit(3);
 }
-int	finish_pipe(char **line, int i)
+int	finish_pipe(char **line, int i, t_env_vars **env)
 {
 	int		pipefd[2];
 	pid_t	pid;
@@ -63,7 +63,7 @@ int	finish_pipe(char **line, int i)
 		print_exit_error("Error while using 'fork()'\n", 1);
 	if (pid == 0)
 		complete_pipe(pipefd[1], *line);
-	ret = ft_wait_single_process(status, pid, pipefd[0], i);
+	ret = ft_wait_single_process(pid, pipefd[0], i, env);
 	ft_set_sig(1);
 	close(pipefd[1]);
 	if (ret == -6)

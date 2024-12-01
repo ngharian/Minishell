@@ -65,13 +65,13 @@ int		fill_env(char **env, t_env_vars *vars);
 int		get_line(char **readed_line, t_here_doc **heredoc, t_env_vars **env_vars);
 int		quote_case(char *str, int i);
 bool	check_empty_line(char *buffer);
-int		pipe_case(char **line, int i);
-int		arrow_case(char *readed_line, int i, t_here_doc **pipe_hd, t_env_vars *env_vars);
-int		ft_here_doc(t_here_doc **heredoc, char *readed_line, int i, t_env_vars *env_vars);
+int		pipe_case(char **line, int i, t_env_vars **env);
+int		arrow_case(char *readed_line, int i, t_here_doc **pipe_hd, t_env_vars **env_vars);
+int		ft_here_doc(t_here_doc **heredoc, char *readed_line, int i, t_env_vars **env_vars);
 char	*find_eof(char *line, int i);
-int		ft_wait_single_process(int status, pid_t pid, int fd, int i);
+int		ft_wait_single_process(pid_t pid, int fd, int i, t_env_vars **env);
 int		expander(char **input, t_env_vars *vars);
-int		finish_pipe(char **line, int i);
+int		finish_pipe(char **line, int i, t_env_vars **env);
 int		checking_in_and_out(t_commands *cmd, char *splitted, char type);
 int		is_double(char *splitted, char c);
 

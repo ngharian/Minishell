@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:39:28 by ngharian          #+#    #+#             */
-/*   Updated: 2024/11/28 17:02:33 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/01 15:10:05 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	arrow_error(char *readed_line, int i)
 }
 
 // on gere <> ou pas? NON ! comportement indéfini dans bash -> mon avis: géré comme "<<<<<>>><<<>><<<>>"
-int	arrow_case(char *readed_line, int i, t_here_doc **heredoc, t_env_vars *env_vars)
+int	arrow_case(char *readed_line, int i, t_here_doc **heredoc, t_env_vars **env_vars)
 {
 	++i;
 	if (arrow_error(readed_line, i))

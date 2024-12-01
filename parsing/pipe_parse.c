@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:53:07 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/28 17:03:39 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/01 15:10:44 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ static int	finish_line(char *line, int i)
 	return (0);
 }
 
-int	pipe_case(char **line, int i)
+int	pipe_case(char **line, int i, t_env_vars **env)
 {
 	if (error_pipe(*line, i))
 		return (-3);
 	if (finish_line(*line, i))
-		return (finish_pipe(line, i));
+		return (finish_pipe(line, i, env));
 	return (i + 1);
 }

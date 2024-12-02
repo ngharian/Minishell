@@ -129,11 +129,28 @@ CE QUI EST OK ET AUX NORMES :
 
 Bien check tous les mallocs (strjoin, strrim) etc
 
-!!! export hello="''"coucou"" -> l'expander semble virer les ''
-
 Redirection pipe fonctionnera seule, mais time out si il y a une redirection de fichier avant dans notre program, et bash ne time out pas...
 -> idee : Si jamais outfile est modifie, check cmd->next != NULL et si c'est le cas write "\0"dans le fd avant de le fermer
 
 Si une chaine d'expander errone apres une redirection de fichier (ex: ls > $lfgkjfgljglgh) -> erreur et on revient au debut de la loop minishell
 
 Gestion de signaux a revoir si minishell dans minishell (ou on s'en fout? -> pour moi non, mais comment faire? strcmp reverse avec minishell et creer un cinquieme handler?)
+
+export hello="''test 'test2" est ok !
+Seul un truc pas tout a fait ok :
+si, ensuite, export blorb="'blorb1 ''blorb2"
+puis echo $blorb$hello, la sortie sera :
+'blorb1 ''blorb2 ''test 'test2
+                | espace en trop ici  -->en mettra a chaque fois parce que BELL
+
+Si hello="''test 'test2" ET export abc=def
+$hello$abc fonctionnera :
+def''test: command not found.
+Mais PAS $abc$hello :
+def: command not found a la place de :
+def''test: command not found.
+C'est parce qu'on a tape des BELL a la place des $
+-->beaucoup beaucoup trop complique a reparer ca.
+Je propose de dire FUCK.
+en fait, ca implique que nous on les prend comme 2 args, pas bash
+       

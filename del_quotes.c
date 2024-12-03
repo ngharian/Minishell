@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:33:04 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/27 17:38:16 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/03 18:50:09 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,17 @@ int	delete_quotes(t_commands *cmd)
 
 	while (cmd != NULL)
 	{
-		index = 0;
-		while (cmd->cmd[index])
+		index = -1;
+		while (cmd->cmd[++index])
 		{
+			if (cmd->cmd[index][0] == 7)
+			{
+				ft_strlcpy(cmd->cmd[index], cmd->cmd[index] + 1, \
+				ft_strlen(cmd->cmd[index]));
+				continue ;
+			}
 			if (cmd_without_quotes(&cmd->cmd[index]))
 				return (1);
-			index++;
 		}
 		cmd = cmd->next;
 	}

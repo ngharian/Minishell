@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:54:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/28 17:06:36 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/03 16:55:00 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	free_split(char **split)
 	return ;
 }
 
-int	free_struct(t_commands **cmd, int error)
+int	free_struct(t_commands **cmd, int error)// completer a la fin
 {
 	t_commands	*temp;
 

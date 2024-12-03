@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   in_outfiles.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:25:38 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/03 16:03:53 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/03 17:25:51 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ int	checking_in_and_out(t_commands *cmd, char *splitted, t_here_doc **heredoc)
 	{
 		if (splitted[str_index] == 39 || splitted[str_index] == '"')
 			str_index = skip_quotes(splitted, str_index);
-		//else if (splitted[str_index] == '\0') ->commente car apriori "else if" regle le probleme de segfault
-			//return (0);
+		if (splitted[str_index] == '\0') //->commente car apriori "else if" regle le probleme de segfault
+			return (0);
 		else if (splitted[str_index] == '>' || splitted[str_index] == '<')
 		{
 			file.type = splitted[str_index];

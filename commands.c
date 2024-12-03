@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:15:36 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/03 13:07:01 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/03 18:52:09 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ static int	pipe_node(t_commands **cmd, char *splitted, t_here_doc **heredoc)
 	new_node->outfile = 0;
 	if (checking_in_and_out(new_node, splitted, heredoc))
 		return (1);
-	printf("ici");
-	printf("infile: %d outfile: %d\n", new_node->infile, new_node->outfile);
 	if (split_mini(splitted, &new_node->cmd, ' '))
 		return (2);
 	new_node->last_cmd = 1;

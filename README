@@ -131,7 +131,8 @@ Bien check tous les mallocs (strjoin, strrim) etc
 
 Redirection pipe fonctionnera seule, mais time out si il y a une redirection de fichier avant dans notre program, et bash ne time out pas...
 -> idee : remettre pipefd dans le tableau exchange dans la struct, si jamais un outfile est modifie, on ecrit \0 dedans et on le ferme. Ensuite, lors de la redirection, on redirige sur les exchange, puis sur in/outfile si besoin.
- 
+!!!!probleme de redirection de fichier si plusieurs fichiers de differentes arrow.-> ca peut aussi poser probleme pour si plusieurs heredoc?
+
 Si une chaine d'expander errone apres une redirection de fichier (ex: ls > $lfgkjfgljglgh) -> erreur et on revient au debut de la loop minishell
 
 Gestion de signaux a revoir si minishell dans minishell (ou on s'en fout? -> pour moi non, mais comment faire? strcmp reverse avec minishell et creer un cinquieme handler?)

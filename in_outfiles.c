@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:25:38 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/03 13:16:35 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/03 15:11:07 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,31 +104,33 @@ int	checking_in_and_out(t_commands *cmd, char *splitted, t_here_doc **heredoc)
 	{
 		if (splitted[str_index] == 39 || splitted[str_index] == '"')
 			str_index = skip_quotes(splitted, str_index);
-		if (splitted[str_index] == '\0')
-			return (0);
-		if (splitted[str_index] == '>' || splitted[str_index] == '<')
+		//else if (splitted[str_index] == '\0') ->commente car apriori "else if" regle le probleme de segfault
+			//return (0);
+		else if (splitted[str_index] == '>' || splitted[str_index] == '<')
 		{
 			file.type = splitted[str_index];
-			//mode = is_double(splitted, type);
+			//file.mode = is_double(splitted, file.type);
 			file.mode = 0;
 			if (splitted[str_index] == splitted[str_index + 1])
 				file.mode = 1;
 			file.trimmed = ft_strchr(splitted, file.type);
 			printf("trimmed: %s\n", file.trimmed);
-			file.trimmed = ft_strtrim(file.trimmed, "> <");
+			if(file.type =='>')
+				file.trimmed = ft_strtrim(file.trimmed, "> ");
+			else
+				file.trimmed = ft_strtrim(file.trimmed, "< ");
 			if (!file.trimmed)
-			{
-				printf("ici");
 				return (1);
-			}
 			update_trim_string(file.trimmed);
 			update_string(&splitted, file.trimmed, file.mode, file.type);
 			if (cmd_without_quotes(&file.trimmed))
 				return (1);
 			//trimmed = ft_strtrim(trimmed, "\"'");
 			open_files(cmd, &file, heredoc);
-			if (file.mode == 1)
-				++str_index;
+			/*if (file.mode == 1)
+				++str_index;*/
+			if(splitted[str_index] == '\0') //-> rajoute car sinon quitte le programme avec >> et << en derniere commande 
+				break ;
 		}
 	}
 	return (0);

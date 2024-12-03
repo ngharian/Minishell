@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:51:48 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/03 18:50:46 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/03 19:14:15 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,27 @@ int	expander(char **input, t_env_vars *vars)
 	index = -1;
 	while ((*input)[++index])
 	{
+		if ((*input)[index] == '"')
+		{
+			index++;
+			while ((*input)[index] != '"')
+			{
+				if ((*input)[index] == '\0')
+					break ;
+				if ((*input)[index] == '$')
+				{
+					index++;
+					if ((*input)[index] == ' ')
+						continue ;
+					if ((*input)[index] == '\0')
+						break ;
+					if (dollar_case(input, vars, &index))
+						return (1);
+					//index -= 1;
+				}
+				index++;
+			}
+		}
 		if ((*input)[index] == 39)
 			index = skip_quotes((*input), index);
 		if ((*input)[index] == '\0')

@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:39:28 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/01 15:10:05 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/03 12:02:09 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ static int	arrow_error(char *readed_line, int i)
 		++(i);
 	if (readed_line[i] == '\0')
 	{
-		write(2, "syntax error near unexpected token 'newline'\n", 1);
+		write(2, "Syntax error near unexpected token 'newline'\n", 45);
 		return (1);
 	}
 	if (readed_line[i] == '<' || readed_line[i] == '>')
 	{
 		if (readed_line[i] == '<' && readed_line[i + 1] == '<')
-			write(2, "syntax error near unexpected token `<<'\n", 1);
+			write(2, "syntax error near unexpected token `<<'\n", 45);
 		else if (readed_line[i] == '>' && readed_line[i + 1] == '>')
 			write(2, "syntax error near unexpected token `>>'\n", 40);
 		else if (readed_line[i] == '<')

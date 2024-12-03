@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:28:50 by ngharian          #+#    #+#             */
-/*   Updated: 2024/11/28 16:28:46 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/03 12:36:03 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int main(int argc, char **argv, char **env)
 			exit(1);
 		if (split_mini(input, &splitted, '|'))
 			return (printf("Malloc error\n")); //gerer l'erreur -> soit 1 soit 2 et tous les deux des malloc errors
-		if (fill_cmd_struct(&cmd, splitted))
+		if (fill_cmd_struct(&cmd, splitted, &here_doc))
 			return (printf("fill_struct_err\n")); //erreur -> 1 = malloc error pour les structs ; 2 = malloc error pour les strings sans quotes*/
 		//print_cmd(cmd);
 		//if (get_in_out(&cmd, &here_doc))

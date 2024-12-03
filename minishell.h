@@ -48,10 +48,17 @@ typedef struct	s_env_vars
 	char	**true_paths;
 }	t_env_vars;
 
+typedef struct s_file
+{
+	int		mode;
+	char	type;
+	char	*trimmed;
+}	t_file;
+
 void	rl_replace_line(const char *text, int clear_undo);
 int		split_mini(char *s, char ***array, char to_split);
 
-int		fill_cmd_struct(t_commands **cmd, char **splitted);
+int		fill_cmd_struct(t_commands **cmd, char **splitted, t_here_doc **heredoc);
 
 //signaux
 void	ft_set_sig(int mode);
@@ -72,7 +79,7 @@ char	*find_eof(char *line, int i);
 int		ft_wait_single_process(pid_t pid, int fd, int i, t_env_vars **env);
 int		expander(char **input, t_env_vars *vars);
 int		finish_pipe(char **line, int i, t_env_vars **env);
-int		checking_in_and_out(t_commands *cmd, char *splitted, char type);
+int		checking_in_and_out(t_commands *cmd, char *splitted, t_here_doc **heredoc);
 int		is_double(char *splitted, char c);
 
 //del_quotes

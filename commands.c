@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:15:36 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/29 14:28:30 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/03 13:07:01 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	pipe_node(t_commands **cmd, char *splitted)
+static int	pipe_node(t_commands **cmd, char *splitted, t_here_doc **heredoc)
 {
 	t_commands	*new_node;
 	t_commands	*current;
@@ -22,8 +22,10 @@ static int	pipe_node(t_commands **cmd, char *splitted)
 		return (1);
 	new_node->infile = 0;
 	new_node->outfile = 0;
-	if (checking_in_and_out(new_node, splitted, 0))
+	if (checking_in_and_out(new_node, splitted, heredoc))
 		return (1);
+	printf("ici");
+	printf("infile: %d outfile: %d\n", new_node->infile, new_node->outfile);
 	if (split_mini(splitted, &new_node->cmd, ' '))
 		return (2);
 	new_node->last_cmd = 1;
@@ -64,15 +66,16 @@ static int	pipe_node(t_commands **cmd, char *splitted)
 	cmd->previous = temp;
 }
 */
-int	fill_cmd_struct(t_commands **cmd, char **splitted)
+int	fill_cmd_struct(t_commands **cmd, char **splitted, t_here_doc **heredoc)
 {
 	int	index;
 
 	index = 0;
 	while (splitted[index])
 	{
-		if (pipe_node(cmd, splitted[index]))
+		if (pipe_node(cmd, splitted[index], heredoc))
 			return (free_struct(cmd, 1));
+		
 		index++;
 	}
 	//previous_struct(*cmd);

@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:25:38 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/03 15:11:07 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/03 16:03:53 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,11 @@ static void	open_files(t_commands *cmd, t_file *file, t_here_doc **heredoc)
 	if ((*file).type == '>')
 	{
 		if (cmd->outfile > 0)
+		{
+			if(cmd->outfile == cmd->exchange[1])
+				write(cmd->outfile, "\0", 1);
 			close(cmd->outfile);
+		}
 		if ((*file).mode == 0)
 			cmd->outfile = open(trimmed, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if ((*file).mode == 1)

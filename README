@@ -159,10 +159,10 @@ en fait, ca implique que nous on les prend comme 2 args, pas bash
 Dernier update :
 Si export blorb='"coucou ""coucou2'
 -> dans l'export de bash ca donne :
-blorb="\"coucou \"\"coucou2"
+blorb="\"coucou \"\"coucou2" (deja, fuck pour ca)
 puis quand $blorb :
 bash : "coucou: command not found
 nous : "coucou ""coucou2: command not found
 ->parce que notre split skip les "
 Fuck, on va assez loin. ca segfault pas, on arrete les frais.
-Si on refait un split sur bell pour l'integrer a l'ancien split ca pourrait marcher mais bon...
+Si on refait un split sur bell pour l'integrer a l'ancien split ca pourrait (devrait) marcher mais bon...

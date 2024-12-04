@@ -6,71 +6,11 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:51:48 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/03 19:14:15 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/04 15:30:37 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static int	exchange_vars(char **input, char *var, char *to_find, int *index)
-{
-	int		str_index;
-	int		str_index2;
-	int		index_var;
-	int		new_lenght;
-	char	*new_string;
-	bool	malloked;
-	int		space_counter = 0;
-
-	str_index = -1;
-	malloked = false;
-	if (var != NULL && !ft_isdigit(var[0]))
-	{
-		var = ft_strdup(ft_strchr(var, '='));
-		while (var[++str_index])
-		{
-			if (var[str_index] == ' ')
-				space_counter++;
-		}
-		str_index = -1;
-		if (!var)
-			return (1);
-		if ((*input)[*index - 1] != 7)
-			var[0] = 7;
-		else
-			var[0] = ' ';
-		malloked = true;
-	}
-	else if (var == NULL)
-		var = "\0";
-	new_lenght = ft_strlen((*input)) - ft_strlen(to_find) + ft_strlen(var) + space_counter;
-	new_string = malloc((new_lenght) * sizeof(char));
-	if (!new_string)
-		return (1);
-	new_string[new_lenght - 1] = '\0';
-	while (++str_index < *index - 1)
-		new_string[str_index] = (*input)[str_index];
-	str_index2 = str_index + ft_strlen(to_find);
-	index_var = -1;
-	while (var[++index_var])
-	{
-		if (var[index_var] == ' ')
-		{
-			new_string[str_index++] = ' ';
-			new_string[str_index++] = 7;
-		}
-		else
-			new_string[str_index++] = var[index_var];
-	}
-	*index = str_index;
-	while ((*input)[++str_index2])
-		new_string[str_index++] = (*input)[str_index2];
-	free((*input));
-	if (malloked == true)
-		free(var);
-	*input = new_string;
-	return (0);
-}
 
 static int	updt_line(char **input, t_env_vars *vars, char *to_find, int *index)
 {
@@ -143,6 +83,32 @@ static int	dollar_case(char **input, t_env_vars *vars, int *index)
 	return (0);
 }
 
+static int	double_quotes_case(char **input, int index, t_env_vars *vars)
+{
+	if ((*input)[index] == '"')
+	{
+		index++;
+		while ((*input)[index] != '"')
+		{
+			if ((*input)[index] == '\0')
+				break ;
+			if ((*input)[index] == '$')
+			{
+				index++;
+				if ((*input)[index] == ' ')
+					continue ;
+				if ((*input)[index] == '\0')
+					break ;
+				if (dollar_case(input, vars, &index))
+					return (1);
+				index -= 1;
+			}
+			index++;
+		}
+	}
+	return (0);
+}
+
 int	expander(char **input, t_env_vars *vars)
 {
 	int	index;
@@ -150,27 +116,8 @@ int	expander(char **input, t_env_vars *vars)
 	index = -1;
 	while ((*input)[++index])
 	{
-		if ((*input)[index] == '"')
-		{
-			index++;
-			while ((*input)[index] != '"')
-			{
-				if ((*input)[index] == '\0')
-					break ;
-				if ((*input)[index] == '$')
-				{
-					index++;
-					if ((*input)[index] == ' ')
-						continue ;
-					if ((*input)[index] == '\0')
-						break ;
-					if (dollar_case(input, vars, &index))
-						return (1);
-					//index -= 1;
-				}
-				index++;
-			}
-		}
+		if (double_quotes_case(input, index, vars))
+			return (1);
 		if ((*input)[index] == 39)
 			index = skip_quotes((*input), index);
 		if ((*input)[index] == '\0')

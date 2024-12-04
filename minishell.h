@@ -78,6 +78,7 @@ int		ft_here_doc(t_here_doc **heredoc, char *readed_line, int i, t_env_vars **en
 char	*find_eof(char *line, int i);
 int		ft_wait_single_process(pid_t pid, int fd, int i, t_env_vars **env);
 int		expander(char **input, t_env_vars *vars);
+int		exchange_vars(char **input, char *var, char *to_find, int *index);
 int		finish_pipe(char **line, int i, t_env_vars **env);
 int		is_double(char *splitted, char c);
 

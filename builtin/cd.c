@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:10:44 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/28 16:29:08 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/04 18:07:06 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,15 +98,7 @@ static void	change_to_parent(t_env_vars *vars, char **path)
 	char	*temp;
 
 	index = -1;
-	temp = NULL;
-	while (vars->env[++index])
-	{
-		if (ft_strncmp(vars->env[index], "PWD=", 4) == 0)
-		{
-			temp = ft_strchr(vars->env[index], '/');
-			break ;
-		}
-	}
+	temp = get_path_line(vars->env, "PWD=", 0);
 	str_index = ft_strlen(temp);
 	while (temp[--str_index])
 	{
@@ -116,7 +108,10 @@ static void	change_to_parent(t_env_vars *vars, char **path)
 			break ;
 		}
 	}
-	*path = temp;
+	if (temp[0] == '\0')
+		*path = "/";
+	else
+		*path = temp;
 }
 
 static char *user_path(char **var, char *line, char *home)
@@ -126,22 +121,14 @@ static char *user_path(char **var, char *line, char *home)
 	char	*lower_line;
 
 	index = -1;
-	line = line + 1;
 	temp = NULL;
-	lower_line = ft_strdup(line); //Faut le faire sinon rendra la ligne en lower
+	lower_line = ft_strdup(line);
 	if (!lower_line)
 		return (NULL);
 	while (line[++index])
 		lower_line[index] = ft_tolower(line[index]);
 	index = -1;
-	while (var[++index])
-	{
-		if (ft_strncmp(var[index], "USER=", 5) == 0)
-		{
-			temp = ft_strchr(var[index], '=') + 1;
-			break ;
-		}
-	}
+	temp = get_path_line(var, "USER=", 1) + 1;
 	index = -1;
 	while (temp[++index])
 		temp[index] = ft_tolower(temp[index]);
@@ -174,14 +161,14 @@ static int	change_directory(t_env_vars *vars, int mode, char *line, char *home)
 		if (line[0] == '.')
 			line = ft_strchr(line, '/') + 1;
 		home = get_path_line(vars->env, "PWD=", 0);
-		if (add_to_path(&newpath, line, home, 1)) // ft_strlcat ?
+		if (add_to_path(&newpath, line, home, 1))
 			return (1);
 		malloked = true;
 	}
 	else if (mode == 7)
 		newpath = "/Users";
 	else if (mode == 8)
-		newpath = user_path(vars->env, line, home);
+		newpath = user_path(vars->env, line + 1, home);
 	else if (mode == 9)
 		newpath = get_path_line(vars->env, "OLDPWD=", 0);
 	else
@@ -204,7 +191,7 @@ static int	change_directory(t_env_vars *vars, int mode, char *line, char *home)
 		printf("minishell: cd: %s: No such file or directory\n", line);
 		return (2);
 	}
-	if (line[ft_strlen(line) - 1] == '/' && mode != 2)
+	if (line[ft_strlen(line) - 1] == '/' && mode != 2 && mode != 4)
 		line[ft_strlen(line) - 1] = '\0';
 	if (change_pwd(&vars->env, line, "PWD=") || change_pwd(&vars->exp, line, "declare -x PWD=\""))
 		return (-1);
@@ -221,14 +208,14 @@ static int	type_of_cd(char *line)
 			return (7);
 		return (1);
 	}
-	else if (line[0] == '/' && (!line[1] || (line[1] == '.' && line[2] == '\0') || (line[1] == '.' && line[2] == '.' && !line[3])))
+	else if (line[0] == '/' && (!line[1] || \
+	(line[1] == '.' && line[2] == '\0') || \
+	(line[1] == '.' && line[2] == '.' && !line[3])))
 		return (2);
 	else if ((line[0] == '.' && line[1] == '/') || ft_isalnum(line[0]))
 		return (6);
-	else if (line[0] == '.' && line[1] == '.') //!! si dossier supprime
+	else if (line[0] == '.' && line[1] == '.')
 		return (4);
-	/*else if (ft_isalnum(line[0]))
-		return (6);*/
 	else if (line[0] == '~' && ft_isalpha(line[1]))
 		return (8);
 	else if (line[0] == '-' && !line[1])
@@ -238,7 +225,7 @@ static int	type_of_cd(char *line)
 	return (-1);
 }
 
-int	ft_cd(t_commands *cmd, t_env_vars *vars) //prend juste le 1er arg, s'en fout si plus
+int	ft_cd(t_commands *cmd, t_env_vars *vars)
 {
 	int		index;
 	int		mode;
@@ -251,7 +238,8 @@ int	ft_cd(t_commands *cmd, t_env_vars *vars) //prend juste le 1er arg, s'en fout
 	if (!cmd->cmd[1] || (cmd->cmd[1][0] == '~' && cmd->cmd[1][1] == '\0'))
 	{
 		chdir(home);
-		if (change_pwd(&vars->env, home, "PWD=") || change_pwd(&vars->exp, home, "declare -x PWD=\""))
+		if (change_pwd(&vars->env, home, "PWD=") || \
+		change_pwd(&vars->exp, home, "declare -x PWD=\""))
 			return (-1);
 		return (2);
 	}

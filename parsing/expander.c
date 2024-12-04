@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:51:48 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/04 15:30:37 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/04 17:40:12 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	switch_vars(char **input, t_env_vars *vars, int *index)
 	str_index = *index;
 	while ((*input)[str_index] != ' ' && (*input)[str_index] != '\0' \
 	&& (*input)[str_index] != '$' && (*input)[str_index] != '"' \
-	&& (*input)[str_index] != 39)
+	&& (*input)[str_index] != 39 && (*input)[str_index] != '=') //ajout dernier truc
 		str_index++;
 	new_index = str_index - *index;
 	to_find = malloc((new_index + 1) * sizeof(char));

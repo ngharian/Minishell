@@ -6,7 +6,7 @@
 #    By: gdero <gdero@student.s19.be>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/12 13:47:07 by gdero             #+#    #+#              #
-#    Updated: 2024/10/08 16:19:38 by gdero            ###   ########.fr        #
+#    Updated: 2024/12/04 19:07:38 by gdero            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,17 +69,23 @@ RM = rm -f
 
 
 .c.o:
-	$(CC) $(CFLAGS) -c $< -o ${<:.c=.o} -I $(HEADER)
+	@$(CC) $(CFLAGS) -c $< -o ${<:.c=.o} -I $(HEADER)
+	@sleep 0.001
+	@printf "\033[K\033[0;32mCompiling Libft... : \033[0;33m%s\r" "$<"
+	@printf "\r"
+	
 $(NAME): $(OBJECTS)
 	$(LIBCREATE) $(NAME) $(OBJECTS)
 	$(LIBUPDATE) $(NAME)
+	@printf "\033[K\033[0;34mLibft compiled.\n"
+	@sleep 1
 
 bonus: $(OBJBONUS)
 	$(LIBCREATE) $(NAME) $(OBJBONUS)
 	$(LIBUPDATE) $(NAME)
 
 all: $(NAME)
-
+	
 clean:
 	$(RM) $(OBJECTS) $(OBJBONUS)
 

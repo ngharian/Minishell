@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:13:12 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/17 18:42:45 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/04 17:48:14 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,6 +241,12 @@ static int	ft_must_export(bool must_append, char *cmd, int index_str, t_env_vars
 
 static void	check_export_args(char *cmd, bool *must_export, bool *must_append, int *index_str)
 {
+	if (cmd[0] == '=') //new
+	{
+		printf("minishell: export: '%s': not a valid identifier\n", cmd);
+		*must_export = false ;
+		return ;
+	}
 	while (cmd[++(*index_str)] != '=' && cmd[(*index_str)] != '\0')
 	{
 		if (!ft_isalpha(cmd[0]) || !isalnum(cmd[(*index_str)]))

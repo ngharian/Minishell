@@ -37,7 +37,7 @@ MAKE_LIBFT = make -s -C ./libft
 LIBFT = ./Libft/libft.a
 
 $(NAME): msg $(OBJECTS)
-	@printf "\033[K\033[0;34mBeast compiled\n"
+	@printf "\033[K\033[0;34mBeast compiled.\n"
 	@$(MAKE_LIBFT)
 	@$(CC) $(CFLAGS) ${OBJECTS} ${LIBFT} -I ${HEADER}  -o ${NAME} -lreadline -L /Users/ngharian/homebrew/Cellar/readline/8.2.13/lib -I /Users/ngharian/homebrew/Cellar/readline/8.2.13/include
 	@#/Users/gdero/.brew/opt/readline/lib -I /Users/gdero/.brew/opt/readline/include

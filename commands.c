@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:15:36 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/04 12:59:08 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/04 14:16:42 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,18 @@ int	fill_cmd_struct(t_commands **cmd, char **splitted, t_here_doc **heredoc)
 	index = 0;
 	in_the_pipes(cmd);
 	temp = (*cmd);
-	while(temp)
+	while (temp)
 	{
-		checking_in_and_out(temp, *splitted, heredoc);
+		//printf("(avant)infile: %d\n", temp->infile);
+		checking_in_and_out(temp, splitted[index], heredoc);
+		//printf("(apres)infile: %d\n", temp->infile);
 		if (split_mini(splitted[index], &temp->cmd, ' '))
 			print_exit_error("Malloc error!\n", 1);
+		//free(splitted[index]);
 		temp = temp->next;
 		++index;
 	}
+	//free(splitted);
 	if (delete_quotes(*cmd))
 		return (free_struct(cmd, 2));
 	return (0);

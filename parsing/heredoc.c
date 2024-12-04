@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:39:11 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/01 16:03:55 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/04 14:17:42 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int	ft_here_doc(t_here_doc **heredoc, char *readed_line, int i, t_env_vars **env
 	if (pipe(pipefd) == -1)
 		print_exit_error("Error while using 'pipe()'\n", 1);
 	alloc_heredoc(heredoc, pipefd[0]);
+	//printf("hd: %d\n", pipefd[0]);
 	pid = fork();
 	if (pid < 0)
 		print_exit_error("Error while using 'fork()'\n", 1);

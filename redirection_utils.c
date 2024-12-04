@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirection_utils.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/04 13:35:47 by ngharian          #+#    #+#             */
+/*   Updated: 2024/12/04 13:36:57 by ngharian         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	update_string(char **splitted, char *trimmed, int mode, char c)
@@ -22,7 +34,7 @@ static void	update_string(char **splitted, char *trimmed, int mode, char c)
 	(*splitted)[index] = '\0';
 }
 
-static void update_trim_string(char *trimmed)
+static void	update_trim_string(char *trimmed)
 {
 	int	str_index;
 
@@ -40,6 +52,7 @@ static void update_trim_string(char *trimmed)
 	}
 	ft_strlcpy(trimmed, trimmed, str_index + 1);
 }
+
 void	get_file_name_trimmed(t_file *file, int *str_index, char **splitted)
 {
 	(*file).type = (*splitted)[*str_index];
@@ -47,7 +60,7 @@ void	get_file_name_trimmed(t_file *file, int *str_index, char **splitted)
 	if ((*splitted)[*str_index] == (*splitted)[(*str_index) + 1])
 		(*file).mode = 1;
 	(*file).trimmed = ft_strchr(*splitted, (*file).type);
-	if((*file).type =='>')
+	if ((*file).type == '>')
 		(*file).trimmed = ft_strtrim((*file).trimmed, "> ");
 	else
 		(*file).trimmed = ft_strtrim((*file).trimmed, "< ");

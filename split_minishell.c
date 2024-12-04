@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_minishell.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 17:07:34 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/11 19:03:46 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/04 13:40:14 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,5 @@ int	split_mini(char *str, char ***array, char to_split)
 		return (2);
 	}
 	(*array)[nb_split + 1] = NULL;
-	//free(str); On peut/doit, non ? Plus besoin apres je pense
 	return (0);
 }
-

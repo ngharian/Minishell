@@ -6,23 +6,21 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:25:38 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/04 11:48:31 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:41:51 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-
-static void infile_case(t_commands *cmd, t_file *file, t_here_doc **heredoc)
+static void	infile_case(t_commands *cmd, t_file *file, t_here_doc **heredoc)
 {
 	t_here_doc	*temp;
-	
+
 	if (cmd->infile > 0)
 		close(cmd->infile);
-    if ((*file).mode == 0 && (*file).type == '<')
+	if ((*file).mode == 0 && (*file).type == '<')
 		cmd->infile = open((*file).trimmed, O_RDONLY);
-	else if((*file).mode == 1 && (*file).type == '<')
+	else if ((*file).mode == 1 && (*file).type == '<')
 	{
 		cmd->infile = (*heredoc)->fd;
 		temp = (*heredoc);
@@ -30,13 +28,13 @@ static void infile_case(t_commands *cmd, t_file *file, t_here_doc **heredoc)
 		free(temp);
 	}
 	if (cmd->infile == -1)
-			cmd->errno_file = errno;
+		cmd->errno_file = errno;
 }
 
-static void	open_files(t_commands *cmd, t_file *file, t_here_doc **heredoc)
+static void	open_files(t_commands *cmd, t_file *file, t_here_doc **hd)
 {
 	char	*trimmed;
-	
+
 	trimmed = (*file).trimmed;
 	if (cmd->infile < 0 || cmd->outfile < 0)
 		return (free((*file).trimmed));
@@ -44,7 +42,7 @@ static void	open_files(t_commands *cmd, t_file *file, t_here_doc **heredoc)
 	{
 		if (cmd->outfile > 0)
 		{
-			if(cmd->outfile == cmd->exchange[1])
+			if (cmd->outfile == cmd->exchange[1])
 				write(cmd->outfile, "\0", 1);
 			close(cmd->outfile);
 		}
@@ -55,11 +53,11 @@ static void	open_files(t_commands *cmd, t_file *file, t_here_doc **heredoc)
 		if (cmd->outfile == -1)
 			cmd->errno_file = errno;
 	}
-	infile_case(cmd, file, heredoc);
+	infile_case(cmd, file, hd);
 	free(trimmed);
 }
 
-void	checking_in_and_out(t_commands *cmd, char *splitted, t_here_doc **heredoc)
+void	checking_in_and_out(t_commands *cmd, char *splitted, t_here_doc **hd)
 {
 	int		str_index;
 	t_file	file;
@@ -90,8 +88,8 @@ void	checking_in_and_out(t_commands *cmd, char *splitted, t_here_doc **heredoc)
 				return (1);*/
 			//trimmed = ft_strtrim(trimmed, "\"'");
 			get_file_name_trimmed(&file, &str_index, &splitted);
-			open_files(cmd, &file, heredoc);
-			if(splitted[str_index] == '\0') //-> rajoute car sinon quitte le programme avec >> et << en derniere commande 
+			open_files(cmd, &file, hd);
+			if (splitted[str_index] == '\0')
 				break ;
 		}
 	}

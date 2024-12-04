@@ -6,16 +6,15 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:25:19 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/01 16:45:15 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:38:50 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
 
-
 static void	set_ctrl_d(int mode)
-{	
-	struct termios term;
+{
+	struct termios	term;
 
 	tcgetattr(0, &term);
 	if (mode == 1)
@@ -35,6 +34,7 @@ static void	set_ctrl_d(int mode)
 	}
 	tcsetattr(0, TCSANOW, &term);
 }
+
 void	ft_set_sig(int mode)
 {
 	if (mode == 1)

@@ -138,6 +138,7 @@ int	execute(t_commands **cmd, t_env_vars **vars)
 void	in_the_pipes(t_commands **cmd)
 {
 	t_commands	*temp;
+	int			texchange[2];
 
 	temp = (*cmd);
 	if (temp->next != NULL && temp->previous == NULL)
@@ -145,21 +146,22 @@ void	in_the_pipes(t_commands **cmd)
 		if (pipe(temp->exchange) < 0)
 			print_exit_error("Error while using pipe()\n", 1);
 		temp->outfile = temp->exchange[1];
+		texchange[0] = temp->exchange[0];
 	}
 	while (temp->next != NULL)
 	{
 		if (temp->next != NULL && temp->previous != NULL)
 		{
-			temp->infile = temp->exchange[0];
+			temp->infile = texchange[0];
 			if (pipe(temp->exchange) < 0)
 				print_exit_error("Error while using pipe()\n", 1);
 			temp->outfile = temp->exchange[1];
+			texchange[0] = temp->exchange[0];
 		}
 		temp = temp->next;
 	}
 	if(temp->next == NULL && temp->previous != NULL)
-		temp->infile = temp->exchange[0];
-		
+		temp->infile = texchange[0];	
 }
 
 int	execution(t_commands **cmd, t_env_vars **pointeur_vars)
@@ -193,7 +195,7 @@ int	execution(t_commands **cmd, t_env_vars **pointeur_vars)
 		index++;
 	}
 	free_split(vars->split_path);
-	in_the_pipes(cmd);
+	//in_the_pipes(cmd);
 	if (execute(cmd, pointeur_vars))
 		return (1);
 	return (0);

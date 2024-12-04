@@ -79,8 +79,12 @@ char	*find_eof(char *line, int i);
 int		ft_wait_single_process(pid_t pid, int fd, int i, t_env_vars **env);
 int		expander(char **input, t_env_vars *vars);
 int		finish_pipe(char **line, int i, t_env_vars **env);
-int		checking_in_and_out(t_commands *cmd, char *splitted, t_here_doc **heredoc);
 int		is_double(char *splitted, char c);
+
+//redirection
+void	checking_in_and_out(t_commands *cmd, char *splitted, t_here_doc **heredoc);
+void	get_file_name_trimmed(t_file *file, int *str_index, char **splitted);
+void	in_the_pipes(t_commands **cmd);
 
 //del_quotes
 int		delete_quotes(t_commands *cmd);

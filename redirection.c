@@ -1,38 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   in_outfiles.c                                      :+:      :+:    :+:   */
+/*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:25:38 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/03 17:25:51 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/04 11:48:31 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	update_string(char **splitted, char *trimmed, int mode, char c)
-{
-	int	index;
-	int	trim_index;
 
-	index = 0;
-	trim_index = 1;
-	while ((*splitted)[index] != c)
-		index++;
-	if (mode == 1)
-		trim_index++;
-	while ((*splitted)[index + trim_index] == ' ')
-		trim_index++;
-	trim_index += ft_strlen(trimmed);
-	while ((*splitted)[index + trim_index])
-	{
-		(*splitted)[index] = (*splitted)[index + trim_index];
-		index++;
-	}
-	(*splitted)[index] = '\0';
-}
 
 static void infile_case(t_commands *cmd, t_file *file, t_here_doc **heredoc)
 {
@@ -79,26 +59,7 @@ static void	open_files(t_commands *cmd, t_file *file, t_here_doc **heredoc)
 	free(trimmed);
 }
 
-static void	update_trim_string(char *trimmed)
-{
-	int	str_index;
-
-	str_index = 0;
-	while (trimmed[str_index])
-	{
-		if (trimmed[str_index] == 39 || trimmed[str_index] == '"')
-		{
-			str_index = skip_quotes(trimmed, str_index);
-			continue ;
-		}
-		if (trimmed[str_index] == ' ' || trimmed[str_index] == '\0')
-			break ;
-		str_index++;
-	}
-	ft_strlcpy(trimmed, trimmed, str_index + 1);
-}
-
-int	checking_in_and_out(t_commands *cmd, char *splitted, t_here_doc **heredoc)
+void	checking_in_and_out(t_commands *cmd, char *splitted, t_here_doc **heredoc)
 {
 	int		str_index;
 	t_file	file;
@@ -108,17 +69,15 @@ int	checking_in_and_out(t_commands *cmd, char *splitted, t_here_doc **heredoc)
 	{
 		if (splitted[str_index] == 39 || splitted[str_index] == '"')
 			str_index = skip_quotes(splitted, str_index);
-		if (splitted[str_index] == '\0') //->commente car apriori "else if" regle le probleme de segfault
-			return (0);
+		if (splitted[str_index] == '\0')
+			return ;
 		else if (splitted[str_index] == '>' || splitted[str_index] == '<')
 		{
-			file.type = splitted[str_index];
-			//file.mode = is_double(splitted, file.type);
+			/*file.type = splitted[str_index];
 			file.mode = 0;
 			if (splitted[str_index] == splitted[str_index + 1])
 				file.mode = 1;
 			file.trimmed = ft_strchr(splitted, file.type);
-			printf("trimmed: %s\n", file.trimmed);
 			if(file.type =='>')
 				file.trimmed = ft_strtrim(file.trimmed, "> ");
 			else
@@ -128,14 +87,12 @@ int	checking_in_and_out(t_commands *cmd, char *splitted, t_here_doc **heredoc)
 			update_trim_string(file.trimmed);
 			update_string(&splitted, file.trimmed, file.mode, file.type);
 			if (cmd_without_quotes(&file.trimmed))
-				return (1);
+				return (1);*/
 			//trimmed = ft_strtrim(trimmed, "\"'");
+			get_file_name_trimmed(&file, &str_index, &splitted);
 			open_files(cmd, &file, heredoc);
-			/*if (file.mode == 1)
-				++str_index;*/
 			if(splitted[str_index] == '\0') //-> rajoute car sinon quitte le programme avec >> et << en derniere commande 
 				break ;
 		}
 	}
-	return (0);
 }

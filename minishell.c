@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:28:50 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/03 12:36:03 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/04 13:03:33 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	print_cmd(t_commands *cmd)
 	{
 		printf("struct %d:\n", j);
 		printf("infile: %d outfile : %d \n", cmd->infile, cmd->outfile);
-		//printf("%d", cmd->outfile);
 		i = 0;
 		printf("ligne: ");
 		while(cmd->cmd[i])
@@ -55,7 +54,7 @@ void	print_cmd(t_commands *cmd)
 			printf("%s[]", cmd->cmd[i]);
 			++i;
 		}
-		write(1, "\n", 1);
+		printf("\n");
 		++j;
 		cmd = cmd->next;
 	}

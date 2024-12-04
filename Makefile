@@ -21,7 +21,8 @@ SRCS = minishell.c \
 		split_minishell.c \
 		commands.c \
 		del_quotes.c \
-		in_outfiles.c \
+		redirection.c \
+		redirection_utils.c \
 		execution.c 
 
 OBJECTS = $(SRCS:.c=.o)
@@ -36,7 +37,9 @@ LIBFT = ./Libft/libft.a
 
 $(NAME): $(OBJECTS)
 	$(MAKE_LIBFT)
-	$(CC) $(CFLAGS) ${OBJECTS} ${LIBFT} -I ${HEADER}  -o ${NAME} -lreadline -L /Users/gdero/.brew/opt/readline/lib -I /Users/gdero/.brew/opt/readline/include
+	$(CC) $(CFLAGS) ${OBJECTS} ${LIBFT} -I ${HEADER}  -o ${NAME} -lreadline -L /Users/ngharian/homebrew/Cellar/readline/8.2.13/lib -I /Users/ngharian/homebrew/Cellar/readline/8.2.13/include
+	#/Users/gdero/.brew/opt/readline/lib -I /Users/gdero/.brew/opt/readline/include
+	#/Users/ngharian/homebrew/Cellar/readline/8.2.13/lib -I /Users/ngharian/homebrew/Cellar/readline/8.2.13/include
 
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o ${<:.c=.o}

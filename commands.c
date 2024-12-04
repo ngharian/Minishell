@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:15:36 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/03 18:52:09 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/04 12:59:08 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	pipe_node(t_commands **cmd, char *splitted, t_here_doc **heredoc)
+static int	pipe_node(t_commands **cmd)
 {
 	t_commands	*new_node;
 	t_commands	*current;
@@ -22,10 +22,6 @@ static int	pipe_node(t_commands **cmd, char *splitted, t_here_doc **heredoc)
 		return (1);
 	new_node->infile = 0;
 	new_node->outfile = 0;
-	if (checking_in_and_out(new_node, splitted, heredoc))
-		return (1);
-	if (split_mini(splitted, &new_node->cmd, ' '))
-		return (2);
 	new_node->last_cmd = 1;
 	new_node->next = NULL;
 	new_node->previous = NULL;
@@ -66,17 +62,27 @@ static int	pipe_node(t_commands **cmd, char *splitted, t_here_doc **heredoc)
 */
 int	fill_cmd_struct(t_commands **cmd, char **splitted, t_here_doc **heredoc)
 {
-	int	index;
+	int			index;
+	t_commands	*temp;
 
 	index = 0;
 	while (splitted[index])
 	{
-		if (pipe_node(cmd, splitted[index], heredoc))
-			return (free_struct(cmd, 1));
-		
+		if (pipe_node(cmd))
+			print_exit_error("Malloc error!\n", 1);
 		index++;
 	}
-	//previous_struct(*cmd);
+	index = 0;
+	in_the_pipes(cmd);
+	temp = (*cmd);
+	while(temp)
+	{
+		checking_in_and_out(temp, *splitted, heredoc);
+		if (split_mini(splitted[index], &temp->cmd, ' '))
+			print_exit_error("Malloc error!\n", 1);
+		temp = temp->next;
+		++index;
+	}
 	if (delete_quotes(*cmd))
 		return (free_struct(cmd, 2));
 	return (0);

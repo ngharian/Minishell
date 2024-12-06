@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:54:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/03 16:55:00 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/06 16:41:08 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	free_struct(t_commands **cmd, int error)// completer a la fin
 	{
 		temp = *cmd;
 		free_split((*cmd)->cmd);
+		if ((*cmd)->error_file != NULL)
+			free((*cmd)->error_file);
 		*cmd = (*cmd)->next;
 		free(temp);
 	}
@@ -61,7 +63,7 @@ int	exit_parsing(int mode, t_env_vars **env)
 			exit(2);
 		if ((*env)->exit_code != 0)
 			exit((*env)->exit_code);
-		exit(1);
+		exit(0);
 	}
 	if (mode == -2 || mode == -3)
 		(*env)->exit_code = 258;

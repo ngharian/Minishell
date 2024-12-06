@@ -6,11 +6,11 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 16:30:35 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/25 16:50:19 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/05 15:33:07 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "./include/libft.h"
 
 unsigned long long	ft_atoi(const char *str)
 {

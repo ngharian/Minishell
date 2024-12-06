@@ -6,11 +6,11 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:52:04 by gdero             #+#    #+#             */
-/*   Updated: 2023/10/12 14:17:25 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/05 15:33:07 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "./include/libft.h"
 
 int	ft_isalpha(int c)
 {

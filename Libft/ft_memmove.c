@@ -6,11 +6,11 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:36:05 by gdero             #+#    #+#             */
-/*   Updated: 2023/10/17 13:23:34 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/05 15:33:07 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "./include/libft.h"
 
 static void	move_end(unsigned char *d, unsigned char *s, size_t len)
 {

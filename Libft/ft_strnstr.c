@@ -6,11 +6,11 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:27:45 by gdero             #+#    #+#             */
-/*   Updated: 2023/10/18 16:00:42 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/05 15:33:07 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "./include/libft.h"
 
 static int	cmpstr(char *string, char *to_find)
 {

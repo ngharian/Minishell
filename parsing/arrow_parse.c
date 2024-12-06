@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arrow_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:39:28 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/03 12:02:09 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/05 15:12:38 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ static int	arrow_error(char *readed_line, int i)
 	if (readed_line[i] == '<' || readed_line[i] == '>')
 	{
 		if (readed_line[i] == '<' && readed_line[i + 1] == '<')
-			write(2, "syntax error near unexpected token `<<'\n", 45);
+			write(2, "syntax error near unexpected token `<<'\n", 41);
 		else if (readed_line[i] == '>' && readed_line[i + 1] == '>')
-			write(2, "syntax error near unexpected token `>>'\n", 40);
+			write(2, "syntax error near unexpected token `>>'\n", 41);
 		else if (readed_line[i] == '<')
-			write(2, "syntax error near unexpected token `<'\n", 39);
+			write(2, "syntax error near unexpected token `<'\n", 40);
 		else
-			write(2, "syntax error near unexpected token `>'\n", 39);
+			write(2, "syntax error near unexpected token `>'\n", 40);
 		return (1);
 	}
 	return (0);

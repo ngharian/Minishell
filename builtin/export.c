@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:13:12 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/04 17:48:14 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/05 15:22:07 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,10 +123,8 @@ static int	append_var(char **oldstring, char *to_append, int mode)
 
 static int	add_to_exp(char *str, int mode, t_env_vars **vars, int *index_mode)
 {
-	int		index;
 	char	**new_exp;
 
-	index = 0;
 	new_exp = NULL;
 	if (mode == 2 || mode == 5)
 	{

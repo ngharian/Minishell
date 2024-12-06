@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:51:48 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/04 17:40:12 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/05 15:15:26 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 static int	updt_line(char **input, t_env_vars *vars, char *to_find, int *index)
 {
 	int		new_index;
-	int		index_var;
 	bool	var_found;
 
 	new_index = -1;
 	var_found = false;
 	while (vars->env[++new_index])
 	{
-		index_var = 0;
 		if (ft_strncmp(vars->env[new_index], to_find, ft_strlen(to_find)) == 0 \
 		&& vars->env[new_index][ft_strlen(to_find)] == '=')
 		{

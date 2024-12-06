@@ -11,7 +11,7 @@ static char	*pipe_join(char *line, char *to_add)
 	{
 		free(line);
 		free(to_add);
-		write(2, "Malloc Error!\n", 22); //faire une fonction ft_malloc_error?
+		write(2, "Malloc Error!\n", 14); //faire une fonction ft_malloc_error?
 		print_exit_error("Malloc Error!\n", 1);
 		exit(EXIT_FAILURE);
 	}
@@ -51,10 +51,8 @@ int	finish_pipe(char **line, int i, t_env_vars **env)
 {
 	int		pipefd[2];
 	pid_t	pid;
-	int		status;
 	int		ret;
 
-	status = 0;
     pid = 0;
 	if (pipe(pipefd) == -1)
 		print_exit_error("Error while using 'pipe()'\n", 1);

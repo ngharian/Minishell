@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:49:45 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/25 16:52:50 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/05 15:28:33 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <ctype.h>
 # include <limits.h>
 # include <fcntl.h>
+# include <stdint.h>
 
 typedef struct s_list
 {

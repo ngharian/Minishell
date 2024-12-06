@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 18:27:29 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/17 18:42:55 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/05 17:49:38 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,10 @@ char	*add_char(char *env, int mode)
 	int		index;
 	int		index2;
 	char	*newstring;
+	char	*finalstring;
 
 	index = -1;
+	finalstring = NULL;
 	newstring = malloc((ft_strlen(env) + 3) * sizeof(char));
 	if (!newstring)
 		return (NULL);
@@ -64,16 +66,16 @@ char	*add_char(char *env, int mode)
 	newstring[index] = '=';
 	newstring[++index] = '"';
 	while (env[++index2])
-	{
-		index++;
-		newstring[index] = env[index2];
-	}
+		newstring[++index] = env[index2];
 	newstring[index + 1] = '"';
 	if (mode != 6)
-		newstring = ft_strjoin("declare -x ", newstring);
-	if (!newstring)
+		finalstring = ft_strjoin("declare -x ", newstring);
+	else
+		finalstring = ft_strdup(newstring);
+	free(newstring);
+	if (!finalstring)
 		return (NULL);
-	return (newstring);
+	return (finalstring);
 }
 
 void	make_order(t_env_vars *vars, int index)
@@ -122,7 +124,7 @@ int	fill_env(char **env, t_env_vars *vars)
 	while (env[++index])
 	{
 		vars->env[index] = ft_strdup(env[index]);
-		vars->exp[index] = add_char(env[index], 0);
+		vars->exp[index] = add_char(vars->env[index], 0);
 		if (!vars->env[index] || !vars->exp[index])
 			return (1);
 	}

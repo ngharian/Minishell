@@ -1,4 +1,5 @@
 #include "minishell.h"
+extern int g_signal;
 
 int	check_access(t_env_vars *vars, t_commands *temp)
 {
@@ -171,7 +172,7 @@ int	execution(t_commands **cmd, t_env_vars **pointeur_vars)
 
 	vars = *pointeur_vars;
 	index = 0;
-	vars->paths = getenv("PATH="); //on pourrait utiliser notre env pour trouver ca en fait
+	vars->paths = get_path_line((*pointeur_vars)->env, "PATH=", 0); //on pourrait utiliser notre env pour trouver ca en fait
 	if (!vars->paths)
 		return (1);
 	vars->split_path = ft_split(vars->paths, ':');

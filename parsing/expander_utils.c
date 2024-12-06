@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:41:26 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/04 15:31:05 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/05 15:15:41 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@ static int	lenght_newstring(char *input, char *to_find, char *var)
 
 static int	new_input(char *input, char **var, int *index, bool *malloked)
 {
-	int	str_index;
-
-	str_index = -1;
 	if ((*var) != NULL && !ft_isdigit((*var)[0]))
 	{
 		(*var) = ft_strdup(ft_strchr((*var), '='));

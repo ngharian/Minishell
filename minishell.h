@@ -7,12 +7,14 @@
 #include <stdarg.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include "Libft/libft.h"
+#include <sys/types.h>
+#include <sys/wait.h>
+#include "Libft/include/libft.h"
 #include <stdbool.h>
 #include <signal.h>
 #include <termios.h>
 
-volatile int g_signal;
+//extern volatile int g_signal;
 
 typedef struct s_commands
 {

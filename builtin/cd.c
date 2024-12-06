@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:10:44 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/04 18:07:06 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/05 15:21:34 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,9 @@ static int	add_to_path(char **newpath, char *line, char *home, int mode)
 
 static void	change_to_parent(t_env_vars *vars, char **path)
 {
-	int		index;
 	int		str_index;
 	char	*temp;
 
-	index = -1;
 	temp = get_path_line(vars->env, "PWD=", 0);
 	str_index = ft_strlen(temp);
 	while (temp[--str_index])
@@ -227,11 +225,9 @@ static int	type_of_cd(char *line)
 
 int	ft_cd(t_commands *cmd, t_env_vars *vars)
 {
-	int		index;
 	int		mode;
 	char	*home;
 
-	index = 0;
 	home = get_path_line(vars->env, "HOME=", 1) + 1;
 	if (!home)
 		return (-1);

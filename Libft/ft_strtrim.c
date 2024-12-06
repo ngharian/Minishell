@@ -6,11 +6,11 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:45:16 by gdero             #+#    #+#             */
-/*   Updated: 2023/10/19 15:45:22 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/05 15:34:03 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "./include/libft.h"
 
 static int	check_set(char c, char const *set)
 {
@@ -78,12 +78,10 @@ static char	*copy(char *copy, char const *string, char const *set, int lenght)
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	int		index;
 	int		lenght;
 	int		lenghtdel;
 	char	*trimmed_string;
 
-	index = 0;
 	if (s1 == NULL || set == NULL)
 		return (NULL);
 	lenght = ft_strlen(s1);

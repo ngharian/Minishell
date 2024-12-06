@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:39:11 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/04 14:17:42 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/06 11:51:03 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ static void	fill_heredoc(int fd, char *line, int i, t_env_vars *env_vars)
 		if (!readed)
 			exit (0);
 		if (ft_strncmp(readed, eof_string, ft_strlen(eof_string)) == 0)
-		{
-			write(fd, "\0", 1);
 			exit(3);
-		}
 		if (expander(&readed, env_vars))
 			exit(EXIT_FAILURE);
 		write(fd, readed, ft_strlen(readed));
@@ -79,9 +76,7 @@ static void	alloc_heredoc(t_here_doc **here_doc, int fd)
 {
 	t_here_doc	*new_element;
 	t_here_doc	*last;
-	t_here_doc	*first;
 
-	first = *here_doc;
 	new_element = malloc(sizeof(t_here_doc));
 	if (!new_element)
 		print_exit_error("Malloc Error!\n", 1);

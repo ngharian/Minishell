@@ -6,11 +6,27 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 18:27:29 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/05 17:49:38 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/06 17:32:52 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	does_exist(char *temp, int index_str, char *str)
+{
+	if (str[index_str] == '\0' && \
+	(temp[index_str] == '\0' || temp[index_str] == '='))
+		return (1);
+	if (str[index_str] == '+' && temp[index_str] == '=')
+		return (6);
+	if (str[index_str] == '=' && temp[index_str] == '=')
+		return (2);
+	if (str[index_str] == '+' && temp[index_str] == '\0')
+		return (7);
+	if (str[index_str] == '=' && temp[index_str] == '\0')
+		return (5);
+	return (0);
+}
 
 int	already_exists(char *str, t_env_vars **vars, \
 int *index_mode, int index_str)
@@ -22,19 +38,10 @@ int *index_mode, int index_str)
 	while ((*vars)->exp[++index])
 	{
 		temp = (*vars)->exp[index] + 11;
-		if (ft_strncmp(str, temp, index_str) == 0) //si existe deja
+		if (ft_strncmp(str, temp, index_str) == 0)
 		{
 			*index_mode = index;
-			if (str[index_str] == '\0' && (temp[index_str] == '\0' || temp[index_str] == '='))
-				return (1);
-			if (str[index_str] == '+' && temp[index_str] == '=')
-				return (6);
-			if (str[index_str] == '=' && temp[index_str] == '=')
-				return (2);
-			if (str[index_str] == '+' && temp[index_str] == '\0')
-				return (7);
-			if (str[index_str] == '=' && temp[index_str] == '\0')
-				return (5);
+			return (does_exist(temp, index_str, str));
 		}
 	}
 	*index_mode = -1;
@@ -78,7 +85,7 @@ char	*add_char(char *env, int mode)
 	return (finalstring);
 }
 
-void	make_order(t_env_vars *vars, int index)
+int	make_order(t_env_vars *vars, int index)
 {
 	int		j;
 	char	*temp;
@@ -104,31 +111,5 @@ void	make_order(t_env_vars *vars, int index)
 		}
 		index--;
 	}
-}
-
-int	fill_env(char **env, t_env_vars *vars)
-{
-	int	index;
-
-	index = 0;
-	while (env[index])
-		index++;
-	vars->nb_string = index;
-	vars->env = malloc((index + 1) * sizeof(char *));
-	vars->exp = malloc((index + 1) * sizeof(char *));
-	if (!vars->env || !vars->exp)
-		return (1);
-	vars->env[index] = NULL;
-	vars->exp[index] = NULL;
-	index = -1;
-	while (env[++index])
-	{
-		vars->env[index] = ft_strdup(env[index]);
-		vars->exp[index] = add_char(vars->env[index], 0);
-		if (!vars->env[index] || !vars->exp[index])
-			return (1);
-	}
-    index--;
-	make_order(vars, index);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:11:33 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/13 17:54:46 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/06 16:29:48 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,30 @@ int	ft_env(char **cmd, t_env_vars *vars, int mode)
 		return (6);
 	else
 		return (4);
+}
+
+int	fill_env(char **env, t_env_vars *vars)
+{
+	int	index;
+
+	index = 0;
+	while (env[index])
+		index++;
+	vars->nb_string = index;
+	vars->env = malloc((index + 1) * sizeof(char *));
+	vars->exp = malloc((index + 1) * sizeof(char *));
+	if (!vars->env || !vars->exp)
+		return (1);
+	vars->env[index] = NULL;
+	vars->exp[index] = NULL;
+	index = -1;
+	while (env[++index])
+	{
+		vars->env[index] = ft_strdup(env[index]);
+		vars->exp[index] = add_char(vars->env[index], 0);
+		if (!vars->env[index] || !vars->exp[index])
+			return (1);
+	}
+	index--;
+	return (make_order(vars, index));
 }

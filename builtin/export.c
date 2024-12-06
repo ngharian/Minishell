@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:13:12 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/05 15:22:07 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/06 16:26:52 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,8 +219,7 @@ static int	add_to_var(char *str, int mode, t_env_vars **vars, int *index_mode)
 		if (!(*vars)->exp[*index_mode])
 			return (1);
 	}
-	make_order(*vars, index);
-	return (0);
+	return (make_order(*vars, index));
 }
 
 static int	ft_must_export(bool must_append, char *cmd, int index_str, t_env_vars *vars)

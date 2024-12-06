@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:12:28 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/05 15:21:51 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/06 17:37:21 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int	ft_exit(t_commands *cmd, t_env_vars *vars)
 	char				*temp;
 	unsigned long long	test;
 
-	if (cmd->previous != NULL || cmd->next != NULL)
-		return (7);
+	if (!cmd->cmd[1])
+		exit(vars->exit_code);
 	if (exit_args(cmd, vars))
 		return (7);
 	if (cmd->cmd[1])

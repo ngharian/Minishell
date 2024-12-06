@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:28:50 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/06 11:49:40 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/06 12:33:37 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ static int	programme_loop(t_env_vars **env_vars, t_here_doc *here_doc, t_command
 			print_exit_error("Exec error\n", 1); //!! changer les printf par des sterror pour afficher derniere erreur systeme(no such file or directory, command not found, etc...)
 		/*if (ft_builtins(cmd, env_vars))
 			exit (1);*/
-		printf("ivi\n");
 		free_struct(&cmd, 0);
 	}
 }

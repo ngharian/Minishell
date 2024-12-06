@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:39:11 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/06 11:51:03 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/06 12:40:16 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	fill_heredoc(int fd, char *line, int i, t_env_vars *env_vars)
 		readed = readline("here_doc >");
 		if (!readed)
 			exit (0);
-		if (ft_strncmp(readed, eof_string, ft_strlen(eof_string)) == 0)
+		if (ft_strcmp(readed, eof_string) == 0)
 			exit(3);
 		if (expander(&readed, env_vars))
 			exit(EXIT_FAILURE);

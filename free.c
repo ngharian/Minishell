@@ -35,6 +35,8 @@ int	free_struct(t_commands **cmd, int error)// completer a la fin
 	while (*cmd != NULL)
 	{
 		temp = *cmd;
+		close(temp->infile);
+		close(temp->outfile);
 		free_split((*cmd)->cmd);
 		if ((*cmd)->error_file != NULL)
 			free((*cmd)->error_file);

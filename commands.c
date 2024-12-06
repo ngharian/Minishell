@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:15:36 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/06 16:15:33 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/06 16:37:57 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,26 +65,23 @@ int	fill_cmd_struct(t_commands **cmd, char **splitted, t_here_doc **heredoc)
 	int			index;
 	t_commands	*temp;
 
-	index = 0;
-	while (splitted[index])
+	index = -1;
+	while (splitted[++index])
 	{
 		if (pipe_node(cmd))
 			print_exit_error("Malloc error!\n", 1);
-		index++;
 	}
-	index = 0;
+	index = -1;
 	in_the_pipes(cmd);
 	temp = (*cmd);
-	while (temp)
+	while (temp && ++index >= 0)
 	{
-		//printf("(avant)infile: %d\n", temp->infile);
+		temp->acces_file = 0;
+		temp->error_file = NULL;
 		checking_in_and_out(temp, splitted[index], heredoc);
-		//printf("(apres)infile: %d\n", temp->infile);
 		if (split_mini(splitted[index], &temp->cmd, ' '))
 			print_exit_error("Malloc error!\n", 1);
-		//free(splitted[index]);
 		temp = temp->next;
-		++index;
 	}
 	free(splitted);
 	if (delete_quotes(*cmd))

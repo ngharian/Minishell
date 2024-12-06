@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:25:38 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/04 13:41:51 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/06 16:38:36 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ static void	infile_case(t_commands *cmd, t_file *file, t_here_doc **heredoc)
 
 	if (cmd->infile > 0)
 		close(cmd->infile);
+	if(access((*file).trimmed, R_OK) == -1 || access((*file).trimmed, F_OK) == -1)
+	{
+		cmd->error_file = ft_strdup((*file).trimmed);
+		cmd->acces_file = 2;
+		if(access((*file).trimmed, R_OK) == -1)
+			cmd->acces_file = 1;
+	}
 	if ((*file).mode == 0 && (*file).type == '<')
 		cmd->infile = open((*file).trimmed, O_RDONLY);
 	else if ((*file).mode == 1 && (*file).type == '<')
@@ -27,8 +34,6 @@ static void	infile_case(t_commands *cmd, t_file *file, t_here_doc **heredoc)
 		(*heredoc) = (*heredoc)->next;
 		free(temp);
 	}
-	if (cmd->infile == -1)
-		cmd->errno_file = errno;
 }
 
 static void	open_files(t_commands *cmd, t_file *file, t_here_doc **hd)
@@ -41,17 +46,16 @@ static void	open_files(t_commands *cmd, t_file *file, t_here_doc **hd)
 	if ((*file).type == '>')
 	{
 		if (cmd->outfile > 0)
-		{
-			if (cmd->outfile == cmd->exchange[1])
-				write(cmd->outfile, "\0", 1);
 			close(cmd->outfile);
-		}
+		if (access(trimmed, W_OK) == -1)
+		{
+			cmd->error_file = ft_strdup((*file).trimmed);
+			cmd->acces_file = 1;
+		}	
 		if ((*file).mode == 0)
 			cmd->outfile = open(trimmed, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if ((*file).mode == 1)
 			cmd->outfile = open(trimmed, O_CREAT | O_WRONLY | O_APPEND, 0644);
-		if (cmd->outfile == -1)
-			cmd->errno_file = errno;
 	}
 	infile_case(cmd, file, hd);
 	free(trimmed);

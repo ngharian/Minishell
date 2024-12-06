@@ -1,3 +1,6 @@
+#ifndef MINISHELL_H
+# define MINISHELL_H
+
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -26,7 +29,8 @@ typedef struct s_commands
 	pid_t				process;
 	int					last_cmd;
 	bool				absolute_path;
-	int					errno_file;
+	int					acces_file;
+	char				*error_file;
 	struct s_commands	*previous;
 	struct s_commands	*next;
 }	t_commands;
@@ -126,3 +130,4 @@ int		change_pwd(char ***var, char *line, char *to_find);
 
 
 int	execute_cmd(t_env_vars *vars, t_commands *temp);
+#endif

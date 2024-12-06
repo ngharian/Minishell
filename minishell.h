@@ -111,7 +111,7 @@ int		skip_quotes(char *str, int str_j);
 //builtin
 int		ft_builtins(t_commands *cmd, t_env_vars *vars);
 char	*add_char(char *env, int mode);
-void	make_order(t_env_vars *vars, int index);
+int	make_order(t_env_vars *vars, int index);
 int		ft_cd(t_commands *cmd, t_env_vars *vars);
 int		ft_echo(char **cmd);
 int		ft_env(char **cmd, t_env_vars *vars, int mode);

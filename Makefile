@@ -9,7 +9,7 @@ SRCS = minishell.c \
 		./parsing/find_eof_heredoc.c \
 		./builtin/builtin.c \
 		./builtin/cd.c \
-		./builtin/cd2.c \
+		./builtin/cd_utils.c \
 		./builtin/echo.c \
 		./builtin/env.c \
 		./builtin/exit.c \

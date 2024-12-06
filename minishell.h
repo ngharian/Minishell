@@ -119,6 +119,10 @@ int		is_there_equal(char *str, int mode);
 int		already_exists(char *str, t_env_vars **vars, \
 		int *index_mode, int index_str);
 char	*get_path_line(char **env, char *line, int mode);
+int		add_to_path(char **newpath, char *line, char *home, int mode);
+int		change_directory_1_6(t_env_vars *vars, int mode, char *line, char *home);
+int		change_directory_else(t_env_vars *vars, int mode, char *line, char *home);
+int		change_pwd(char ***var, char *line, char *to_find);
 
 
 int	execute_cmd(t_env_vars *vars, t_commands *temp);

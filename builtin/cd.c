@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:10:44 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/05 15:21:34 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/06 15:30:00 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	update_oldpwd(char ***var, char *oldpwd, int mode)
 }
 
 //to_find definit si env ou export
-static int	change_pwd(char ***var, char *line, char *to_find)
+int	change_pwd(char ***var, char *line, char *to_find)
 {
 	int		index;
 	char	*newpath;
@@ -69,7 +69,7 @@ static int	change_pwd(char ***var, char *line, char *to_find)
 }
 
 //mode 0 == ~/ ; mode 1 == relative path
-static int	add_to_path(char **newpath, char *line, char *home, int mode)
+int	add_to_path(char **newpath, char *line, char *home, int mode)
 {
 	char	*path;
 
@@ -89,113 +89,6 @@ static int	add_to_path(char **newpath, char *line, char *home, int mode)
 		return (1);
 	*newpath = path;
 	return (0);
-}
-
-static void	change_to_parent(t_env_vars *vars, char **path)
-{
-	int		str_index;
-	char	*temp;
-
-	temp = get_path_line(vars->env, "PWD=", 0);
-	str_index = ft_strlen(temp);
-	while (temp[--str_index])
-	{
-		if (temp[str_index] == '/')
-		{
-			temp[str_index] = '\0';
-			break ;
-		}
-	}
-	if (temp[0] == '\0')
-		*path = "/";
-	else
-		*path = temp;
-}
-
-static char *user_path(char **var, char *line, char *home)
-{
-	int		index;
-	char	*temp;
-	char	*lower_line;
-
-	index = -1;
-	temp = NULL;
-	lower_line = ft_strdup(line);
-	if (!lower_line)
-		return (NULL);
-	while (line[++index])
-		lower_line[index] = ft_tolower(line[index]);
-	index = -1;
-	temp = get_path_line(var, "USER=", 1) + 1;
-	index = -1;
-	while (temp[++index])
-		temp[index] = ft_tolower(temp[index]);
-	if (ft_strncmp(lower_line, temp, ft_strlen(temp)) == 0)
-		return (free(lower_line), home);
-	else
-		return (free(lower_line), line - 1);
-}
-
-static int	change_directory(t_env_vars *vars, int mode, char *line, char *home)
-{
-	char	*newpath;
-	bool	malloked;
-
-	malloked = false;
-	if (mode == 1)
-	{
-		if (line[2] == '.' && !line[3])
-			line[2] = '\0';
-		if (add_to_path(&newpath, line, home, 0))
-			return (1);
-		malloked = true;
-	}
-	else if (mode == 2)
-		newpath = "/";
-	else if (mode == 4)
-		change_to_parent(vars, &newpath);
-	else if (mode == 6)
-	{
-		if (line[0] == '.')
-			line = ft_strchr(line, '/') + 1;
-		home = get_path_line(vars->env, "PWD=", 0);
-		if (add_to_path(&newpath, line, home, 1))
-			return (1);
-		malloked = true;
-	}
-	else if (mode == 7)
-		newpath = "/Users";
-	else if (mode == 8)
-		newpath = user_path(vars->env, line + 1, home);
-	else if (mode == 9)
-		newpath = get_path_line(vars->env, "OLDPWD=", 0);
-	else
-		return (2);
-	line = newpath;
-	if (chdir(newpath) == -1)
-	{
-		if (mode == 4)
-		{
-			chdir(home);
-			if (change_pwd(&vars->env, home, "PWD=") || change_pwd(&vars->exp, home, "declare -x PWD=\""))
-				return (-1);
-			return (2);
-		}
-		if (access(newpath, F_OK) == 0)
-		{
-			printf("minishell: cd: %s: Not a directory\n", ft_strrchr(line, '/') + 1);
-			return (2);
-		}
-		printf("minishell: cd: %s: No such file or directory\n", line);
-		return (2);
-	}
-	if (line[ft_strlen(line) - 1] == '/' && mode != 2 && mode != 4)
-		line[ft_strlen(line) - 1] = '\0';
-	if (change_pwd(&vars->env, line, "PWD=") || change_pwd(&vars->exp, line, "declare -x PWD=\""))
-		return (-1);
-	if (malloked == true)
-		free(newpath);
-	return (2);
 }
 
 static int	type_of_cd(char *line)
@@ -245,5 +138,8 @@ int	ft_cd(t_commands *cmd, t_env_vars *vars)
 		printf("minishell: cd: %s: No such file or directory\n", cmd->cmd[1]);
 		return (2);
 	}
-	return (change_directory(vars, mode, cmd->cmd[1], home));
+	if (mode == 1 || mode == 6)
+		return (change_directory_1_6(vars, mode, cmd->cmd[1], home));
+	else
+		return (change_directory_else(vars, mode, cmd->cmd[1], home));
 }

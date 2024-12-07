@@ -47,6 +47,9 @@ Si une chaine d'expander errone apres une redirection de fichier (ex: ls > $lfgk
 
 Gestion de signaux a revoir si minishell dans minishell (ou on s'en fout? -> pour moi non, mais comment faire? strcmp reverse avec minishell et creer un cinquieme handler?)
 
+=>leak dans split_space (commands.c); super bizarre, ne leak pas quand il y a un expander, + d'autres cas mais jsplus lol
+=>leaks readline qu'on peut free une fois add history et qu'on en a plus besoin(la segfault dans l'historique etait quand on avait free avant de add history)
+=>dans free_cmds, avant de fermer in/outfile, verifier qu'ils ne soit pas a 0, sinon ca close STDIN => minishell s'arrete
 
 
 ============================EVAL========================

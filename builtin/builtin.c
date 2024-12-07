@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:21:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/06 17:56:43 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/07 19:46:25 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,31 @@
 
 int	ft_builtins(t_commands *cmd, t_env_vars *vars)
 {
-	int	    index;
-	int	    condition_met;
-    char    *lower_cmd;
+	int		index;
+	int		condition_met;
+	char	*lower_cmd;
 
 	condition_met = 0;
 	index = -1;
-    lower_cmd = ft_strdup(cmd->cmd[0]);
+	lower_cmd = ft_strdup(cmd->cmd[0]);
 	if (!lower_cmd)
 		return (-1);
 	while (lower_cmd && cmd->cmd[0][++index])
 		lower_cmd[index] = ft_tolower(cmd->cmd[0][index]);
 	if (ft_strncmp(lower_cmd, "echo", ft_strlen(cmd->cmd[0])) == 0)
-        condition_met = ft_echo(cmd->cmd);
-    else if (ft_strncmp(lower_cmd, "cd", ft_strlen(cmd->cmd[0])) == 0)
-        condition_met = ft_cd(cmd, vars);
-    else if (ft_strncmp(lower_cmd, "pwd", ft_strlen(cmd->cmd[0])) == 0)
-        condition_met = ft_pwd(cmd->cmd, vars);
-    else if (ft_strncmp(lower_cmd, "export", ft_strlen(cmd->cmd[0])) == 0)
-        condition_met = ft_export(cmd->cmd, vars);
-    else if (ft_strncmp(lower_cmd, "unset", ft_strlen(cmd->cmd[0])) == 0)
+		condition_met = ft_echo(cmd->cmd);
+	else if (ft_strncmp(lower_cmd, "cd", ft_strlen(cmd->cmd[0])) == 0)
+		condition_met = ft_cd(cmd, vars);
+	else if (ft_strncmp(lower_cmd, "pwd", ft_strlen(cmd->cmd[0])) == 0)
+		condition_met = ft_pwd(cmd->cmd, vars);
+	else if (ft_strncmp(lower_cmd, "export", ft_strlen(cmd->cmd[0])) == 0)
+		condition_met = ft_export(cmd->cmd, vars);
+	else if (ft_strncmp(lower_cmd, "unset", ft_strlen(cmd->cmd[0])) == 0)
 		condition_met = ft_unset(cmd->cmd, vars);
-    else if (ft_strncmp(lower_cmd, "env", ft_strlen(cmd->cmd[0])) == 0)
-        condition_met = ft_env(cmd->cmd, vars, 0);
-    else if (ft_strncmp(lower_cmd, "exit", ft_strlen(cmd->cmd[0])) == 0)
-        condition_met = ft_exit(cmd, vars);
-    //exit_code;
+	else if (ft_strncmp(lower_cmd, "env", ft_strlen(cmd->cmd[0])) == 0)
+		condition_met = ft_env(cmd->cmd, vars, 0);
+	else if (ft_strncmp(lower_cmd, "exit", ft_strlen(cmd->cmd[0])) == 0)
+		condition_met = ft_exit(cmd, vars);
+	//exit_code;
 	return (free(lower_cmd), condition_met);
 }

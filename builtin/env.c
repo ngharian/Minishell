@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:11:33 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/06 16:29:48 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/07 19:28:19 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,66 @@ int	ft_env(char **cmd, t_env_vars *vars, int mode)
 		return (6);
 	else
 		return (4);
+}
+
+char	*add_char(char *env, int mode)
+{
+	int		index;
+	int		index2;
+	char	*newstring;
+	char	*finalstring;
+
+	index = -1;
+	finalstring = NULL;
+	newstring = malloc((ft_strlen(env) + 3) * sizeof(char));
+	if (!newstring)
+		return (NULL);
+	newstring[ft_strlen(env) + 2] = '\0';
+	while (env[++index] != '=')
+		newstring[index] = env[index];
+	index2 = index;
+	newstring[index] = '=';
+	newstring[++index] = '"';
+	while (env[++index2])
+		newstring[++index] = env[index2];
+	newstring[index + 1] = '"';
+	if (mode != 6)
+		finalstring = ft_strjoin("declare -x ", newstring);
+	else
+		finalstring = ft_strdup(newstring);
+	free(newstring);
+	if (!finalstring)
+		return (NULL);
+	return (finalstring);
+}
+
+int	make_order(t_env_vars *vars, int index)
+{
+	int		j;
+	char	*temp;
+	int		ind2;
+	int		ind3;
+
+	while (index >= 0)
+	{
+		j = index - 1;
+		ind2 = is_there_equal(vars->exp[index], 1);
+		while (j >= 0)
+		{
+			ind3 = is_there_equal(vars->exp[j], 1);
+			if (ind3 < ind2)
+				ind3 = ind2;
+			if (ft_memcmp(vars->exp[index], vars->exp[j], ind3) < 0)
+			{
+				temp = vars->exp[index];
+				vars->exp[index] = vars->exp[j];
+				vars->exp[j] = temp;
+			}
+			j--;
+		}
+		index--;
+	}
+	return (0);
 }
 
 int	fill_env(char **env, t_env_vars *vars)

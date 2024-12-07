@@ -120,8 +120,10 @@ int		ft_export(char **cmd, t_env_vars *vars);
 int		ft_pwd(char **cmd, t_env_vars *vars);
 int		ft_unset(char **cmd, t_env_vars *vars);
 int		is_there_equal(char *str, int mode);
-int		already_exists(char *str, t_env_vars **vars, \
-		int *index_mode, int index_str);
+int		add_to_var(char *str, int mode, t_env_vars **vars, int *index_mode);
+int		add_to_exp(char *str, int mode, t_env_vars **vars, int *index_mode);
+int		append_var(char **oldstring, char *to_append, int mode);
+int		add_line_to_env(char ***env, char ***new_env, char *str, int mode);
 char	*get_path_line(char **env, char *line, int mode);
 int		add_to_path(char **newpath, char *line, char *home, int mode);
 int		change_directory_1_6(t_env_vars *vars, int mode, char *line, char *home);

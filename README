@@ -7,6 +7,11 @@ Usigned char pour gerer l'overflow ( si exit 255 -> exit_code = 255, si exit 256
 gerer infile outfile apres fork
 
 export -aaa
+--> en fait, ne fait rien. Si autre char apres le a, dira :
+export : -[autrechar]: invalid option.
+Skip donc les a, pareil avec f et quelques autres char.
+---> je propose qu'on s'en branle :-) (surtout que ce sont des options)
+---> Chez nous : export: '-aaa': not a valid identifier. (je pense que c'est tres bien.)
 
 export coucou= rien dans env --> FAUX
 

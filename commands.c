@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:15:36 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/06 16:37:57 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/07 18:51:24 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	fill_cmd_struct(t_commands **cmd, char **splitted, t_here_doc **heredoc)
 {
 	int			index;
 	t_commands	*temp;
+	char		*trimmed;
 
 	index = -1;
 	while (splitted[++index])
@@ -79,11 +80,13 @@ int	fill_cmd_struct(t_commands **cmd, char **splitted, t_here_doc **heredoc)
 		temp->acces_file = 0;
 		temp->error_file = NULL;
 		checking_in_and_out(temp, splitted[index], heredoc);
-		if (split_mini(splitted[index], &temp->cmd, ' '))
+		trimmed = ft_strtrim(splitted[index], " ");
+		if (split_mini(trimmed, &temp->cmd, ' '))
 			print_exit_error("Malloc error!\n", 1);
+		free(trimmed);
 		temp = temp->next;
 	}
-	free(splitted);
+	free_split(splitted);
 	if (delete_quotes(*cmd))
 		return (free_struct(cmd, 2));
 	return (0);

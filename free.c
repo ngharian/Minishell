@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:54:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/06 16:41:08 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/07 18:45:46 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ int	free_struct(t_commands **cmd, int error)// completer a la fin
 	while (*cmd != NULL)
 	{
 		temp = *cmd;
-		close(temp->infile);
-		close(temp->outfile);
+		if (temp->infile > 2)
+			close(temp->infile);
+		if (temp->outfile > 2)
+			close(temp->outfile);
 		free_split((*cmd)->cmd);
 		if ((*cmd)->error_file != NULL)
 			free((*cmd)->error_file);

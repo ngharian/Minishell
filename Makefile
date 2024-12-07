@@ -14,7 +14,8 @@ SRCS = minishell.c \
 		./builtin/env.c \
 		./builtin/exit.c \
 		./builtin/export.c \
-		./builtin/export2.c \
+		./builtin/export_utils.c \
+		./builtin/export_utils2.c \
 		./builtin/pwd.c \
 		./builtin/unset.c \
 		signaux.c \
@@ -30,7 +31,7 @@ OBJECTS = $(SRCS:.c=.o)
 
 HEADER = minishell.h
 NAME = minishell
-CFLAGS = -g -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -g -Wall -Wextra -Werror #-fsanitize=address
 CC = gcc
 RM = rm -f
 MAKE_LIBFT = make -s -C ./libft

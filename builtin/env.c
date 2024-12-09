@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:11:33 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/07 19:28:19 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/09 14:27:34 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,35 +38,34 @@ int	ft_env(char **cmd, t_env_vars *vars, int mode)
 		return (4);
 }
 
-char	*add_char(char *env, int mode)
+int	add_char(char **env, int mode)
 {
 	int		index;
 	int		index2;
 	char	*newstring;
-	char	*finalstring;
 
 	index = -1;
-	finalstring = NULL;
-	newstring = malloc((ft_strlen(env) + 3) * sizeof(char));
+	newstring = malloc((ft_strlen(*env) + 3) * sizeof(char));
 	if (!newstring)
-		return (NULL);
-	newstring[ft_strlen(env) + 2] = '\0';
-	while (env[++index] != '=')
-		newstring[index] = env[index];
+		return (1);
+	newstring[ft_strlen((*env)) + 2] = '\0';
+	while ((*env)[++index] != '=')
+		newstring[index] = (*env)[index];
 	index2 = index;
 	newstring[index] = '=';
 	newstring[++index] = '"';
-	while (env[++index2])
-		newstring[++index] = env[index2];
+	while ((*env)[++index2])
+		newstring[++index] = (*env)[index2];
 	newstring[index + 1] = '"';
+	free((*env));
 	if (mode != 6)
-		finalstring = ft_strjoin("declare -x ", newstring);
+		(*env) = ft_strjoin("declare -x ", newstring);
 	else
-		finalstring = ft_strdup(newstring);
+		(*env) = ft_strdup(newstring);
 	free(newstring);
-	if (!finalstring)
-		return (NULL);
-	return (finalstring);
+	if (!(*env))
+		return (1);
+	return (0);
 }
 
 int	make_order(t_env_vars *vars, int index)
@@ -116,8 +115,10 @@ int	fill_env(char **env, t_env_vars *vars)
 	while (env[++index])
 	{
 		vars->env[index] = ft_strdup(env[index]);
-		vars->exp[index] = add_char(vars->env[index], 0);
+		vars->exp[index] = ft_strdup(env[index]);
 		if (!vars->env[index] || !vars->exp[index])
+			return (1);
+		if (add_char(&vars->exp[index], 0))
 			return (1);
 	}
 	index--;

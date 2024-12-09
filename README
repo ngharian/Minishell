@@ -1,4 +1,4 @@
-
+!!! segfault si lancee avec env_vars vide !!!
 code exit ctrl-C = 1
 code exit parsing syntaxe = 258
 code exit inexisting in/outfile or bad permission for in/outfile = 1

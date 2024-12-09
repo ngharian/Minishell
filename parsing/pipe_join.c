@@ -11,8 +11,7 @@ static char	*pipe_join(char *line, char *to_add)
 	{
 		free(line);
 		free(to_add);
-		write(2, "Malloc Error!\n", 14); //faire une fonction ft_malloc_error?
-		print_exit_error("Malloc Error!\n", 1);
+		print_exit_error("Malloc Error!\n", NULL, 1);
 		exit(EXIT_FAILURE);
 	}
 	i = -1;
@@ -37,7 +36,7 @@ static void	complete_pipe(int outfile, char *line)
 	{
 		to_add = readline("pipe>");
 		if (!to_add)
-			print_exit_error("syntax error: unexpected end of file\n", 258);
+			print_exit_error("Syntaxe error: ", "unexpected end of file\n", 258);
 		if (check_empty_line(line))
 			continue ;
 		break ;
@@ -55,10 +54,10 @@ int	finish_pipe(char **line, int i, t_env_vars **env)
 
     pid = 0;
 	if (pipe(pipefd) == -1)
-		print_exit_error("Error while using 'pipe()'\n", 1);
+		print_exit_error("Error while using 'pipe()'\n", NULL, 1);
 	pid = fork();
 	if (pid < 0)
-		print_exit_error("Error while using 'fork()'\n", 1);
+		print_exit_error("Error while using 'fork()'\n", NULL, 1);
 	if (pid == 0)
 		complete_pipe(pipefd[1], *line);
 	ret = ft_wait_single_process(pid, pipefd[0], i, env);
@@ -70,6 +69,6 @@ int	finish_pipe(char **line, int i, t_env_vars **env)
 	*line = get_next_line(pipefd[0]);
 	close(pipefd[0]);
 	if (line == NULL)
-		print_exit_error("Error while using 'get_next_line()'\n", 1);
+		print_exit_error("Error while using 'get_next_line()'\n", NULL, 1);
 	return(i + 1);
 }

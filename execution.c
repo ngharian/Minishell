@@ -55,7 +55,7 @@ int	execute_cmd(t_env_vars *vars, t_commands *temp)
 static int	child(t_commands *cmd, t_env_vars *vars)
 {
 	if(cmd->infile < 0 || cmd->outfile < 0)
-		print_exit_error("bad file redirection", 1);
+		print_exit_error("bad file redirection", NULL, 1);
 	if (cmd->infile > 0)
 	{
 		dup2(cmd->infile, STDIN_FILENO);
@@ -135,43 +135,15 @@ int	execute(t_commands **cmd, t_env_vars **vars)
 	return (0);
 }
 
-void	in_the_pipes(t_commands **cmd)
-{
-	t_commands	*temp;
-	int			texchange[2];
-
-	temp = (*cmd);
-	if (temp->next != NULL && temp->previous == NULL)
-	{
-		if (pipe(temp->exchange) < 0)
-			print_exit_error("Error while using pipe()\n", 1);
-		temp->outfile = temp->exchange[1];
-		texchange[0] = temp->exchange[0];
-	}
-	while (temp->next != NULL)
-	{
-		if (temp->next != NULL && temp->previous != NULL)
-		{
-			temp->infile = texchange[0];
-			if (pipe(temp->exchange) < 0)
-				print_exit_error("Error while using pipe()\n", 1);
-			temp->outfile = temp->exchange[1];
-			texchange[0] = temp->exchange[0];
-		}
-		temp = temp->next;
-	}
-	if(temp->next == NULL && temp->previous != NULL)
-		temp->infile = texchange[0];	
-}
 
 int	execution(t_commands **cmd, t_env_vars **pointeur_vars)
 {
-	int		index;
 	t_env_vars	*vars;
+	int			index;
 
-	vars = *pointeur_vars;
 	index = 0;
-	vars->paths = get_path_line((*pointeur_vars)->env, "PATH=", 0); //on pourrait utiliser notre env pour trouver ca en fait
+	vars = *pointeur_vars;
+	vars->paths = get_path_line((*pointeur_vars)->env, "PATH=", 0);
 	if (!vars->paths)
 		return (1);
 	vars->split_path = ft_split(vars->paths, ':');
@@ -195,7 +167,6 @@ int	execution(t_commands **cmd, t_env_vars **pointeur_vars)
 		index++;
 	}
 	free_split(vars->split_path);
-	//in_the_pipes(cmd);
 	if (execute(cmd, pointeur_vars))
 		return (1);
 	return (0);

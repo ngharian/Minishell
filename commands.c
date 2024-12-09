@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:15:36 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/07 18:51:24 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/09 12:52:11 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	fill_cmd_struct(t_commands **cmd, char **splitted, t_here_doc **heredoc)
 	while (splitted[++index])
 	{
 		if (pipe_node(cmd))
-			print_exit_error("Malloc error!\n", 1);
+			print_exit_error("Malloc error!\n", NULL, 1);
 	}
 	index = -1;
 	in_the_pipes(cmd);
@@ -82,7 +82,7 @@ int	fill_cmd_struct(t_commands **cmd, char **splitted, t_here_doc **heredoc)
 		checking_in_and_out(temp, splitted[index], heredoc);
 		trimmed = ft_strtrim(splitted[index], " ");
 		if (split_mini(trimmed, &temp->cmd, ' '))
-			print_exit_error("Malloc error!\n", 1);
+			print_exit_error("Malloc error!\n", NULL, 1);
 		free(trimmed);
 		temp = temp->next;
 	}

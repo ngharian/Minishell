@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:39:11 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/06 12:40:16 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/09 12:53:53 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	fill_heredoc(int fd, char *line, int i, t_env_vars *env_vars)
 	eof_string = find_eof(line, i + 1);
 	signal(SIGINT, exit);
 	if(!eof_string)
-		print_exit_error("Malloc Error!\n", 1);
+		print_exit_error("Malloc Error!\n", NULL, 1);
 	while (1)
 	{
 		readed = readline("here_doc >");
@@ -45,7 +45,7 @@ int ft_wait_single_process(pid_t pid, int fd, int i, t_env_vars **env)
     while (1 && pid)
 	{
 		if (waitpid(pid, &status, WNOHANG) < 0)
-            print_exit_error("Error while using 'waitpid()'\n", 1);
+            print_exit_error("Error while using 'waitpid()'\n", NULL, 1);
 		//waitpid(pid, &status, WNOHANG);
 		if (status >> 8 != -1)
 		{
@@ -79,7 +79,7 @@ static void	alloc_heredoc(t_here_doc **here_doc, int fd)
 
 	new_element = malloc(sizeof(t_here_doc));
 	if (!new_element)
-		print_exit_error("Malloc Error!\n", 1);
+		print_exit_error("Malloc Error!\n", NULL, 1);
 	new_element->previous = NULL;
 	new_element->fd = fd;
 	new_element->next = NULL;
@@ -103,12 +103,12 @@ int	ft_here_doc(t_here_doc **heredoc, char *readed_line, int i, t_env_vars **env
 	if (!(readed_line[i] == '<' && readed_line[i - 1] == '<'))
 		return (i);
 	if (pipe(pipefd) == -1)
-		print_exit_error("Error while using 'pipe()'\n", 1);
+		print_exit_error("Error while using 'pipe()'\n", NULL, 1);
 	alloc_heredoc(heredoc, pipefd[0]);
 	//printf("hd: %d\n", pipefd[0]);
 	pid = fork();
 	if (pid < 0)
-		print_exit_error("Error while using 'fork()'\n", 1);
+		print_exit_error("Error while using 'fork()'\n", NULL, 1);
 	if (pid == 0)
 		fill_heredoc(pipefd[1], readed_line, i, *env_vars);
 	close(pipefd[1]);

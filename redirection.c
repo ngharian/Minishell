@@ -6,11 +6,40 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:25:38 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/06 16:38:36 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/09 12:53:27 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	in_the_pipes(t_commands **cmd)
+{
+	t_commands	*temp;
+	int			texchange[2];
+
+	temp = (*cmd);
+	if (temp->next != NULL && temp->previous == NULL)
+	{
+		if (pipe(temp->exchange) < 0)
+			print_exit_error("Error while using pipe()\n", NULL, 1);
+		temp->outfile = temp->exchange[1];
+		texchange[0] = temp->exchange[0];
+	}
+	while (temp->next != NULL)
+	{
+		if (temp->next != NULL && temp->previous != NULL)
+		{
+			temp->infile = texchange[0];
+			if (pipe(temp->exchange) < 0)
+				print_exit_error("Error while using pipe()\n", NULL, 1);
+			temp->outfile = temp->exchange[1];
+			texchange[0] = temp->exchange[0];
+		}
+		temp = temp->next;
+	}
+	if(temp->next == NULL && temp->previous != NULL)
+		temp->infile = texchange[0];	
+}
 
 static void	infile_case(t_commands *cmd, t_file *file, t_here_doc **heredoc)
 {

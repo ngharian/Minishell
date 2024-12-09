@@ -101,7 +101,7 @@ int		cmd_without_quotes(char **string);
 void	free_split(char **split);
 int		free_struct(t_commands **cmd, int error);
 int		exit_parsing(int mode, t_env_vars **env);
-void	print_exit_error(char *message, int exit_code);
+void	print_exit_error(char *message, char *name, int exit_code);
 int		free_env(t_env_vars *vars, int error);
 
 //execution

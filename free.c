@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:54:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/09 11:40:12 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/09 12:51:06 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,15 @@ int	exit_parsing(int mode, t_env_vars **env)
 	return (1);
 }
 
-void	print_exit_error(char *message, int exit_code)
+void	print_exit_error(char *message, char *name, int exit_code)
 {
 	write(2, "Minishell :", 11);
-	write(2, message, ft_strlen(message));
-	exit(exit_code);
+	if (name)
+		write(2, name, ft_strlen(message));
+	if(message)
+		write(2, message, ft_strlen(message));
+	if (exit_code >= 0)
+		exit(exit_code);
 }
 
 /*-1 = ctrl+d (->quitter)

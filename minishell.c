@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:28:50 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/06 12:33:37 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/09 12:52:45 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,11 @@ static int	programme_loop(t_env_vars **env_vars, t_here_doc *here_doc, t_command
 		if (expander(&input, *env_vars)) //checker que le strncmp soit TOUT ce qu'il y a avant le '=' && les MAJ importent !
 			exit(1);
 		if (split_mini(input, &splitted, '|'))
-			print_exit_error("Malloc error!\n", 1); //gerer l'erreur -> soit 1 soit 2 et tous les deux des malloc errors
+			print_exit_error("Malloc error!\n", NULL, 1); //gerer l'erreur -> soit 1 soit 2 et tous les deux des malloc errors
 		if (fill_cmd_struct(&cmd, splitted, &here_doc))
-			print_exit_error("fill_struct_err\n", 1); //erreur -> 1 = malloc error pour les structs ; 2 = malloc error pour les strings sans quotes
+			print_exit_error("fill_struct_err\n", NULL, 1); //erreur -> 1 = malloc error pour les structs ; 2 = malloc error pour les strings sans quotes
 		if (execution(&cmd, env_vars))
-			print_exit_error("Exec error\n", 1); //!! changer les printf par des sterror pour afficher derniere erreur systeme(no such file or directory, command not found, etc...)
+			print_exit_error("Exec error\n", NULL, 1); //!! changer les printf par des sterror pour afficher derniere erreur systeme(no such file or directory, command not found, etc...)
 		/*if (ft_builtins(cmd, env_vars))
 			exit (1);*/
 		free_struct(&cmd, 0);

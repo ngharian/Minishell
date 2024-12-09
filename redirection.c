@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:25:38 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/09 19:27:35 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/09 20:09:16 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,11 @@ static void	open_files(t_commands *cmd, t_file *file, t_here_doc **hd)
 		return (free((*file).trimmed));
 	if ((*file).type == '>')
 	{
-		if (cmd->outfile > 0)
+		if (cmd->outfile > 2)
+		{
 			close(cmd->outfile);
+			cmd->outfile = 0;
+		}
 		if (access(trimmed, W_OK) == -1)
 		{
 			cmd->error_file = ft_strdup((*file).trimmed);

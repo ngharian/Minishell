@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   signaux.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:25:19 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/05 15:56:07 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/09 13:44:06 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
-extern int g_signal;
+//extern int g_signal;
 
 static void	set_ctrl_d(int mode)
 {

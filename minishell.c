@@ -6,13 +6,13 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:28:50 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/09 12:52:45 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:44:18 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile int g_signal;
+//volatile int g_signal;
 
 /*
 codes d'erreur que get_line peut recevoir d'une des fonctions qu'elle appele:

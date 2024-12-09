@@ -6,12 +6,12 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:32:56 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/06 11:47:08 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:44:08 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-extern int g_signal;
+//extern int g_signal;
 
 bool	check_empty_line(char *buffer)
 {

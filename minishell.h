@@ -17,7 +17,7 @@
 #include <signal.h>
 #include <termios.h>
 
-//extern volatile int g_signal;
+volatile int g_signal;
 
 typedef struct s_commands
 {

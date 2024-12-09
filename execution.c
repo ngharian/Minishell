@@ -1,5 +1,5 @@
 #include "minishell.h"
-extern int g_signal;
+//extern int g_signal;
 
 int	check_access(t_env_vars *vars, t_commands *temp)
 {

@@ -6,13 +6,13 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:51:48 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/05 15:15:26 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/09 18:00:16 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	updt_line(char **input, t_env_vars *vars, char *to_find, int *index)
+static void	updt_line(char **input, t_env_vars *vars, char *to_find, int *index)
 {
 	int		new_index;
 	bool	var_found;
@@ -24,18 +24,16 @@ static int	updt_line(char **input, t_env_vars *vars, char *to_find, int *index)
 		if (ft_strncmp(vars->env[new_index], to_find, ft_strlen(to_find)) == 0 \
 		&& vars->env[new_index][ft_strlen(to_find)] == '=')
 		{
-			if (exchange_vars(input, vars->env[new_index], to_find, index))
-				return (1);
+			exchange_vars(input, vars->env[new_index], to_find, index);
 			var_found = true;
 		}
 	}
 	if (var_found == false)
 		exchange_vars(input, NULL, to_find, index);
 	free(to_find);
-	return (0);
 }
 
-static int	switch_vars(char **input, t_env_vars *vars, int *index)
+static void	switch_vars(char **input, t_env_vars *vars, int *index)
 {
 	int		str_index;
 	int		new_index;
@@ -44,44 +42,35 @@ static int	switch_vars(char **input, t_env_vars *vars, int *index)
 	str_index = *index;
 	while ((*input)[str_index] != ' ' && (*input)[str_index] != '\0' \
 	&& (*input)[str_index] != '$' && (*input)[str_index] != '"' \
-	&& (*input)[str_index] != 39 && (*input)[str_index] != '=') //ajout dernier truc
+	&& (*input)[str_index] != 39 && (*input)[str_index] != '=')
 		str_index++;
 	new_index = str_index - *index;
 	to_find = malloc((new_index + 1) * sizeof(char));
 	if (!to_find)
-		return (1);
+		print_exit_error("Malloc error", NULL, 1, NULL);
 	to_find[new_index] = '\0';
 	while (--str_index >= *index)
 		to_find[--new_index] = (*input)[str_index];
-	if (updt_line(input, vars, to_find, index))
-		return (1);
-	return (0);
+	updt_line(input, vars, to_find, index);
 }
 
-static int	dollar_case(char **input, t_env_vars *vars, int *index)
+static void	dollar_case(char **input, t_env_vars *vars, int *index)
 {
 	if ((*input)[*index] == '?' \
 	&& ((*input)[*index + 1] == ' ' || (*input)[*index + 1] == '\0'))
-	{
-		if (exchange_vars(input, ft_itoa(vars->exit_code), "?", index))
-			return (1);
-	}
+		exchange_vars(input, ft_itoa(vars->exit_code), "?", index);
 	else if ((*input)[*index] == '$')
-	{
-		if (exchange_vars(input, ft_itoa(vars->pid), "$", index))
-			return (1);
-	}
+		exchange_vars(input, NULL, "$", index);
 	else if ((*input)[*index] != ' ')
 	{
 		if ((*input)[*index] == '"')
 			exchange_vars(input, NULL, "$", index);
-		else if (switch_vars(input, vars, index))
-			return (1);
+		else
+			switch_vars(input, vars, index);
 	}
-	return (0);
 }
 
-static int	double_quotes_case(char **input, int index, t_env_vars *vars)
+static void	double_quotes_case(char **input, int index, t_env_vars *vars)
 {
 	if ((*input)[index] == '"')
 	{
@@ -97,25 +86,22 @@ static int	double_quotes_case(char **input, int index, t_env_vars *vars)
 					continue ;
 				if ((*input)[index] == '\0')
 					break ;
-				if (dollar_case(input, vars, &index))
-					return (1);
+				dollar_case(input, vars, &index);
 				index -= 1;
 			}
 			index++;
 		}
 	}
-	return (0);
 }
 
-int	expander(char **input, t_env_vars *vars)
+void	expander(char **input, t_env_vars *vars)
 {
 	int	index;
 
 	index = -1;
 	while ((*input)[++index])
 	{
-		if (double_quotes_case(input, index, vars))
-			return (1);
+		double_quotes_case(input, index, vars);
 		if ((*input)[index] == 39)
 			index = skip_quotes((*input), index);
 		if ((*input)[index] == '\0')
@@ -127,10 +113,8 @@ int	expander(char **input, t_env_vars *vars)
 				continue ;
 			if ((*input)[index] == '\0')
 				break ;
-			if (dollar_case(input, vars, &index))
-				return (1);
+			dollar_case(input, vars, &index);
 			index -= 1;
 		}
 	}
-	return (0);
 }

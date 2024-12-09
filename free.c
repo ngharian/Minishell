@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:54:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/09 14:33:40 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/09 19:25:38 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,20 @@ int	exit_parsing(int mode, t_env_vars **env)
 	return (1);
 }
 
-void	print_exit_error(char *message, char *name, int exit_code)
+void	print_exit_error(char *message, char *name, \
+int exit_code, char *builtin)
 {
-	write(2, "Minishell :", 11);
+	write(2, "minishell : ", 12);
+	if (builtin)
+		write(2, builtin, ft_strlen(builtin));
 	if (name)
+	{
 		write(2, name, ft_strlen(name));
+		write(2, ": ", 2);
+	}
 	if (message)
 		write(2, message, ft_strlen(message));
+	write(2, "\n", 1);
 	if (exit_code >= 0)
 		exit(exit_code);
 }

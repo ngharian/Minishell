@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:39:11 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/09 12:53:53 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/09 17:59:08 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	fill_heredoc(int fd, char *line, int i, t_env_vars *env_vars)
 	eof_string = find_eof(line, i + 1);
 	signal(SIGINT, exit);
 	if(!eof_string)
-		print_exit_error("Malloc Error!\n", NULL, 1);
+		print_exit_error("Malloc Error!\n", NULL, 1, NULL);
 	while (1)
 	{
 		readed = readline("here_doc >");
@@ -28,8 +28,7 @@ static void	fill_heredoc(int fd, char *line, int i, t_env_vars *env_vars)
 			exit (0);
 		if (ft_strcmp(readed, eof_string) == 0)
 			exit(3);
-		if (expander(&readed, env_vars))
-			exit(EXIT_FAILURE);
+		expander(&readed, env_vars);
 		write(fd, readed, ft_strlen(readed));
 		write(fd, "\n", 1);
 		free(readed);
@@ -45,7 +44,7 @@ int ft_wait_single_process(pid_t pid, int fd, int i, t_env_vars **env)
     while (1 && pid)
 	{
 		if (waitpid(pid, &status, WNOHANG) < 0)
-            print_exit_error("Error while using 'waitpid()'\n", NULL, 1);
+            print_exit_error("Error while using 'waitpid()'\n", NULL, 1, NULL);
 		//waitpid(pid, &status, WNOHANG);
 		if (status >> 8 != -1)
 		{
@@ -79,7 +78,7 @@ static void	alloc_heredoc(t_here_doc **here_doc, int fd)
 
 	new_element = malloc(sizeof(t_here_doc));
 	if (!new_element)
-		print_exit_error("Malloc Error!\n", NULL, 1);
+		print_exit_error("Malloc Error!\n", NULL, 1, NULL);
 	new_element->previous = NULL;
 	new_element->fd = fd;
 	new_element->next = NULL;
@@ -103,12 +102,12 @@ int	ft_here_doc(t_here_doc **heredoc, char *readed_line, int i, t_env_vars **env
 	if (!(readed_line[i] == '<' && readed_line[i - 1] == '<'))
 		return (i);
 	if (pipe(pipefd) == -1)
-		print_exit_error("Error while using 'pipe()'\n", NULL, 1);
+		print_exit_error("Error while using 'pipe()'\n", NULL, 1, NULL);
 	alloc_heredoc(heredoc, pipefd[0]);
 	//printf("hd: %d\n", pipefd[0]);
 	pid = fork();
 	if (pid < 0)
-		print_exit_error("Error while using 'fork()'\n", NULL, 1);
+		print_exit_error("Error while using 'fork()'\n", NULL, 1, NULL);
 	if (pid == 0)
 		fill_heredoc(pipefd[1], readed_line, i, *env_vars);
 	close(pipefd[1]);

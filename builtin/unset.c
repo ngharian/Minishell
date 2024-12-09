@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:13:48 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/14 14:31:46 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/09 17:35:32 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ int	ft_unset(char **cmd, t_env_vars *vars)
 		str_len = ft_strlen(cmd[index]);
 		if (!ft_isalpha(cmd[index][0]) || is_there_equal(cmd[index], 0))
 		{
-			printf("minishell: unset: '%s': not a valid \
-            identifier\n", cmd[index]);
+			print_exit_error("not a valid identifier", \
+			cmd[index], -1, "unset: ");
 			continue ;
 		}
 		delete_var(vars->exp, cmd[index], str_len, 0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signaux.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:25:19 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/09 13:44:06 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/09 19:27:54 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	ft_set_sig(int mode)
 		set_ctrl_d(3);
 	}
 }
+
 void	default_sigint(int sig)
 {
 	(void) sig;

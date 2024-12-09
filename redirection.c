@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:25:38 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/09 12:53:27 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/09 19:27:35 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	in_the_pipes(t_commands **cmd)
 	if (temp->next != NULL && temp->previous == NULL)
 	{
 		if (pipe(temp->exchange) < 0)
-			print_exit_error("Error while using pipe()\n", NULL, 1);
+			print_exit_error("Error while using pipe()\n", NULL, 1, NULL);
 		temp->outfile = temp->exchange[1];
 		texchange[0] = temp->exchange[0];
 	}
@@ -31,14 +31,14 @@ void	in_the_pipes(t_commands **cmd)
 		{
 			temp->infile = texchange[0];
 			if (pipe(temp->exchange) < 0)
-				print_exit_error("Error while using pipe()\n", NULL, 1);
+				print_exit_error("Error while using pipe()\n", NULL, 1, NULL);
 			temp->outfile = temp->exchange[1];
 			texchange[0] = temp->exchange[0];
 		}
 		temp = temp->next;
 	}
-	if(temp->next == NULL && temp->previous != NULL)
-		temp->infile = texchange[0];	
+	if (temp->next == NULL && temp->previous != NULL)
+		temp->infile = texchange[0];
 }
 
 static void	infile_case(t_commands *cmd, t_file *file, t_here_doc **heredoc)
@@ -47,11 +47,14 @@ static void	infile_case(t_commands *cmd, t_file *file, t_here_doc **heredoc)
 
 	if (cmd->infile > 0)
 		close(cmd->infile);
-	if(access((*file).trimmed, R_OK) == -1 || access((*file).trimmed, F_OK) == -1)
+	if (access((*file).trimmed, R_OK) == -1 || \
+	access((*file).trimmed, F_OK) == -1)
 	{
 		cmd->error_file = ft_strdup((*file).trimmed);
+		if (!cmd->error_file)
+			print_exit_error("Malloc error!\n", NULL, 1, NULL);
 		cmd->acces_file = 2;
-		if(access((*file).trimmed, R_OK) == -1)
+		if (access((*file).trimmed, R_OK) == -1)
 			cmd->acces_file = 1;
 	}
 	if ((*file).mode == 0 && (*file).type == '<')
@@ -79,8 +82,10 @@ static void	open_files(t_commands *cmd, t_file *file, t_here_doc **hd)
 		if (access(trimmed, W_OK) == -1)
 		{
 			cmd->error_file = ft_strdup((*file).trimmed);
+			if (!cmd->error_file)
+				print_exit_error("Malloc error!\n", NULL, 1, NULL);
 			cmd->acces_file = 1;
-		}	
+		}
 		if ((*file).mode == 0)
 			cmd->outfile = open(trimmed, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if ((*file).mode == 1)
@@ -104,22 +109,6 @@ void	checking_in_and_out(t_commands *cmd, char *splitted, t_here_doc **hd)
 			return ;
 		else if (splitted[str_index] == '>' || splitted[str_index] == '<')
 		{
-			/*file.type = splitted[str_index];
-			file.mode = 0;
-			if (splitted[str_index] == splitted[str_index + 1])
-				file.mode = 1;
-			file.trimmed = ft_strchr(splitted, file.type);
-			if(file.type =='>')
-				file.trimmed = ft_strtrim(file.trimmed, "> ");
-			else
-				file.trimmed = ft_strtrim(file.trimmed, "< ");
-			if (!file.trimmed)
-				return (1);
-			update_trim_string(file.trimmed);
-			update_string(&splitted, file.trimmed, file.mode, file.type);
-			if (cmd_without_quotes(&file.trimmed))
-				return (1);*/
-			//trimmed = ft_strtrim(trimmed, "\"'");
 			get_file_name_trimmed(&file, &str_index, &splitted);
 			open_files(cmd, &file, hd);
 			if (splitted[str_index] == '\0')

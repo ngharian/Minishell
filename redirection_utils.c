@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 13:35:47 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/09 12:52:59 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/09 19:26:28 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,8 @@ void	get_file_name_trimmed(t_file *file, int *str_index, char **splitted)
 	else
 		(*file).trimmed = ft_strtrim((*file).trimmed, "< ");
 	if (!(*file).trimmed)
-		print_exit_error("Malloc failure!\n", NULL, 1);
+		print_exit_error("Malloc failure!\n", NULL, 1, NULL);
 	update_trim_string((*file).trimmed);
 	update_string(splitted, (*file).trimmed, (*file).mode, (*file).type);
-	if (cmd_without_quotes(&file->trimmed))
-		print_exit_error("(a changer) Del_quotes_error\n", NULL, 1);
-	//trimmed = ft_strtrim(trimmed, "\"'");
+	cmd_without_quotes(&file->trimmed);
 }

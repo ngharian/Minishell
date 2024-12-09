@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:11:33 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/09 14:27:34 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/09 18:04:13 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_env(char **cmd, t_env_vars *vars, int mode)
 		temp = vars->env;
 		if (cmd[1])
 		{
-			printf("env: %s: No such file or directory\n", cmd[1]);
+			print_exit_error("No such file or directory", cmd[1], -1, "env: ");
 			return (6);
 		}
 	}
@@ -38,7 +38,7 @@ int	ft_env(char **cmd, t_env_vars *vars, int mode)
 		return (4);
 }
 
-int	add_char(char **env, int mode)
+void	add_char(char **env, int mode)
 {
 	int		index;
 	int		index2;
@@ -47,7 +47,7 @@ int	add_char(char **env, int mode)
 	index = -1;
 	newstring = malloc((ft_strlen(*env) + 3) * sizeof(char));
 	if (!newstring)
-		return (1);
+		print_exit_error("Malloc error", NULL, 1, NULL);
 	newstring[ft_strlen((*env)) + 2] = '\0';
 	while ((*env)[++index] != '=')
 		newstring[index] = (*env)[index];
@@ -64,11 +64,10 @@ int	add_char(char **env, int mode)
 		(*env) = ft_strdup(newstring);
 	free(newstring);
 	if (!(*env))
-		return (1);
-	return (0);
+		print_exit_error("Malloc error", NULL, 1, NULL);
 }
 
-int	make_order(t_env_vars *vars, int index)
+void	make_order(t_env_vars *vars, int index)
 {
 	int		j;
 	char	*temp;
@@ -94,10 +93,9 @@ int	make_order(t_env_vars *vars, int index)
 		}
 		index--;
 	}
-	return (0);
 }
 
-int	fill_env(char **env, t_env_vars *vars)
+void	fill_env(char **env, t_env_vars *vars)
 {
 	int	index;
 
@@ -108,7 +106,7 @@ int	fill_env(char **env, t_env_vars *vars)
 	vars->env = malloc((index + 1) * sizeof(char *));
 	vars->exp = malloc((index + 1) * sizeof(char *));
 	if (!vars->env || !vars->exp)
-		return (1);
+		print_exit_error("Malloc error", NULL, 1, NULL);
 	vars->env[index] = NULL;
 	vars->exp[index] = NULL;
 	index = -1;
@@ -117,9 +115,8 @@ int	fill_env(char **env, t_env_vars *vars)
 		vars->env[index] = ft_strdup(env[index]);
 		vars->exp[index] = ft_strdup(env[index]);
 		if (!vars->env[index] || !vars->exp[index])
-			return (1);
-		if (add_char(&vars->exp[index], 0))
-			return (1);
+			print_exit_error("Malloc error", NULL, 1, NULL);
+		add_char(&vars->exp[index], 0);
 	}
 	index--;
 	return (make_order(vars, index));

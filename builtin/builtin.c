@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:21:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/07 19:46:25 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/09 16:29:49 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_builtins(t_commands *cmd, t_env_vars *vars)
 	index = -1;
 	lower_cmd = ft_strdup(cmd->cmd[0]);
 	if (!lower_cmd)
-		return (-1);
+		print_exit_error("Malloc error!\n", NULL, 1, NULL);
 	while (lower_cmd && cmd->cmd[0][++index])
 		lower_cmd[index] = ft_tolower(cmd->cmd[0][index]);
 	if (ft_strncmp(lower_cmd, "echo", ft_strlen(cmd->cmd[0])) == 0)

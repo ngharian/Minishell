@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 18:27:29 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/09 14:23:49 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/09 19:10:17 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	new_index_mode(char *str, char **env)
 	return (0);
 }
 
-static int	add_to_env(char *str, int mode, t_env_vars **vars)
+static void	add_to_env(char *str, int mode, t_env_vars **vars)
 {
 	int		index;
 	char	**new_env;
@@ -40,53 +40,47 @@ static int	add_to_env(char *str, int mode, t_env_vars **vars)
 	new_env = NULL;
 	index = new_index_mode(str, (*vars)->env);
 	if (mode == 4 || mode == 9)
-		return (0);
+		return ;
 	if (mode == 2)
 	{
 		free((*vars)->env[index]);
 		(*vars)->env[index] = ft_strdup(str);
 		if (!(*vars)->env[index])
-			return (1);
-		return (0);
+			print_exit_error("Malloc error!\n", NULL, 1, NULL);
+		return ;
 	}
 	if (mode == 6)
 	{
-		if (append_var(&(*vars)->env[index], str, mode))
-			return (1);
-		return (0);
+		append_var(&(*vars)->env[index], str, mode);
+		return ;
 	}
-	if (add_line_to_env(&(*vars)->env, &new_env, str, mode))
-		return (1);
-	return (0);
+	add_line_to_env(&(*vars)->env, &new_env, str, mode);
 }
 
-int	add_to_var(char *str, int mode, t_env_vars **vars, int *index_mode)
+void	add_to_var(char *str, int mode, t_env_vars **vars, int *index_mode)
 {
-	int	index;
+	int		index;
+	char	*temp;
 
 	index = 0;
 	if (mode == 1)
-		return (0);
-	if (add_to_exp(str, mode, vars, index_mode))
-		return (1);
-	if (add_to_env(str, mode, vars))
-		return (1);
+		return ;
+	add_to_exp(str, mode, vars, index_mode);
+	add_to_env(str, mode, vars);
 	while ((*vars)->exp[index])
 		index++;
 	index--;
 	if (mode == 3 || mode == 8)
-	{
-		if (add_char(&(*vars)->exp[index], mode))
-			return (1);
-	}
+		add_char(&(*vars)->exp[index], mode);
 	if (mode == 4)
-		(*vars)->exp[index] = ft_strjoin("declare -x ", (*vars)->exp[index]); //probablement leaks
-	if (!(*vars)->exp[index])
-		return (1);
-	if (mode == 2 || mode == 5 || mode == 6 || mode == 7)
 	{
-		if (add_char(&(*vars)->exp[*index_mode], mode)) //probablement leaks
-			return (1);
+		temp = (*vars)->exp[index];
+		(*vars)->exp[index] = ft_strjoin("declare -x ", temp);
+		free(temp); //gpt dit que c'est good
 	}
+	if (!(*vars)->exp[index])
+		print_exit_error("Malloc error", NULL, 1, NULL);
+	if (mode == 2 || mode == 5 || mode == 6 || mode == 7)
+		add_char(&(*vars)->exp[*index_mode], mode);
 	return (make_order(*vars, index));
 }

@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:11:10 by gdero             #+#    #+#             */
-/*   Updated: 2024/11/26 16:48:59 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/09 17:19:41 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ int	ft_pwd(char **cmd, t_env_vars *vars)
 
 	if (cmd[1])
 	{
-		printf("minishell: pwd: Too many arguments\n");
+		print_exit_error("Too many arguments", NULL, -1, "pwd: ");
 		return (3);
 	}
 	path = get_path_line(vars->env, "PWD=", 0);
 	if (!path)
 	{
-		printf("minishell: pwd: could not find path ; where are you?!\n");
+		print_exit_error("PWD not set", NULL, -1, "pwd: ");
 		return (3);
 	}
 	printf("%s\n", path);

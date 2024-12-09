@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:33:04 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/03 18:50:09 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/09 16:27:07 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	no_more_quotes(char *string, char *new_string)
 	}
 }
 
-int	cmd_without_quotes(char **string)
+void	cmd_without_quotes(char **string)
 {
 	size_t	str_i;
 	size_t	str_j;
@@ -73,15 +73,14 @@ int	cmd_without_quotes(char **string)
 	}
 	new_string = malloc((str_j + 1) * sizeof(char));
 	if (!new_string)
-		return (1);
+		print_exit_error("Malloc error!\n", NULL, 1, NULL);
 	new_string[str_j] = '\0';
 	no_more_quotes((*string), new_string);
 	free(*string);
 	*string = new_string;
-	return (0);
 }
 
-int	delete_quotes(t_commands *cmd)
+void	delete_quotes(t_commands *cmd)
 {
 	int	index;
 
@@ -96,10 +95,8 @@ int	delete_quotes(t_commands *cmd)
 				ft_strlen(cmd->cmd[index]));
 				continue ;
 			}
-			if (cmd_without_quotes(&cmd->cmd[index]))
-				return (1);
+			cmd_without_quotes(&cmd->cmd[index]);
 		}
 		cmd = cmd->next;
 	}
-	return (0);
 }

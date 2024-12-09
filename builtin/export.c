@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:13:12 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/07 19:41:26 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/09 18:04:44 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	check_export_args(char *cmd, bool *must_export, int *index_str)
 {
 	if (cmd[0] == '=')
 	{
-		printf("minishell: export: '%s': not a valid identifier\n", cmd);
+		print_exit_error("not a valid identifier", cmd, -1, "export: ");
 		*must_export = false ;
 		return ;
 	}
@@ -69,7 +69,7 @@ static void	check_export_args(char *cmd, bool *must_export, int *index_str)
 			if (cmd[0] != '+' && cmd[(*index_str)] == '+' \
 			&& cmd[(*index_str) + 1] == '=')
 				break ;
-			printf("minishell: export: '%s': not a valid identifier\n", cmd);
+			print_exit_error("not a valid identifier", cmd, -1, "export: ");
 			*must_export = false ;
 			break ;
 		}
@@ -107,8 +107,7 @@ int	ft_export(char **cmd, t_env_vars *vars)
 		if (must_export == true)
 		{
 			mode = already_exists(cmd[index], &vars, &index_mode, index_str);
-			if (add_to_var(cmd[index], mode, &vars, &index_mode))
-				return (-1);
+			add_to_var(cmd[index], mode, &vars, &index_mode);
 		}
 	}
 	return (4);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:54:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/09 12:51:06 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:33:40 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ void	print_exit_error(char *message, char *name, int exit_code)
 {
 	write(2, "Minishell :", 11);
 	if (name)
-		write(2, name, ft_strlen(message));
-	if(message)
+		write(2, name, ft_strlen(name));
+	if (message)
 		write(2, message, ft_strlen(message));
 	if (exit_code >= 0)
 		exit(exit_code);

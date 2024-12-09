@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 18:27:29 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/07 19:38:32 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/09 14:23:49 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,17 @@ int	add_to_var(char *str, int mode, t_env_vars **vars, int *index_mode)
 		index++;
 	index--;
 	if (mode == 3 || mode == 8)
-		(*vars)->exp[index] = add_char((*vars)->exp[index], mode);
+	{
+		if (add_char(&(*vars)->exp[index], mode))
+			return (1);
+	}
 	if (mode == 4)
 		(*vars)->exp[index] = ft_strjoin("declare -x ", (*vars)->exp[index]); //probablement leaks
 	if (!(*vars)->exp[index])
 		return (1);
 	if (mode == 2 || mode == 5 || mode == 6 || mode == 7)
 	{
-		(*vars)->exp[*index_mode] = add_char((*vars)->exp[*index_mode], mode); //probablement leaks
-		if (!(*vars)->exp[*index_mode])
+		if (add_char(&(*vars)->exp[*index_mode], mode)) //probablement leaks
 			return (1);
 	}
 	return (make_order(*vars, index));

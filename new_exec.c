@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 11:48:13 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/09 14:32:25 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/09 14:40:21 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	wait_process(t_commands **cmd, t_env_vars **vars)
 void	multiple_commands(t_commands **cmd, t_env_vars **env, t_commands *temp)
 {
 	temp = (*cmd);
-	ft_set_sig(3);
+	//ft_set_sig(3);
 	while (temp != NULL)
 	{
 		temp->process = fork();
@@ -92,7 +92,7 @@ void	multiple_commands(t_commands **cmd, t_env_vars **env, t_commands *temp)
 		temp = temp->next;
 	}
 	wait_process(cmd, env);
-	ft_set_sig(1);
+	//ft_set_sig(1);
 	return (0);
 }
 
@@ -123,7 +123,6 @@ int	ft_redirect(t_commands *cmd, int mode)
 
 int    single_command(t_commands **cmd, t_env_vars **env, int ret)
 {
-	
 		ret = ft_redirect(*cmd, 0);
 		if (ret = 1)
 		{
@@ -145,10 +144,12 @@ int ft_execution(t_commands **cmd, t_env_vars **vars)
 	save_stdin = dup(0);
 	save_stdout = dup(1);
 	get_path(vars, NULL, 0);
+	ft_set_sig(3);
 	if ((*cmd)->next != NULL || (*cmd)->previous != NULL)
 		multiple_commands(cmd, vars, NULL);
 	else
 		single_command(cmd, vars, 0);
 	dup2(save_stdin ,STDIN_FILENO);
 	dup2(save_stdout, STDOUT_FILENO);
+	ft_set_sig(1);
 }

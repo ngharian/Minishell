@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 17:07:34 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/04 13:40:14 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/09 11:45:06 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,10 @@ static char	*ft_fill(int str_i, int str_j, char *str)
 	return (dest);
 }
 
-static int	count_splits(char *str, char to_split)
+static int	count_splits(char *str, char to_split, size_t index)
 {
-	size_t	index;
 	int		counter;
 
-	index = 0;
 	counter = 0;
 	while (str[index] == ' ')
 		index++;
@@ -107,7 +105,7 @@ int	split_mini(char *str, char ***array, char to_split)
 	int		nb_split;
 
 	str_j = 0;
-	nb_split = count_splits(str, to_split);
+	nb_split = count_splits(str, to_split, 0);
 	*array = malloc(sizeof(char *) * (nb_split + 2));
 	if (!(*array))
 		return (1);

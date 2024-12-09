@@ -1,6 +1,10 @@
 
-code exit ctrl-C = 1 
+code exit ctrl-C = 1
 code exit parsing syntaxe = 258
+code exit inexisting in/outfile or bad permission for in/outfile = 1
+permission denied command = 126;
+command not found = 127;
+
 !!! exit_code doit rester un int dans la structure ENV (sinon ca peut pas etre egal a 258) -> c'est dans exit qu'il faut mettre en
 Usigned char pour gerer l'overflow ( si exit 255 -> exit_code = 255, si exit 256 -> exit_code = 0)
 

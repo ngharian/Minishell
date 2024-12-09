@@ -54,20 +54,19 @@ int	execute_cmd(t_env_vars *vars, t_commands *temp)
 
 static int	child(t_commands *cmd, t_env_vars *vars)
 {
-	if (cmd->last_cmd == 1)
+	if(cmd->infile < 0 || cmd->outfile < 0)
+		print_exit_error("bad file redirection", 1);
+	if (cmd->infile > 0)
 	{
-		if (cmd->infile > 0)
-			dup2(cmd->infile, STDIN_FILENO);
-		if (cmd->outfile > 0)
-			dup2(cmd->outfile, STDOUT_FILENO);
-		else
-			dup2(cmd->exchange[0], STDOUT_FILENO);
-		if (cmd->infile > 0)
-			close(cmd->infile);
-		close(cmd->exchange[0]);
-		//close(cmd->exchange[1]);
-		execute_cmd(vars, cmd);
+		dup2(cmd->infile, STDIN_FILENO);
+		close(cmd->infile);
 	}
+	if (cmd->outfile > 0)
+	{
+		dup2(cmd->outfile, STDOUT_FILENO);
+		close(cmd->outfile);
+	}
+	execute_cmd(vars, cmd);
 	//if (cmd->cmd[0] == '/')  ---------> pour check path absolu /!\  ////bin/ls fonctionne -> marchera dans execve ?
 	/*if (cmd->previous != NULL)
 		dup2(cmd->exchange[1], cmd->previous->exchange[0]);

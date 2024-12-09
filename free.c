@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:54:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/07 18:45:46 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/09 11:40:12 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	exit_parsing(int mode, t_env_vars **env)
 
 void	print_exit_error(char *message, int exit_code)
 {
-	//write(2, "Minishell :", 11);
+	write(2, "Minishell :", 11);
 	write(2, message, ft_strlen(message));
 	exit(exit_code);
 }

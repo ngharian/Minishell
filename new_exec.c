@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 11:48:13 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/10 16:39:23 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:53:54 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,19 @@ static void	execute_cmd(t_env_vars *vars, t_commands *temp)
 {
 	char		*command;
 
+	command = NULL;
 	if(temp->cmd[0][0] == '\0')
 		exit(0);
-	if(access(temp->cmd[0], X_OK) == 0)
+	if (access(temp->cmd[0], X_OK) == 0)
 		command = temp->cmd[0];
 	else if (access(temp->cmd[0], F_OK) == 0)
 		print_exit_error("Permission denied", temp->cmd[0], 126, NULL);
-	check_access(vars, temp);
-	command = ft_strjoin(vars->true_paths[temp->right_command], \
-	temp->cmd[0]);
+	else
+	{
+		check_access(vars, temp);
+		command = ft_strjoin(vars->true_paths[temp->right_command], \
+		temp->cmd[0]);
+	}
 	if (!command)
 		print_exit_error("Malloc error", temp->cmd[0], 1, NULL);
 	if (execve(command, temp->cmd, vars->env) == -1)

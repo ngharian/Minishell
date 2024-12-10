@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 13:35:47 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/09 19:26:28 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/10 18:05:46 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ static void	update_trim_string(char *trimmed)
 
 void	get_file_name_trimmed(t_file *file, int *str_index, char **splitted)
 {
+	char	expand[2];
+	char	*temp;
+
+	expand[1] = '\0';
+	expand[0] = 7;
 	(*file).type = (*splitted)[*str_index];
 	(*file).mode = 0;
 	if ((*splitted)[*str_index] == (*splitted)[(*str_index) + 1])
@@ -64,6 +69,9 @@ void	get_file_name_trimmed(t_file *file, int *str_index, char **splitted)
 		(*file).trimmed = ft_strtrim((*file).trimmed, "> ");
 	else
 		(*file).trimmed = ft_strtrim((*file).trimmed, "< ");
+	temp = (*file).trimmed;
+	(*file).trimmed = ft_strtrim((*file).trimmed, expand);
+	free(temp);
 	if (!(*file).trimmed)
 		print_exit_error("Malloc failure!\n", NULL, 1, NULL);
 	update_trim_string((*file).trimmed);

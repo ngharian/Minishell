@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:28:50 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/10 16:39:55 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:50:42 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,29 @@ static int	programme_loop(t_env_vars **env_vars, t_here_doc *here_doc, t_command
 		free_struct(&cmd, 0, env_vars);
 	}
 }
+
+char **construct_env(char **env)
+{
+	env = malloc(sizeof(char *) * 3);
+	if(!env)
+		print_exit_error("Malloc error", NULL, 1, NULL);
+	env[0] = malloc(sizeof(char) * 8);
+	env[1] = malloc(sizeof(char) * 14);
+	if(!env[0] || !env[1])
+		print_exit_error("Malloc error", NULL, 1, NULL);
+	env[0]="SHLVL=0";
+	env[1]="_=./minishell";
+	env[2]=NULL;
+	return(env);
+}
 int main(int argc, char **argv, char **env)
 {
 	t_env_vars	*env_vars;
 
 	(void)argc;
 	(void)argv;
+	if (!env[0])
+		env = construct_env(NULL);
 	update_shlvl(env);
 	env_vars = (t_env_vars *)malloc(sizeof(t_env_vars));
 	if (!env_vars)

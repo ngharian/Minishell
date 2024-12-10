@@ -60,6 +60,7 @@ Gestion de signaux a revoir si minishell dans minishell (ou on s'en fout? -> pou
 =>leaks readline qu'on peut free une fois add history et qu'on en a plus besoin(la segfault dans l'historique etait quand on avait free avant de add history)
 =>dans free_cmds, avant de fermer in/outfile, verifier qu'ils ne soit pas a 0, sinon ca close STDIN => minishell s'arrete
 
+https://stackoverflow.com/questions/13098620/using-stat-to-check-if-a-file-is-executable-in-c
 
 ============================EVAL========================
 Leaks when using exit

@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:42:08 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/10 14:48:43 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:34:00 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	cmd_without_quotes(char **string);
 
 //frees & exit
 void	free_split(char **split);
-int		free_struct(t_commands **cmd, int error);
+int		free_struct(t_commands **cmd, int error, t_env_vars **env);
 int		exit_parsing(int mode, t_env_vars **env);
 void	print_exit_error(char *message, \
 		char *name, int exit_code, char *builtin);

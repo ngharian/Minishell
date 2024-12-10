@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:32:56 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/09 19:36:42 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/10 16:40:25 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ t_here_doc **hd, t_env_vars **env_vars, int i)
 		{
 			add_history(*readed_line);
 			ft_free_here_doc(hd);
+			free(readed_line);
 			return (exit_parsing(i, env_vars));
 		}
 	}

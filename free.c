@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:54:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/10 15:22:50 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:41:21 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	free_split(char **split)
 	return ;
 }
 
-int	free_struct(t_commands **cmd, int error)// completer a la fin
+int	free_struct(t_commands **cmd, int error, t_env_vars **env)
 {
 	t_commands	*temp;
 
@@ -45,6 +45,10 @@ int	free_struct(t_commands **cmd, int error)// completer a la fin
 		*cmd = (*cmd)->next;
 		free(temp);
 	}
+	if ((*env)->true_paths)
+		free_split((*env)->true_paths);
+	(*env)->true_paths = NULL;
+	(*env)->split_path = NULL;
 	*cmd = NULL;
 	return (error);
 }
@@ -60,9 +64,12 @@ int	free_env(t_env_vars *vars, int error)
 
 int	exit_parsing(int mode, t_env_vars **env)
 {
+	if (mode == -1 || mode == -4)
+		clear_history();
 	if (mode == -1)
 	{
 		write(1, "Exit...\n", 8);
+		system("leaks minishell");
 		if ((*env)->exit_code == 258)
 			exit(2);
 		if ((*env)->exit_code != 0)

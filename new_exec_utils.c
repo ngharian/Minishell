@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:59:19 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/10 15:06:09 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:37:58 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ void get_path(t_env_vars **p_vars, t_env_vars *vars, int index)
 	vars->paths = get_path_line((*p_vars)->env, "PATH=", 0);
 	if (!vars->paths)
 	{
-		print_exit_error("PATH not set", NULL, -1, NULL);
+        (*p_vars)->paths = NULL;
+		//free(vars->true_paths);
+        //vars->true_paths = NULL;
 		return ;
 	}
 	vars->split_path = ft_split(vars->paths, ':');
@@ -93,19 +95,23 @@ void	check_access(t_env_vars *vars, t_commands *temp)
 	char		*path;
 	int			index;
 
-	index = -1;
-	while (vars->true_paths[++index])
-	{
-		path = ft_strjoin(vars->true_paths[index], temp->cmd[0]);
-		if (!path)
-			print_exit_error("Malloc error", NULL, 1, NULL);
-		if (access(path, X_OK) == 0)
-		{
-			temp->right_command = index;
-			free(path);
-			return ;
-		}
-		free(path);
-	}
+	index = 0;
+    if(vars->true_paths)
+    {
+	    while (vars->true_paths[index])
+	    {
+		    path = ft_strjoin(vars->true_paths[index], temp->cmd[0]);
+		    if (!path)
+			    print_exit_error("Malloc error", NULL, 1, NULL);
+		    if (access(path, X_OK) == 0)
+		    {
+			    temp->right_command = index;
+			    free(path);
+			    return ;
+		    }
+		    free(path);
+            ++index;
+	    }
+    }
 	print_exit_error("command not found", temp->cmd[0], 127, NULL);
 }

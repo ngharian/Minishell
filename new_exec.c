@@ -3,68 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   new_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 11:48:13 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/09 20:10:31 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/10 14:27:57 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void get_path(t_env_vars **p_vars, t_env_vars *vars, int index)
+static void	execute_cmd(t_env_vars *vars, t_commands *temp)
 {
-	vars = *p_vars;
-	vars->paths = get_path_line((*p_vars)->env, "PATH=", 0);
-	if (!vars->paths)
-	{
-		print_exit_error("PATH not set", NULL, -1, NULL);
-		return ;
-	}
-	vars->split_path = ft_split(vars->paths, ':');
-	if (!vars->split_path)
-		print_exit_error("Malloc error!\n", NULL, 1, NULL);
-	while (vars->split_path[index])
-		index++;
-	vars->true_paths = malloc((index + 1) * sizeof(char *));
-	if (!vars->true_paths)
-		print_exit_error("Malloc error!\n", NULL, 1, NULL);
-	vars->true_paths[index] = NULL;
-	index = 0;
-	while (vars->split_path[index])
-	{
-		vars->true_paths[index] = ft_strjoin(vars->split_path[index], "/");
-		if (!vars->true_paths[index])
-			print_exit_error("Malloc error!\n", NULL, 1, NULL);
-		index++;
-	}
-	free_split(vars->split_path);
+	char		*command;
+
+	if(access(temp->cmd[0], X_OK) == 0)
+		command = temp->cmd[0];
+	else if (access(temp->cmd[0], F_OK) == 0)
+		print_exit_error("Permission denied", temp->cmd[0], 126, NULL);
+	check_access(vars, temp);
+	command = ft_strjoin(vars->true_paths[temp->right_command], \
+	temp->cmd[0]);
+	if (!command)
+		print_exit_error("Malloc error", temp->cmd[0], 1, NULL);
+	if (execve(command, temp->cmd, vars->env) == -1)
+		print_exit_error("Execve error", temp->cmd[0], 1, NULL);
+	free(command);
 }
 
-void	wait_process(t_commands **cmd, t_env_vars **vars)
+void	child(t_commands *cmd, t_env_vars *env)
 {
-	t_commands	*temp;
-	int			status;
+	int	ret;
 	
-	status = 0;
-	temp = (*cmd);
-	while(temp != NULL)
-	{
-		waitpid(temp->process, &status, 0);
-		(*vars)->exit_code = status >> 8;
-		if (g_signal == SIGINT)
-			(*vars)->exit_code = 130;
-		if (g_signal == SIGQUIT)
-			(*vars)->exit_code = 131;
-		g_signal = 0;
-		temp = temp->next;
-	}
+	ft_redirect(cmd, 1);
+	ret = ft_builtins(cmd, env);
+	if (ret != 0)
+		exit(ret);
+	
 }
 
 void	multiple_commands(t_commands **cmd, t_env_vars **env, t_commands *temp)
 {
 	temp = (*cmd);
-	//ft_set_sig(3);
 	while (temp != NULL)
 	{
 		temp->process = fork();
@@ -82,42 +61,9 @@ void	multiple_commands(t_commands **cmd, t_env_vars **env, t_commands *temp)
 			ft_set_sig(4);
 			child(temp, *env);
 		}
-		//waitpid(temp->process, &status, 0);
-		//(*vars)->exit_code = status >> 8;
-		//if (g_signal == SIGINT)
-			//(*vars)->exit_code = 130;
-		//if (g_signal == SIGQUIT)
-		//	(*vars)->exit_code = 131;
-		//g_signal = 0;
 		temp = temp->next;
 	}
 	wait_process(cmd, env);
-	//ft_set_sig(1);
-	return (0);
-}
-
-int	ft_redirect(t_commands *cmd, int mode)
-{
-	if(cmd->infile < 0 || cmd->outfile < 0)
-	{
-		if (cmd->acces_file == 1)
-			print_exit_error(cmd->error_file, "No such file or directory", -1, NULL);
-		if (cmd->acces_file == 2)
-			print_exit_error(cmd->error_file, "Permission denied", -1, NULL);
-		if	(mode == 1)
-			exit(1);
-		return (1);
-	}
-	if (cmd->infile > 0)
-	{
-		dup2(cmd->infile, STDIN_FILENO);
-		close(cmd->infile);
-	}
-	if (cmd->outfile > 0)
-	{
-		dup2(cmd->outfile, STDOUT_FILENO);
-		close(cmd->outfile);
-	}
 	return (0);
 }
 

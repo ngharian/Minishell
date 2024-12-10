@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:25:38 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/09 20:09:16 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/10 13:51:20 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	infile_case(t_commands *cmd, t_file *file, t_here_doc **heredoc)
 {
 	t_here_doc	*temp;
 
-	if (cmd->infile > 0)
+	if (cmd->infile > 2)
 		close(cmd->infile);
 	if (access((*file).trimmed, R_OK) == -1 || \
 	access((*file).trimmed, F_OK) == -1)
@@ -53,6 +53,8 @@ static void	infile_case(t_commands *cmd, t_file *file, t_here_doc **heredoc)
 		cmd->error_file = ft_strdup((*file).trimmed);
 		if (!cmd->error_file)
 			print_exit_error("Malloc error!\n", NULL, 1, NULL);
+		if (cmd->outfile > 2)
+			close(cmd->outfile);
 		cmd->acces_file = 2;
 		if (access((*file).trimmed, R_OK) == -1)
 			cmd->acces_file = 1;

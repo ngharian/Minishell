@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:21:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/09 16:29:49 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/10 14:09:15 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,19 @@ int	ft_builtins(t_commands *cmd, t_env_vars *vars)
 		print_exit_error("Malloc error!\n", NULL, 1, NULL);
 	while (lower_cmd && cmd->cmd[0][++index])
 		lower_cmd[index] = ft_tolower(cmd->cmd[0][index]);
-	if (ft_strncmp(lower_cmd, "echo", ft_strlen(cmd->cmd[0])) == 0)
+	if (ft_strcmp(lower_cmd, "echo") == 0)
 		condition_met = ft_echo(cmd->cmd);
-	else if (ft_strncmp(lower_cmd, "cd", ft_strlen(cmd->cmd[0])) == 0)
+	else if (ft_strcmp(lower_cmd, "cd") == 0)
 		condition_met = ft_cd(cmd, vars);
-	else if (ft_strncmp(lower_cmd, "pwd", ft_strlen(cmd->cmd[0])) == 0)
+	else if (ft_strcmp(lower_cmd, "pwd") == 0)
 		condition_met = ft_pwd(cmd->cmd, vars);
-	else if (ft_strncmp(lower_cmd, "export", ft_strlen(cmd->cmd[0])) == 0)
+	else if (ft_strcmp(lower_cmd, "export") == 0)
 		condition_met = ft_export(cmd->cmd, vars);
-	else if (ft_strncmp(lower_cmd, "unset", ft_strlen(cmd->cmd[0])) == 0)
+	else if (ft_strcmp(lower_cmd, "unset") == 0)
 		condition_met = ft_unset(cmd->cmd, vars);
-	else if (ft_strncmp(lower_cmd, "env", ft_strlen(cmd->cmd[0])) == 0)
+	else if (ft_strcmp(lower_cmd, "env") == 0)
 		condition_met = ft_env(cmd->cmd, vars, 0);
-	else if (ft_strncmp(lower_cmd, "exit", ft_strlen(cmd->cmd[0])) == 0)
+	else if (ft_strcmp(lower_cmd, "exit") == 0)
 		condition_met = ft_exit(cmd, vars);
 	//exit_code;
 	return (free(lower_cmd), condition_met);

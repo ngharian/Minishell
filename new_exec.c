@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 11:48:13 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/10 14:27:57 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:12:53 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static void	execute_cmd(t_env_vars *vars, t_commands *temp)
 {
 	char		*command;
 
+	if(temp->cmd[0][0] == '\0')
+		exit(0);
 	if(access(temp->cmd[0], X_OK) == 0)
 		command = temp->cmd[0];
 	else if (access(temp->cmd[0], F_OK) == 0)
@@ -30,7 +32,7 @@ static void	execute_cmd(t_env_vars *vars, t_commands *temp)
 	free(command);
 }
 
-void	child(t_commands *cmd, t_env_vars *env)
+static void	child(t_commands *cmd, t_env_vars *env)
 {
 	int	ret;
 	
@@ -38,10 +40,11 @@ void	child(t_commands *cmd, t_env_vars *env)
 	ret = ft_builtins(cmd, env);
 	if (ret != 0)
 		exit(ret);
+	execute_cmd(env, cmd);
 	
 }
 
-void	multiple_commands(t_commands **cmd, t_env_vars **env, t_commands *temp)
+static void	multiple_commands(t_commands **cmd, t_env_vars **env, t_commands *temp)
 {
 	temp = (*cmd);
 	while (temp != NULL)
@@ -61,28 +64,29 @@ void	multiple_commands(t_commands **cmd, t_env_vars **env, t_commands *temp)
 			ft_set_sig(4);
 			child(temp, *env);
 		}
+		if (temp->outfile > 2)
+			close(temp->outfile);
 		temp = temp->next;
 	}
 	wait_process(cmd, env);
-	return (0);
 }
 
-int    single_command(t_commands **cmd, t_env_vars **env, int ret)
+static void	single_command(t_commands **cmd, t_env_vars **env, int ret)
 {
 		ret = ft_redirect(*cmd, 0);
-		if (ret = 1)
+		if (ret == 1)
 		{
 			(*env)->exit_code = 1;
-			return(1);
+			return ;
 		}
-		ret = ft_builtins(cmd, env);
+		ret = ft_builtins(*cmd, *env);
 		if (ret == 0)
 			multiple_commands(cmd, env, NULL);
 		else
 			(*env)->exit_code = ret;
 }
 
-int ft_execution(t_commands **cmd, t_env_vars **vars)
+void ft_execution(t_commands **cmd, t_env_vars **vars)
 {
 	int	save_stdin;
 	int	save_stdout;

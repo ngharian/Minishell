@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:42:08 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/09 19:43:08 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/10 14:48:43 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,13 @@ void	print_exit_error(char *message, \
 int		free_env(t_env_vars *vars, int error);
 
 //execution
-void	execution(t_commands **cmd, t_env_vars **vars);
+//void	execution(t_commands **cmd, t_env_vars **vars);
+void ft_execution(t_commands **cmd, t_env_vars **vars);
 int		skip_quotes(char *str, int str_j);
+void get_path(t_env_vars **p_vars, t_env_vars *vars, int index);
+void	wait_process(t_commands **cmd, t_env_vars **vars);
+int	ft_redirect(t_commands *cmd, int mode);
+void	check_access(t_env_vars *vars, t_commands *temp);
 
 //builtin
 int		ft_builtins(t_commands *cmd, t_env_vars *vars);

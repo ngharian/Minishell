@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:25:38 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/10 13:51:20 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:19:05 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	infile_case(t_commands *cmd, t_file *file, t_here_doc **heredoc)
 		if (cmd->outfile > 2)
 			close(cmd->outfile);
 		cmd->acces_file = 2;
-		if (access((*file).trimmed, R_OK) == -1)
+		if (access((*file).trimmed, F_OK) > -1)
 			cmd->acces_file = 1;
 	}
 	if ((*file).mode == 0 && (*file).type == '<')
@@ -70,11 +70,9 @@ static void	infile_case(t_commands *cmd, t_file *file, t_here_doc **heredoc)
 	}
 }
 
-static void	open_files(t_commands *cmd, t_file *file, t_here_doc **hd)
+static void	open_files(t_commands *cmd, t_file *file, t_here_doc **hd, char *s)
 {
-	char	*trimmed;
-
-	trimmed = (*file).trimmed;
+	s = (*file).trimmed;
 	if (cmd->infile < 0 || cmd->outfile < 0)
 		return (free((*file).trimmed));
 	if ((*file).type == '>')
@@ -84,7 +82,7 @@ static void	open_files(t_commands *cmd, t_file *file, t_here_doc **hd)
 			close(cmd->outfile);
 			cmd->outfile = 0;
 		}
-		if (access(trimmed, W_OK) == -1)
+		if (access(s, W_OK) == -1)
 		{
 			cmd->error_file = ft_strdup((*file).trimmed);
 			if (!cmd->error_file)
@@ -92,12 +90,12 @@ static void	open_files(t_commands *cmd, t_file *file, t_here_doc **hd)
 			cmd->acces_file = 1;
 		}
 		if ((*file).mode == 0)
-			cmd->outfile = open(trimmed, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			cmd->outfile = open(s, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if ((*file).mode == 1)
-			cmd->outfile = open(trimmed, O_CREAT | O_WRONLY | O_APPEND, 0644);
+			cmd->outfile = open(s, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	}
 	infile_case(cmd, file, hd);
-	free(trimmed);
+	free(s);
 }
 
 void	checking_in_and_out(t_commands *cmd, char *splitted, t_here_doc **hd)
@@ -115,7 +113,14 @@ void	checking_in_and_out(t_commands *cmd, char *splitted, t_here_doc **hd)
 		else if (splitted[str_index] == '>' || splitted[str_index] == '<')
 		{
 			get_file_name_trimmed(&file, &str_index, &splitted);
-			open_files(cmd, &file, hd);
+			if(file.trimmed[0] == 0)
+			{
+				cmd->infile = -1;
+				cmd->acces_file = 3;
+				free(file.trimmed);
+			}
+			else
+				open_files(cmd, &file, hd, NULL);
 			if (splitted[str_index] == '\0')
 				break ;
 		}

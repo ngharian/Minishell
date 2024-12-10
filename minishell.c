@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:28:50 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/09 19:26:07 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/10 14:48:54 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	programme_loop(t_env_vars **env_vars, t_here_doc *here_doc, t_command
 		if (split_mini(input, &splitted, '|'))
 			print_exit_error("Malloc error!\n", NULL, 1, NULL); //gerer l'erreur -> soit 1 soit 2 et tous les deux des malloc errors
 		fill_cmd_struct(&cmd, splitted, &here_doc);
-		execution(&cmd, env_vars); //!! changer les printf par des sterror pour afficher derniere erreur systeme(no such file or directory, command not found, etc...)
+		ft_execution(&cmd, env_vars); //!! changer les printf par des sterror pour afficher derniere erreur systeme(no such file or directory, command not found, etc...)
 		free_struct(&cmd, 0);
 	}
 }

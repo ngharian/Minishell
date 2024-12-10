@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:54:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/09 19:25:38 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/10 15:22:50 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	exit_parsing(int mode, t_env_vars **env)
 void	print_exit_error(char *message, char *name, \
 int exit_code, char *builtin)
 {
-	write(2, "minishell : ", 12);
+	write(2, "minishell: ", 12);
 	if (builtin)
 		write(2, builtin, ft_strlen(builtin));
 	if (name)

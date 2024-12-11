@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:13:48 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/09 17:35:32 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/11 20:04:31 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,12 @@ int	ft_unset(char **cmd, t_env_vars *vars)
 		{
 			print_exit_error("not a valid identifier", \
 			cmd[index], -1, "unset: ");
+			vars->exit_code = 1;
 			continue ;
 		}
 		delete_var(vars->exp, cmd[index], str_len, 0);
 		delete_var(vars->env, cmd[index], str_len, 1);
 		continue ;
 	}
-	return (5);
+	return (0);
 }

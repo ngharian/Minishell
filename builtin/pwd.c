@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:11:10 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/09 17:19:41 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/11 20:03:59 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,5 @@ int	ft_pwd(char **cmd, t_env_vars *vars)
 		return (3);
 	}
 	printf("%s\n", path);
-	return (3);
+	return (0);
 }

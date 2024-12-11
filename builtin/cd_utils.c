@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:57:57 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/09 19:11:33 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/11 20:03:36 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	change_directory_1_6(t_env_vars *vars, int mode, char *line, char *home)
 	line = newpath;
 	change_dir(vars, mode, line, newpath);
 	free(newpath);
-	return (2);
+	return (0);
 }
 
 int	change_directory_else(t_env_vars *vars, int mode, char *line, char *home)
@@ -141,5 +141,5 @@ int	change_directory_else(t_env_vars *vars, int mode, char *line, char *home)
 		return (2);
 	line = newpath;
 	change_dir(vars, mode, line, newpath);
-	return (2);
+	return (0);
 }

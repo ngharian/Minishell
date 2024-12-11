@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:11:33 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/09 18:04:13 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/11 20:02:37 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,14 @@ int	ft_env(char **cmd, t_env_vars *vars, int mode)
 		if (cmd[1])
 		{
 			print_exit_error("No such file or directory", cmd[1], -1, "env: ");
-			return (6);
+			return (127);
 		}
 	}
 	else
 		temp = vars->exp;
 	while (temp[++index])
 		printf("%s\n", temp[index]);
-	if (mode == 0)
-		return (6);
-	else
-		return (4);
+	return (0);
 }
 
 void	add_char(char **env, int mode)

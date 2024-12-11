@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:28:50 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/11 14:44:46 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:51:38 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,11 @@ static void	handle_argv(char **argv)
 	i = 0;
 	while (argv[++i])
 	{
-		join = ft_strjoin("/usr/local/bin", argv[i]);
+		join = ft_strjoin("/usr/local/bin/", argv[i]);
 		if (access(join, X_OK) == 0)
 			print_exit_error("cannot execute binary file", join, 126, NULL);
 		else
-			print_exit_error("command not found", join, 126, NULL);
+			print_exit_error("command not found", join, 127, NULL);
 	}
 }
 

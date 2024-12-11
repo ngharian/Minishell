@@ -6,18 +6,18 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:59:19 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/11 13:49:24 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:20:00 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_strrncmp(char *verif, char* base, int len)
+int	ft_strrncmp(char *verif, char *base, int len)
 {
 	int	i;
 	int	j;
 	int	k;
-	
+
 	k = 0;
 	j = ft_strlen(verif) - 1;
 	i = ft_strlen(base) - 1;
@@ -38,15 +38,16 @@ int	ft_strrncmp(char *verif, char* base, int len)
 
 int	ft_redirect(t_commands *cmd, int mode)
 {
-	if(cmd->infile < 0 || cmd->outfile < 0)
+	if (cmd->infile < 0 || cmd->outfile < 0)
 	{
 		if (cmd->acces_file == 2)
-			print_exit_error("No such file or directory", cmd->error_file, -1, NULL);
+			print_exit_error("No such file or directory", \
+			cmd->error_file, -1, NULL);
 		if (cmd->acces_file == 1)
 			print_exit_error("Permission denied", cmd->error_file, -1, NULL);
-        if (cmd->acces_file == 3)
-            print_exit_error("ambiguous redirect", NULL, -1, NULL);
-		if	(mode == 1)
+		if (cmd->acces_file == 3)
+			print_exit_error("ambiguous redirect", NULL, -1, NULL);
+		if (mode == 1)
 			exit(1);
 		return (1);
 	}
@@ -63,13 +64,13 @@ int	ft_redirect(t_commands *cmd, int mode)
 	return (0);
 }
 
-void get_path(t_env_vars **p_vars, t_env_vars *vars, int index)
+void	get_path(t_env_vars **p_vars, t_env_vars *vars, int index)
 {
 	vars = *p_vars;
 	vars->paths = get_path_line((*p_vars)->env, "PATH=", 0);
 	if (!vars->paths)
 	{
-        (*p_vars)->paths = NULL;
+		(*p_vars)->paths = NULL;
 		return ;
 	}
 	vars->split_path = ft_split(vars->paths, ':');
@@ -96,13 +97,13 @@ void	wait_process(t_commands **cmd, t_env_vars **vars)
 {
 	t_commands	*temp;
 	int			status;
-	
+
 	status = 0;
 	temp = (*cmd);
-	while(temp != NULL)
+	while (temp != NULL)
 	{
 		waitpid(temp->process, &status, 0);
-		if(ft_strrncmp((*cmd)->cmd[0], "minishell", 9) == 0)
+		if (ft_strrncmp((*cmd)->cmd[0], "minishell", 9) == 0)
 			ft_set_sig(3);
 		(*vars)->exit_code = status >> 8;
 		if (g_signal == SIGINT)
@@ -120,22 +121,22 @@ void	check_access(t_env_vars *vars, t_commands *temp)
 	int			index;
 
 	index = 0;
-    if(vars->true_paths)
-    {
-	    while (vars->true_paths[index])
-	    {
-		    path = ft_strjoin(vars->true_paths[index], temp->cmd[0]);
-		    if (!path)
-			    print_exit_error("Malloc error", NULL, 1, NULL);
-		    if (access(path, X_OK) == 0)
-		    {
-			    temp->right_command = index;
-			    free(path);
-			    return ;
-		    }
-		    free(path);
-            ++index;
-	    }
-    }
+	if (vars->true_paths)
+	{
+		while (vars->true_paths[index])
+		{
+			path = ft_strjoin(vars->true_paths[index], temp->cmd[0]);
+			if (!path)
+				print_exit_error("Malloc error", NULL, 1, NULL);
+			if (access(path, X_OK) == 0)
+			{
+				temp->right_command = index;
+				free(path);
+				return ;
+			}
+			free(path);
+			++index;
+		}
+	}
 	print_exit_error("command not found", temp->cmd[0], 127, NULL);
 }

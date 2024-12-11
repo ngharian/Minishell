@@ -18,7 +18,6 @@ SRCS = minishell.c \
 		./builtin/export_utils2.c \
 		./builtin/pwd.c \
 		./builtin/unset.c \
-		signaux.c \
 		free.c \
 		split_minishell.c \
 		commands.c \
@@ -26,7 +25,9 @@ SRCS = minishell.c \
 		redirection.c \
 		redirection_utils.c \
 		new_exec.c \
-		new_exec_utils.c
+		new_exec_utils.c \
+		signaux.c \
+		signaux_utils.c
 
 OBJECTS = $(SRCS:.c=.o)
 

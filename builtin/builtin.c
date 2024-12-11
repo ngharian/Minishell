@@ -6,20 +6,18 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:21:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/10 14:09:15 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:41:38 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_builtins(t_commands *cmd, t_env_vars *vars)
+int	ft_builtins(t_commands *cmd, t_env_vars *vars, int index)
 {
-	int		index;
 	int		condition_met;
 	char	*lower_cmd;
 
 	condition_met = 0;
-	index = -1;
 	lower_cmd = ft_strdup(cmd->cmd[0]);
 	if (!lower_cmd)
 		print_exit_error("Malloc error!\n", NULL, 1, NULL);
@@ -39,6 +37,5 @@ int	ft_builtins(t_commands *cmd, t_env_vars *vars)
 		condition_met = ft_env(cmd->cmd, vars, 0);
 	else if (ft_strcmp(lower_cmd, "exit") == 0)
 		condition_met = ft_exit(cmd, vars);
-	//exit_code;
 	return (free(lower_cmd), condition_met);
 }

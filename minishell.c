@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:28:50 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/11 13:52:47 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:44:46 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ static void	update_shlvl(char **env)
 	}
 }
 
-static int	programme_loop(t_env_vars **env_vars, t_here_doc *here_doc, t_commands *cmd)
+static int	programme_loop(t_env_vars **env_vars, \
+							t_here_doc *here_doc, t_commands *cmd)
 {
 	char	*input;
 	char	**splitted;
@@ -49,38 +50,38 @@ static int	programme_loop(t_env_vars **env_vars, t_here_doc *here_doc, t_command
 		add_history(input);
 		if (input == NULL)
 			continue ;
-		expander(&input, *env_vars); //checker que le strncmp soit TOUT ce qu'il y a avant le '=' && les MAJ importent !
+		expander(&input, *env_vars);
 		if (split_mini(input, &splitted, '|'))
-			print_exit_error("Malloc error!\n", NULL, 1, NULL); //gerer l'erreur -> soit 1 soit 2 et tous les deux des malloc errors
+			print_exit_error("Malloc error!\n", NULL, 1, NULL);
 		free(input);
 		fill_cmd_struct(&cmd, splitted, &here_doc);
-		ft_execution(&cmd, env_vars); //!! changer les printf par des sterror pour afficher derniere erreur systeme(no such file or directory, command not found, etc...)
+		ft_execution(&cmd, env_vars);
 		free_struct(&cmd, 0, env_vars);
 	}
 }
 
-char **construct_env(char **env)
+char	**construct_env(char **env)
 {
 	env = malloc(sizeof(char *) * 3);
-	if(!env)
+	if (!env)
 		print_exit_error("Malloc error", NULL, 1, NULL);
 	env[0] = malloc(sizeof(char) * 8);
 	env[1] = malloc(sizeof(char) * 14);
-	if(!env[0] || !env[1])
+	if (!env[0] || !env[1])
 		print_exit_error("Malloc error", NULL, 1, NULL);
-	env[0]="SHLVL=0";
-	env[1]="_=./minishell";
-	env[2]=NULL;
-	return(env);
+	env[0] = "SHLVL=0";
+	env[1] = "_=./minishell";
+	env[2] = NULL;
+	return (env);
 }
 
 static void	handle_argv(char **argv)
 {
-	int	i;
+	int		i;
 	char	*join;
 
 	i = 0;
-	while(argv[++i])
+	while (argv[++i])
 	{
 		join = ft_strjoin("/usr/local/bin", argv[i]);
 		if (access(join, X_OK) == 0)
@@ -89,7 +90,8 @@ static void	handle_argv(char **argv)
 			print_exit_error("command not found", join, 126, NULL);
 	}
 }
-int main(int argc, char **argv, char **env)
+
+int	main(int argc, char **argv, char **env)
 {
 	t_env_vars	*env_vars;
 

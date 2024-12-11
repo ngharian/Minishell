@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 18:27:29 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/09 19:10:17 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/11 14:44:03 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	add_to_var(char *str, int mode, t_env_vars **vars, int *index_mode)
 	{
 		temp = (*vars)->exp[index];
 		(*vars)->exp[index] = ft_strjoin("declare -x ", temp);
-		free(temp); //gpt dit que c'est good
+		free(temp);
 	}
 	if (!(*vars)->exp[index])
 		print_exit_error("Malloc error", NULL, 1, NULL);

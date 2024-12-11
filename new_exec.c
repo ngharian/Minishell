@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 11:48:13 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/11 13:37:24 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:42:41 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@ static void	execute_cmd(t_env_vars *vars, t_commands *temp)
 	char		*command;
 
 	command = NULL;
-	if(temp->cmd[0][0] == '\0')
+	if (temp->cmd[0][0] == '\0')
 		exit(0);
 	if (access(temp->cmd[0], X_OK) == 0)
 		command = temp->cmd[0];
-	else if (access(temp->cmd[0], F_OK) == 0 && (access(temp->cmd[0], R_OK) != 0))
+	else if (access(temp->cmd[0], F_OK) == 0 \
+			&& (access(temp->cmd[0], R_OK) != 0))
 		print_exit_error("Permission denied", temp->cmd[0], 126, NULL);
 	else
 	{
@@ -39,34 +40,31 @@ static void	execute_cmd(t_env_vars *vars, t_commands *temp)
 static void	child(t_commands *cmd, t_env_vars *env)
 {
 	int	ret;
-	
+
 	ft_redirect(cmd, 1);
-	ret = ft_builtins(cmd, env);
+	ret = ft_builtins(cmd, env, -1);
 	if (ret != 0)
 		exit(ret);
 	execute_cmd(env, cmd);
-	
 }
 
-static void	multiple_commands(t_commands **cmd, t_env_vars **env, t_commands *temp)
+static void	multiple_commands(t_commands **cmd, \
+			t_env_vars **env, t_commands *temp)
 {
 	temp = (*cmd);
 	while (temp != NULL)
 	{
-		if(ft_strrncmp((*cmd)->cmd[0], "minishell", 9) == 0)
-		{
-			printf("rentre\n");
+		if (ft_strrncmp((*cmd)->cmd[0], "minishell", 9) == 0)
 			ft_set_sig(5);
-		}
 		temp->process = fork();
 		if (temp->process < 0)
 		{
 			print_exit_error((*cmd)->cmd[0], "FORK_ERROR\n", -1, NULL);
-			if((*cmd)->outfile > 0)
+			if ((*cmd)->outfile > 0)
 				close((*cmd)->outfile);
 			(*cmd)->outfile = 0;
 			temp = temp->next;
-			continue;
+			continue ;
 		}
 		if (temp->process == 0)
 		{
@@ -82,24 +80,24 @@ static void	multiple_commands(t_commands **cmd, t_env_vars **env, t_commands *te
 
 static void	single_command(t_commands **cmd, t_env_vars **env, int ret)
 {
-		ret = ft_redirect(*cmd, 0);
-		if (ret == 1)
-		{
-			(*env)->exit_code = 1;
-			return ;
-		}
-		ret = ft_builtins(*cmd, *env);
-		if (ret == 0)
-			multiple_commands(cmd, env, NULL);
-		else
-			(*env)->exit_code = ret;
+	ret = ft_redirect(*cmd, 0);
+	if (ret == 1)
+	{
+		(*env)->exit_code = 1;
+		return ;
+	}
+	ret = ft_builtins(*cmd, *env, -1);
+	if (ret == 0)
+		multiple_commands(cmd, env, NULL);
+	else
+		(*env)->exit_code = ret;
 }
 
-void ft_execution(t_commands **cmd, t_env_vars **vars)
+void	ft_execution(t_commands **cmd, t_env_vars **vars)
 {
 	int	save_stdin;
 	int	save_stdout;
-	
+
 	save_stdin = dup(0);
 	save_stdout = dup(1);
 	get_path(vars, NULL, 0);
@@ -108,7 +106,7 @@ void ft_execution(t_commands **cmd, t_env_vars **vars)
 		multiple_commands(cmd, vars, NULL);
 	else
 		single_command(cmd, vars, 0);
-	dup2(save_stdin ,STDIN_FILENO);
+	dup2(save_stdin, STDIN_FILENO);
 	dup2(save_stdout, STDOUT_FILENO);
 	ft_set_sig(1);
 }

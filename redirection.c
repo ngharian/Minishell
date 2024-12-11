@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:25:38 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/10 15:19:05 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:31:06 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	checking_in_and_out(t_commands *cmd, char *splitted, t_here_doc **hd)
 		else if (splitted[str_index] == '>' || splitted[str_index] == '<')
 		{
 			get_file_name_trimmed(&file, &str_index, &splitted);
-			if(file.trimmed[0] == 0)
+			if (file.trimmed[0] == 0)
 			{
 				cmd->infile = -1;
 				cmd->acces_file = 3;

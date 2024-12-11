@@ -6,12 +6,14 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:42:08 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/11 13:25:49 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:42:21 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+/*====================INCLUDES====================*/
 
 # include <stdio.h>
 # include <readline/readline.h>
@@ -30,7 +32,11 @@
 # include <signal.h>
 # include <termios.h>
 
+/*====================GLOBAL_VAR====================*/
+
 volatile int	g_signal;
+
+/*====================COMMAND_STRUCT====================*/
 
 typedef struct s_commands
 {
@@ -48,12 +54,16 @@ typedef struct s_commands
 	struct s_commands	*next;
 }	t_commands;
 
+/*====================HD_STRUCT====================*/
+
 typedef struct s_here_doc
 {
 	struct s_here_doc	*previous;
 	int					fd;
 	struct s_here_doc	*next;
 }	t_here_doc;
+
+/*====================ENV_STRUCT====================*/
 
 typedef struct s_env_vars
 {
@@ -66,6 +76,8 @@ typedef struct s_env_vars
 	unsigned long long	exit_code;
 }	t_env_vars;
 
+/*====================REDIRECTION_STRUCT====================*/
+
 typedef struct s_file
 {
 	int		mode;
@@ -73,20 +85,18 @@ typedef struct s_file
 	char	*trimmed;
 }	t_file;
 
-void	rl_replace_line(const char *text, int clear_undo);
-int		split_mini(char *s, char ***array, char to_split);
+/*====================SIGNAUX====================*/
 
-void	fill_cmd_struct(t_commands **cmd, \
-		char **splitted, t_here_doc **heredoc);
-
-//signaux
 void	ft_set_sig(int mode);
+void	ft_set_sig_bis(int mode);
 void	ft_init_signal(void);
 void	sigint_process(int signal);
 void	default_sigint(int sig);
 void	sigint_block(int sig);
+void	set_ctrl(int mode);
 
-//parsing
+/*====================PARSING====================*/
+
 void	fill_env(char **env, t_env_vars *vars);
 int		get_line(char **readed_line, t_here_doc **heredoc, \
 		t_env_vars **env_vars);
@@ -104,17 +114,19 @@ void	exchange_vars(char **input, char *var, char *to_find, int *index);
 int		finish_pipe(char **line, int i, t_env_vars **env);
 int		is_double(char *splitted, char c);
 
-//redirection
+/*====================REDIRECTION====================*/
+
 void	checking_in_and_out(t_commands *cmd, \
 		char *splitted, t_here_doc **heredoc);
 void	get_file_name_trimmed(t_file *file, int *str_index, char **splitted);
 void	in_the_pipes(t_commands **cmd);
 
-//del_quotes
+/*====================DEL_QUOTES====================*/
+
 void	delete_quotes(t_commands *cmd);
 void	cmd_without_quotes(char **string);
 
-//frees & exit
+/*====================FREES & EXIT====================*/
 void	free_split(char **split);
 int		free_struct(t_commands **cmd, int error, t_env_vars **env);
 int		exit_parsing(int mode, t_env_vars **env);
@@ -122,18 +134,19 @@ void	print_exit_error(char *message, \
 		char *name, int exit_code, char *builtin);
 int		free_env(t_env_vars *vars, int error);
 
-//execution
-//void	execution(t_commands **cmd, t_env_vars **vars);
-void ft_execution(t_commands **cmd, t_env_vars **vars);
-int		skip_quotes(char *str, int str_j);
-void get_path(t_env_vars **p_vars, t_env_vars *vars, int index);
-void	wait_process(t_commands **cmd, t_env_vars **vars);
-int	ft_redirect(t_commands *cmd, int mode);
-void	check_access(t_env_vars *vars, t_commands *temp);
-int	ft_strrncmp(char *verif, char* base, int len);
+/*====================EXECUTION====================*/
 
-//builtin
-int		ft_builtins(t_commands *cmd, t_env_vars *vars);
+void	ft_execution(t_commands **cmd, t_env_vars **vars);
+int		skip_quotes(char *str, int str_j);
+void	get_path(t_env_vars **p_vars, t_env_vars *vars, int index);
+void	wait_process(t_commands **cmd, t_env_vars **vars);
+int		ft_redirect(t_commands *cmd, int mode);
+void	check_access(t_env_vars *vars, t_commands *temp);
+int		ft_strrncmp(char *verif, char *base, int len);
+
+/*====================BUILTINS====================*/
+
+int		ft_builtins(t_commands *cmd, t_env_vars *vars, int index);
 void	add_char(char **env, int mode);
 void	make_order(t_env_vars *vars, int index);
 int		ft_cd(t_commands *cmd, t_env_vars *vars);
@@ -156,5 +169,12 @@ int		change_directory_else(t_env_vars *vars, \
 		int mode, char *line, char *home);
 void	change_dir(t_env_vars *vars, int mode, char *line, char *newpath);
 void	change_pwd(char ***var, char *line, char *to_find);
+
+/*====================AUTRES====================*/
+
+void	rl_replace_line(const char *text, int clear_undo);
+int		split_mini(char *s, char ***array, char to_split);
+void	fill_cmd_struct(t_commands **cmd, \
+		char **splitted, t_here_doc **heredoc);
 
 #endif

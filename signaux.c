@@ -6,57 +6,11 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:25:19 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/11 13:25:17 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:39:26 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
-//extern int g_signal;
-
-static void	set_ctrl_d(int mode)
-{
-	struct termios	term;
-
-	tcgetattr(0, &term);
-	if (mode == 1)
-	{
-		term.c_cc[VEOF] = 4;
-		term.c_lflag &= ~(ECHOCTL);
-	}
-	else if (mode == 2)
-	{
-		term.c_cc[VEOF] = _POSIX_VDISABLE;
-		term.c_lflag |= (ECHOCTL);
-	}
-	else if (mode == 3)
-	{
-		term.c_cc[VEOF] = 4;
-		term.c_lflag |= (ECHOCTL);
-	}
-	tcsetattr(0, TCSANOW, &term);
-}
-
-void	ft_set_sig_bis(int	mode)
-{
-	if (mode == 3)
-	{
-		signal(SIGINT, sigint_block);
-		signal(SIGQUIT, sigint_block);
-		set_ctrl_d(2);
-	}
-	if (mode == 4)
-	{
-		signal(SIGINT, sigint_process);
-		signal(SIGQUIT, exit);
-		set_ctrl_d(3);
-	}
-	if (mode == 5)
-	{
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
-		set_ctrl_d(2);
-	}
-}
 
 void	ft_set_sig(int mode)
 {
@@ -64,7 +18,7 @@ void	ft_set_sig(int mode)
 	{
 		signal(SIGINT, default_sigint);
 		signal(SIGQUIT, SIG_IGN);
-		set_ctrl_d(1);
+		set_ctrl(1);
 	}
 	if (mode == 2)
 	{
@@ -82,15 +36,6 @@ void	default_sigint(int sig)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-}
-
-void	sigint_block(int sig)
-{
-	(void) sig;
-	g_signal = sig;
-	if (sig == SIGQUIT)
-		write(1, "QUIT: 3", 7);
-	write(1, "\n", 1);
 }
 
 void	sigint_process(int signal)

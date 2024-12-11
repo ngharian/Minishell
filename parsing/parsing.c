@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:32:56 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/10 16:40:25 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/11 14:11:13 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,12 @@ t_here_doc **hd, t_env_vars **env_vars, int i)
 
 int	get_line(char **readed_line, t_here_doc **heredoc, t_env_vars **env_vars)
 {
-	//printf("%s ", ft_strrchr(get_path_line((*env_vars)->env, "PWD=", 1), '/') + 1);
-	//printf("%s ", ft_strrchr(get_path_line((*env_vars)->env, "LOGNAME", 1), '=') + 1);
 	*readed_line = readline("minishell$ ");
 	if (!(*readed_line))
 		exit_parsing(-1, env_vars);
 	if (check_empty_line(*readed_line))
 		return (exit_parsing(0, env_vars));
-	if (g_signal == SIGINT) // !!! valeur d'erreur processus bloquant? comment gerer?
+	if (g_signal == SIGINT)
 	{
 		(*env_vars)->exit_code = 1;
 		g_signal = 0;

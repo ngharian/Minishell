@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   find_eof_heredoc.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/11 14:05:27 by ngharian          #+#    #+#             */
+/*   Updated: 2024/12/11 14:05:58 by ngharian         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 static int	get_len_heredoc(char *line, int *i, int len, int j)
@@ -15,7 +27,7 @@ static int	get_len_heredoc(char *line, int *i, int len, int j)
 			++(*i);
 		}
 	}
-	return(len);
+	return (len);
 }
 
 char	*find_eof(char *line, int i)
@@ -39,7 +51,7 @@ char	*find_eof(char *line, int i)
 		eof[j] = line[i++];
 		++j;
 	}
-	eof[j] ='\0';
+	eof[j] = '\0';
 	cmd_without_quotes(&eof);
 	return (eof);
 }

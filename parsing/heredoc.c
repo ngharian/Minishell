@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:39:11 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/09 17:59:08 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/11 14:09:23 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	fill_heredoc(int fd, char *line, int i, t_env_vars *env_vars)
 
 	eof_string = find_eof(line, i + 1);
 	signal(SIGINT, exit);
-	if(!eof_string)
+	if (!eof_string)
 		print_exit_error("Malloc Error!\n", NULL, 1, NULL);
 	while (1)
 	{
@@ -35,25 +35,24 @@ static void	fill_heredoc(int fd, char *line, int i, t_env_vars *env_vars)
 	}
 }
 
-int ft_wait_single_process(pid_t pid, int fd, int i, t_env_vars **env)
+int	ft_wait_single_process(pid_t pid, int fd, int i, t_env_vars **env)
 {
 	int	status;
+
 	status = -1;
-	
 	ft_set_sig(2);
-    while (1 && pid)
+	while (1 && pid)
 	{
 		if (waitpid(pid, &status, WNOHANG) < 0)
-            print_exit_error("Error while using 'waitpid()'\n", NULL, 1, NULL);
-		//waitpid(pid, &status, WNOHANG);
+			print_exit_error("Error while using 'waitpid()'\n", NULL, 1, NULL);
 		if (status >> 8 != -1)
 		{
 			if ((status >> 8) == EXIT_FAILURE)
 				exit(EXIT_FAILURE);
-			if((status >> 8) == SIGINT || status >> 8 == 0)
-			{	
+			if ((status >> 8) == SIGINT || status >> 8 == 0)
+			{
 				if ((status >> 8) == SIGINT)
-					(*env)->exit_code = 258;	
+					(*env)->exit_code = 258;
 				close(fd);
 				return (-6);
 			}
@@ -62,11 +61,12 @@ int ft_wait_single_process(pid_t pid, int fd, int i, t_env_vars **env)
 	}
 	return (i);
 }
-t_here_doc *find_last_heredoc(t_here_doc *here_doc)
+
+t_here_doc	*find_last_heredoc(t_here_doc *here_doc)
 {
-	if(!here_doc)
+	if (!here_doc)
 		return (NULL);
-	while(here_doc->next)
+	while (here_doc->next)
 		here_doc = here_doc->next;
 	return (here_doc);
 }
@@ -82,7 +82,7 @@ static void	alloc_heredoc(t_here_doc **here_doc, int fd)
 	new_element->previous = NULL;
 	new_element->fd = fd;
 	new_element->next = NULL;
-	if(*here_doc == NULL)
+	if (*here_doc == NULL)
 		*here_doc = new_element;
 	else
 	{
@@ -92,26 +92,26 @@ static void	alloc_heredoc(t_here_doc **here_doc, int fd)
 	}
 }
 
-int	ft_here_doc(t_here_doc **heredoc, char *readed_line, int i, t_env_vars **env_vars)
+int	ft_here_doc(t_here_doc **heredoc, char *readed_line, \
+				int i, t_env_vars **env_vars)
 {
 	int		pipefd[2];
 	pid_t	pid;
 	int		ret;
 
-    pid = 0;
+	pid = 0;
 	if (!(readed_line[i] == '<' && readed_line[i - 1] == '<'))
 		return (i);
 	if (pipe(pipefd) == -1)
 		print_exit_error("Error while using 'pipe()'\n", NULL, 1, NULL);
 	alloc_heredoc(heredoc, pipefd[0]);
-	//printf("hd: %d\n", pipefd[0]);
 	pid = fork();
 	if (pid < 0)
 		print_exit_error("Error while using 'fork()'\n", NULL, 1, NULL);
 	if (pid == 0)
 		fill_heredoc(pipefd[1], readed_line, i, *env_vars);
 	close(pipefd[1]);
-    ret = ft_wait_single_process(pid, pipefd[0], i, env_vars);
+	ret = ft_wait_single_process(pid, pipefd[0], i, env_vars);
 	ft_set_sig(1);
-	return(ret);
+	return (ret);
 }

@@ -24,8 +24,8 @@ SRCS = minishell.c \
 		del_quotes.c \
 		redirection.c \
 		redirection_utils.c \
-		new_exec.c \
-		new_exec_utils.c \
+		execution.c \
+		execution_utils.c \
 		signaux.c \
 		signaux_utils.c
 

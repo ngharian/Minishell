@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signaux.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:25:19 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/09 19:27:54 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/11 13:25:17 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,28 @@ static void	set_ctrl_d(int mode)
 	tcsetattr(0, TCSANOW, &term);
 }
 
+void	ft_set_sig_bis(int	mode)
+{
+	if (mode == 3)
+	{
+		signal(SIGINT, sigint_block);
+		signal(SIGQUIT, sigint_block);
+		set_ctrl_d(2);
+	}
+	if (mode == 4)
+	{
+		signal(SIGINT, sigint_process);
+		signal(SIGQUIT, exit);
+		set_ctrl_d(3);
+	}
+	if (mode == 5)
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+		set_ctrl_d(2);
+	}
+}
+
 void	ft_set_sig(int mode)
 {
 	if (mode == 1)
@@ -49,18 +71,7 @@ void	ft_set_sig(int mode)
 		signal(SIGINT, sigint_process);
 		signal(SIGQUIT, SIG_IGN);
 	}
-	if (mode == 3)
-	{
-		signal(SIGINT, sigint_block);
-		signal(SIGQUIT, sigint_block);
-		set_ctrl_d(2);
-	}
-	if (mode == 4)
-	{
-		signal(SIGINT, sigint_process);
-		signal(SIGQUIT, exit);
-		set_ctrl_d(3);
-	}
+	ft_set_sig_bis(mode);
 }
 
 void	default_sigint(int sig)

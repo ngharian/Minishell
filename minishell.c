@@ -6,22 +6,11 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:28:50 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/10 17:50:42 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:52:47 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//volatile int g_signal;
-
-/*
-codes d'erreur que get_line peut recevoir d'une des fonctions qu'elle appele:
--1 = readline erreur (->quitter)
--2 = quottes unclosed (->continuer)
--3 = parsing erreur (->continue)
--4 = malloc error (->quitter)
--5 = empty_line -> (continue)
-*/
 
 static void	update_shlvl(char **env)
 {
@@ -84,12 +73,30 @@ char **construct_env(char **env)
 	env[2]=NULL;
 	return(env);
 }
+
+static void	handle_argv(char **argv)
+{
+	int	i;
+	char	*join;
+
+	i = 0;
+	while(argv[++i])
+	{
+		join = ft_strjoin("/usr/local/bin", argv[i]);
+		if (access(join, X_OK) == 0)
+			print_exit_error("cannot execute binary file", join, 126, NULL);
+		else
+			print_exit_error("command not found", join, 126, NULL);
+	}
+}
 int main(int argc, char **argv, char **env)
 {
 	t_env_vars	*env_vars;
 
 	(void)argc;
 	(void)argv;
+	if (argc > 1)
+		handle_argv(argv);
 	if (!env[0])
 		env = construct_env(NULL);
 	update_shlvl(env);

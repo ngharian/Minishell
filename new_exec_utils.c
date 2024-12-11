@@ -6,11 +6,35 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:59:19 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/10 16:37:58 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:49:24 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_strrncmp(char *verif, char* base, int len)
+{
+	int	i;
+	int	j;
+	int	k;
+	
+	k = 0;
+	j = ft_strlen(verif) - 1;
+	i = ft_strlen(base) - 1;
+	if (!verif)
+		return (-1);
+	while (k <= len)
+	{
+		if (j - k == -1 && i - k == -1)
+			return (0);
+		if (verif[j] != base[i])
+			return (verif[j] - base[i]);
+		++k;
+		j -= k;
+		i -= k;
+	}
+	return (0);
+}
 
 int	ft_redirect(t_commands *cmd, int mode)
 {
@@ -46,8 +70,6 @@ void get_path(t_env_vars **p_vars, t_env_vars *vars, int index)
 	if (!vars->paths)
 	{
         (*p_vars)->paths = NULL;
-		//free(vars->true_paths);
-        //vars->true_paths = NULL;
 		return ;
 	}
 	vars->split_path = ft_split(vars->paths, ':');
@@ -80,6 +102,8 @@ void	wait_process(t_commands **cmd, t_env_vars **vars)
 	while(temp != NULL)
 	{
 		waitpid(temp->process, &status, 0);
+		if(ft_strrncmp((*cmd)->cmd[0], "minishell", 9) == 0)
+			ft_set_sig(3);
 		(*vars)->exit_code = status >> 8;
 		if (g_signal == SIGINT)
 			(*vars)->exit_code = 130;

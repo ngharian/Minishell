@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:42:08 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/10 16:34:00 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:25:49 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include "Libft/include/libft.h"
 # include <stdbool.h>
 # include <signal.h>
@@ -129,6 +130,7 @@ void get_path(t_env_vars **p_vars, t_env_vars *vars, int index);
 void	wait_process(t_commands **cmd, t_env_vars **vars);
 int	ft_redirect(t_commands *cmd, int mode);
 void	check_access(t_env_vars *vars, t_commands *temp);
+int	ft_strrncmp(char *verif, char* base, int len);
 
 //builtin
 int		ft_builtins(t_commands *cmd, t_env_vars *vars);

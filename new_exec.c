@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 11:48:13 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/10 16:53:54 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:37:24 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	execute_cmd(t_env_vars *vars, t_commands *temp)
 		exit(0);
 	if (access(temp->cmd[0], X_OK) == 0)
 		command = temp->cmd[0];
-	else if (access(temp->cmd[0], F_OK) == 0)
+	else if (access(temp->cmd[0], F_OK) == 0 && (access(temp->cmd[0], R_OK) != 0))
 		print_exit_error("Permission denied", temp->cmd[0], 126, NULL);
 	else
 	{
@@ -53,6 +53,11 @@ static void	multiple_commands(t_commands **cmd, t_env_vars **env, t_commands *te
 	temp = (*cmd);
 	while (temp != NULL)
 	{
+		if(ft_strrncmp((*cmd)->cmd[0], "minishell", 9) == 0)
+		{
+			printf("rentre\n");
+			ft_set_sig(5);
+		}
 		temp->process = fork();
 		if (temp->process < 0)
 		{

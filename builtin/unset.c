@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:13:48 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/11 20:04:31 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/12 20:39:25 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,5 @@ int	ft_unset(char **cmd, t_env_vars *vars)
 		delete_var(vars->env, cmd[index], str_len, 1);
 		continue ;
 	}
-	return (0);
+	return (0); // probleme si unset 65465 HOME PATH etc -> error code bash 1 mais on ne peut pas quit apres une fausse cmd
 }

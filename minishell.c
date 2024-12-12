@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:28:50 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/12 17:40:57 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/12 20:37:09 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	programme_loop(t_env_vars **env_vars, \
 	while (1)
 	{
 		ft_set_sig(1);
-		update_cwd(env_vars, 0);
+		update_cwd(env_vars, 0); //segv si unset PWD
 		if (get_line(&input, &here_doc, env_vars))
 			continue ;
 		add_history(input);

@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:11:10 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/11 20:03:59 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/12 20:37:05 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,12 @@ int	ft_pwd(char **cmd, t_env_vars *vars)
 {
 	char	*path;
 
-	if (cmd[1])
-	{
-		print_exit_error("Too many arguments", NULL, -1, "pwd: ");
-		return (3);
-	}
+	(void)cmd; //ATTENTION
 	path = get_path_line(vars->env, "PWD=", 0);
 	if (!path)
 	{
 		print_exit_error("PWD not set", NULL, -1, "pwd: ");
-		return (3);
+		return (1);
 	}
 	printf("%s\n", path);
 	return (0);

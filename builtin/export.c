@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:13:12 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/11 20:03:48 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/12 20:30:36 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,13 @@ int *index_mode, int index_str)
 	return (4);
 }
 
-static void	check_export_args(char *cmd, bool *must_export, int *index_str)
+static void	check_export_args(char *cmd, bool *must_export, \
+int *index_str, t_env_vars *vars)
 {
 	if (cmd[0] == '=')
 	{
 		print_exit_error("not a valid identifier", cmd, -1, "export: ");
+		vars->exit_code = 1;
 		*must_export = false ;
 		return ;
 	}
@@ -70,6 +72,7 @@ static void	check_export_args(char *cmd, bool *must_export, int *index_str)
 			&& cmd[(*index_str) + 1] == '=')
 				break ;
 			print_exit_error("not a valid identifier", cmd, -1, "export: ");
+			vars->exit_code = 1;
 			*must_export = false ;
 			break ;
 		}
@@ -103,7 +106,7 @@ int	ft_export(char **cmd, t_env_vars *vars)
 	{
 		index_str = -1;
 		must_export = true;
-		check_export_args(cmd[index], &must_export, &index_str);
+		check_export_args(cmd[index], &must_export, &index_str, vars);
 		if (must_export == true)
 		{
 			mode = already_exists(cmd[index], &vars, &index_mode, index_str);

@@ -81,7 +81,6 @@ t_here_doc **hd, t_env_vars **env_vars, int i)
 		{
 			add_history(*readed_line);
 			ft_free_here_doc(hd);
-			free(readed_line);
 			return (exit_parsing(i, env_vars));
 		}
 	}

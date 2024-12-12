@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:13:12 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/09 18:04:44 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/11 20:03:48 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,5 +110,5 @@ int	ft_export(char **cmd, t_env_vars *vars)
 			add_to_var(cmd[index], mode, &vars, &index_mode);
 		}
 	}
-	return (4);
+	return (0);
 }

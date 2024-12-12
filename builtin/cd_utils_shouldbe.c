@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd_utils.c                                         :+:      :+:    :+:   */
+/*   cd_utils_shouldbe.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:57:57 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/11 20:03:36 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/11 19:58:35 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static char	*user_path(char **var, char *line, char *home, int index)
 		return (free(lower_line), line - 1);
 }
 
-void	change_dir(t_env_vars *vars, int mode, char *line, char *newpath)
+void	change_dir(t_env_vars *vars, int mode, char *line, char *newpath, bool *error)
 {
 	if (chdir(newpath) == -1)
 	{
@@ -76,6 +76,7 @@ void	change_dir(t_env_vars *vars, int mode, char *line, char *newpath)
 			get_path_line(vars->env, "HOME=", 1) + 1, "declare -x PWD=\"");
 			return ;
 		}
+		*error = true;
 		if (access(newpath, F_OK) == 0)
 			return (print_exit_error("Not a directory", \
 			ft_strrchr(line, '/') + 1, -1, "cd: "));
@@ -90,34 +91,30 @@ void	change_dir(t_env_vars *vars, int mode, char *line, char *newpath)
 	change_pwd(&vars->exp, line, "declare -x PWD=\"");
 }
 
-int	change_directory_1_6(t_env_vars *vars, int mode, char *line, char *home)
+int	change_directory_6(t_env_vars *vars, char *line, char *home, bool *error)
 {
 	char	*newpath;
 
-	if (mode == 1)
+	/*if (mode == 1)
 	{
 		if (line[2] == '.' && !line[3])
 			line[2] = '\0';
 		add_to_path(&newpath, line, home, 0);
-	}
-	if (mode == 6)
-	{
-		if (line[0] == '.')
-			line = ft_strchr(line, '/') + 1;
-		home = get_path_line(vars->env, "PWD=", 0);
-		if (!home)
-			return (print_exit_error("PWD not set", NULL, -1, "cd: "), 2);
-		if (!home[1])
-			home++;
-		add_to_path(&newpath, line, home, 1);
-	}
+	}*/
+	newpath = NULL;
+	home = get_path_line(vars->env, "PWD=", 0);
+	if (!home)
+		return (print_exit_error("PWD not set", NULL, -1, "cd: "), 2);
+	if (!home[1])
+		home++;
+	add_to_path(&newpath, line, home, 1);
 	line = newpath;
-	change_dir(vars, mode, line, newpath);
+	change_dir(vars, 0, line, newpath, error);
 	free(newpath);
-	return (0);
+	return (2);
 }
 
-int	change_directory_else(t_env_vars *vars, int mode, char *line, char *home)
+int	change_directory_else(t_env_vars *vars, int mode, char *line, char *home, bool *error)
 {
 	char	*newpath;
 
@@ -125,8 +122,6 @@ int	change_directory_else(t_env_vars *vars, int mode, char *line, char *home)
 		newpath = "/";
 	else if (mode == 4)
 		change_to_parent(vars, &newpath);
-	else if (mode == 7)
-		newpath = "/Users";
 	else if (mode == 8)
 		newpath = user_path(vars->env, line + 1, home, -1);
 	else if (mode == 9)
@@ -140,6 +135,6 @@ int	change_directory_else(t_env_vars *vars, int mode, char *line, char *home)
 	if (!newpath)
 		return (2);
 	line = newpath;
-	change_dir(vars, mode, line, newpath);
-	return (0);
+	change_dir(vars, mode, line, newpath, error);
+	return (2);
 }

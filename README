@@ -66,3 +66,16 @@ Wrong exit code
 echo' $USER' doesn't understand the command
 Segfault when entering minishell inside a minishell after unsetting SHLVL
 unset $PATH goes out of minishell
+
+cd ../~gdero/.. marche pas dan bash
+minishell$ cd cd Libft/
+minishell: cd: /Users/gdero/github/cd: No such file or directory
+bash-3.2$ cd cd Libft/
+bash: cd: cd: No such file or directory
+
+cd //// existe
+
+!!!! les builtins doivent pouvoir renvoyer 0 -> etat actuel : command not found
+Bon faut repenser le cd avec un split.
+on peut pas cd un par un puisqu'il faut que ce soit faisable...si un probleme dans la commande, changera tout de meme...
+-->garder pwd originel et rechanger si erreur

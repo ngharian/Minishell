@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   new_cd_noah.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:40:11 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/12 18:01:38 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/12 18:45:09 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	compare_string_and_join(char **string, \
+char *to_find, char **oldpwd, char *line)
+{
+	char	*temp;
+	char	*newpath;
+
+	if (ft_strncmp((*string), to_find, ft_strlen(to_find)) == 0)
+	{
+		*oldpwd = ft_strchr((*string), '=') + 1;
+		free((*string));
+		newpath = ft_strjoin(to_find, line);
+		if (!newpath)
+			print_exit_error("Malloc error!\n", NULL, 1, NULL);
+		if (ft_strncmp(to_find, "declare -x PWD=\"", \
+		ft_strlen(to_find)) == 0)
+		{
+			temp = newpath;
+			newpath = ft_strjoin(temp, "\"");
+			free(temp);
+		}
+		if (!newpath)
+			print_exit_error("Malloc error!\n", NULL, 1, NULL);
+		(*string) = newpath;
+	}
+}
 
 static int	minus_case(t_commands *cmd, char **path, t_env_vars *vars)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:42:08 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/12 17:41:34 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/12 18:42:53 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,5 +180,7 @@ void	rl_replace_line(const char *text, int clear_undo);
 int		split_mini(char *s, char ***array, char to_split);
 void	fill_cmd_struct(t_commands **cmd, \
 		char **splitted, t_here_doc **heredoc);
+
+void	compare_string_and_join(char **string, char *to_find, char **oldpwd, char *line);
 
 #endif

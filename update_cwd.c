@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_cwd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:37:16 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/12 17:45:44 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/12 18:45:27 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,11 @@ void	update_oldpwd(char ***var, char *oldpwd, int mode)
 void	change_pwd(char ***var, char *line, char *to_find)
 {
 	int		index;
-	char	*newpath;
 	char	*oldpwd;
 
 	index = -1;
 	while ((*var)[++index])
-	{
-		if (ft_strncmp((*var)[index], to_find, ft_strlen(to_find)) == 0)
-		{
-			oldpwd = ft_strchr((*var)[index], '=') + 1;
-			free((*var)[index]);
-			newpath = ft_strjoin(to_find, line);
-			if (!newpath)
-				print_exit_error("Malloc error!\n", NULL, 1, NULL);
-			if (ft_strncmp(to_find, "declare -x PWD=\"", \
-			ft_strlen(to_find)) == 0)
-				newpath = ft_strjoin(newpath, "\"");
-			if (!newpath)
-				print_exit_error("Malloc error!\n", NULL, 1, NULL);
-			(*var)[index] = newpath;
-		}
-	}
+		compare_string_and_join(&(*var)[index], to_find, &oldpwd, line);
 	update_oldpwd(&(*var), oldpwd, 0);
 	update_oldpwd(&(*var), oldpwd, 1);
 }

@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:37:16 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/12 17:39:40 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:45:44 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,18 @@ void	change_pwd(char ***var, char *line, char *to_find)
 	update_oldpwd(&(*var), oldpwd, 1);
 }
 
-static char	**set_split(char *to_write)
+static char	**set_split(char *to_write, char **splitted)
 {
 	char	**oldpwd;
 
 	oldpwd = malloc(sizeof(char *) * 3);
 	if (!oldpwd)
 		print_exit_error("Malloc error", NULL, 1, NULL);
+	if (splitted != NULL)
+	{
+		if (splitted[1])
+			free(splitted[1]);
+	}
 	oldpwd[2] = NULL;
 	oldpwd[1] = ft_strdup(to_write);
 	if (!oldpwd[1])
@@ -86,12 +91,12 @@ void	update_env(t_env_vars **env, char *new_cmd, int mode, int is_old_there)
 	if (get_path_line((*env)->env, "OLDPWD=", 1) != NULL)
 		is_old_there = 1;
 	else
-		oldpwd = set_split("OLDPWD=");
+		oldpwd = set_split("OLDPWD=", oldpwd);
 	if (mode == 0)
 	{
 		if (is_old_there == 1)
 			ft_unset(oldpwd, *env);
-		oldpwd = set_split(new_cmd);
+		oldpwd = set_split(new_cmd, oldpwd);
 		ft_export(oldpwd, *env);
 	}
 	if (mode == 1)

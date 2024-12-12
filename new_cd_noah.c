@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:40:11 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/12 17:40:27 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/12 18:01:38 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	ft_cd(t_commands *cmd, t_env_vars *vars)
 {
 	char	*path;
 
+	path = cmd->cmd[1];
 	if (!cmd->cmd[1])
 	{
 		path = get_path_line(vars->env, "HOME=", 0);
@@ -44,8 +45,7 @@ int	ft_cd(t_commands *cmd, t_env_vars *vars)
 			return (1);
 		}
 	}
-	path = cmd->cmd[1];
-	if (minus_case(cmd, &path, vars))
+	else if (minus_case(cmd, &path, vars))
 		return (1);
 	if (chdir(path) != 0)
 	{

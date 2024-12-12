@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:28:50 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/12 16:51:05 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/12 17:40:57 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ static int	programme_loop(t_env_vars **env_vars, \
 
 char	**construct_env(char **env)
 {
-	char cwd[1024];
-	
+	char	cwd[1024];
+
 	env = malloc(sizeof(char *) * 4);
 	if (!env)
 		print_exit_error("Malloc error", NULL, 1, NULL);

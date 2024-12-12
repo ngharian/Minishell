@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:37:16 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/12 18:45:27 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/12 20:22:52 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	change_pwd(char ***var, char *line, char *to_find)
 		compare_string_and_join(&(*var)[index], to_find, &oldpwd, line);
 	update_oldpwd(&(*var), oldpwd, 0);
 	update_oldpwd(&(*var), oldpwd, 1);
+	free(oldpwd);
 }
 
 static char	**set_split(char *to_write, char **splitted)
@@ -88,7 +89,7 @@ void	update_env(t_env_vars **env, char *new_cmd, int mode, int is_old_there)
 		if (is_old_there == 0)
 			ft_export(oldpwd, *env);
 		change_pwd(&(*env)->env, new_cmd, "PWD=");
-		change_pwd(&(*env)->exp, new_cmd, "declare -x PWD=");
+		change_pwd(&(*env)->exp, new_cmd, "declare -x PWD=\"");
 	}
 	if (is_old_there == 1 && mode == 1)
 		return ;

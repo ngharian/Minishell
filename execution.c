@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_exec.c                                         :+:      :+:    :+:   */
+/*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 11:48:13 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/11 14:42:41 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:26:28 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	child(t_commands *cmd, t_env_vars *env)
 
 	ft_redirect(cmd, 1);
 	ret = ft_builtins(cmd, env, -1);
-	if (ret != 0)
+	if (ret != -1)
 		exit(ret);
 	execute_cmd(env, cmd);
 }
@@ -87,7 +87,7 @@ static void	single_command(t_commands **cmd, t_env_vars **env, int ret)
 		return ;
 	}
 	ret = ft_builtins(*cmd, *env, -1);
-	if (ret == 0)
+	if (ret == -1)
 		multiple_commands(cmd, env, NULL);
 	else
 		(*env)->exit_code = ret;

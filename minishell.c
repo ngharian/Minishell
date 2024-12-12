@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:28:50 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/11 14:51:38 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:51:05 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static int	programme_loop(t_env_vars **env_vars, \
 	while (1)
 	{
 		ft_set_sig(1);
+		update_cwd(env_vars, 0);
 		if (get_line(&input, &here_doc, env_vars))
 			continue ;
 		add_history(input);
@@ -62,7 +63,9 @@ static int	programme_loop(t_env_vars **env_vars, \
 
 char	**construct_env(char **env)
 {
-	env = malloc(sizeof(char *) * 3);
+	char cwd[1024];
+	
+	env = malloc(sizeof(char *) * 4);
 	if (!env)
 		print_exit_error("Malloc error", NULL, 1, NULL);
 	env[0] = malloc(sizeof(char) * 8);
@@ -71,7 +74,13 @@ char	**construct_env(char **env)
 		print_exit_error("Malloc error", NULL, 1, NULL);
 	env[0] = "SHLVL=0";
 	env[1] = "_=./minishell";
-	env[2] = NULL;
+	env[3] = NULL;
+	env[2] = getcwd(cwd, sizeof(cwd));
+	if (!env[2])
+		print_exit_error("get_cwd() error", NULL, 1, NULL);
+	env[2] = ft_strjoin("PWD=", env[2]);
+	if (!env[2])
+		print_exit_error("Malloc error", NULL, 1, NULL);
 	return (env);
 }
 
@@ -94,6 +103,7 @@ static void	handle_argv(char **argv)
 int	main(int argc, char **argv, char **env)
 {
 	t_env_vars	*env_vars;
+	char		buffer[1024];
 
 	(void)argc;
 	(void)argv;
@@ -106,6 +116,9 @@ int	main(int argc, char **argv, char **env)
 	if (!env_vars)
 		print_exit_error("Malloc error", NULL, 1, NULL);
 	fill_env(env, env_vars);
+	env_vars->mini_root = getcwd(buffer, sizeof(buffer));
+	if (!env_vars->mini_root)
+		print_exit_error("get_cwd() error", NULL, 1, NULL);
 	env_vars->exit_code = 0;
 	g_signal = 0;
 	programme_loop(&env_vars, NULL, NULL);

@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:42:08 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/11 14:42:21 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/12 16:50:23 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_env_vars
 	char				**exp;
 	int					nb_string;
 	char				*paths;
+	char				*mini_root;
 	char				**split_path;
 	char				**true_paths;
 	unsigned long long	exit_code;
@@ -162,12 +163,15 @@ void	add_to_exp(char *str, int mode, t_env_vars **vars, int *index_mode);
 void	append_var(char **oldstring, char *to_append, int mode);
 void	add_line_to_env(char ***env, char ***new_env, char *str, int mode);
 char	*get_path_line(char **env, char *line, int mode);
-void	add_to_path(char **newpath, char *line, char *home, int mode);
-int		change_directory_1_6(t_env_vars *vars, \
-		int mode, char *line, char *home);
-int		change_directory_else(t_env_vars *vars, \
-		int mode, char *line, char *home);
-void	change_dir(t_env_vars *vars, int mode, char *line, char *newpath);
+void	update_oldpwd(char ***var, char *oldpwd, int mode);
+void    update_cwd(t_env_vars **env, int mode);
+//void	add_to_path(char **newpath, char *line, char *home, int mode);
+//int		change_directory_1_6(t_env_vars *vars,
+//		int mode, char *line, char *home);
+//int		change_directory_else(t_env_vars *vars,
+//		int mode, char *line, char *home);
+//void	change_dir(t_env_vars *vars, int mode, char *line, char *newpath);
+
 void	change_pwd(char ***var, char *line, char *to_find);
 
 /*====================AUTRES====================*/

@@ -8,8 +8,7 @@ SRCS = minishell.c \
 		./parsing/pipe_join.c \
 		./parsing/find_eof_heredoc.c \
 		./builtin/builtin.c \
-		./new_cd_noah.c \
-		./update_cwd.c \
+		./builtin/cd.c \
 		./builtin/echo.c \
 		./builtin/env.c \
 		./builtin/exit.c \
@@ -18,6 +17,7 @@ SRCS = minishell.c \
 		./builtin/export_utils2.c \
 		./builtin/pwd.c \
 		./builtin/unset.c \
+		update_cwd.c \
 		free.c \
 		split_minishell.c \
 		commands.c \

@@ -6,12 +6,11 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:32:56 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/11 14:11:13 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/13 14:02:56 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-//extern int g_signal;
 
 bool	check_empty_line(char *buffer)
 {
@@ -33,23 +32,13 @@ int	quote_case(char *str, int i)
 	{
 		if (str[i] == '\0')
 		{
-			printf("Quotes unclosed! please retry\n");
+			write(2, "minishell: Quotes unclosed! please retry\n", 41);
 			return (-2);
 		}
 		++i;
 	}
 	return (i + 1);
 }
-
-/*
-codes d'erreur que get_line peut recevoir d'une des fonctions qu'elle appele:
--1 = readline erreur (->quitter)
--2 = quottes unclosed (->continuer)
--3 = parsing erreur (->continue)
--4 = malloc error (->quitter)
--5 = empty_line -> (continue)
--6 = ctrl+c (-> continuer + exit code = 1)
-*/
 
 void	ft_free_here_doc(t_here_doc **heredoc)
 {

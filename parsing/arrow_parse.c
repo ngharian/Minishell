@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arrow_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:39:28 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/09 19:37:44 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/13 13:55:14 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,20 @@ static int	arrow_error(char *readed_line, int i)
 		++(i);
 	if (readed_line[i] == '\0')
 	{
-		write(2, "Syntax error near unexpected token 'newline'\n", 45);
-		return (1);
+		write(2, "minishell: ", 11);
+		return (write(2, "Syntax error near unexpected token 'newline'\n", 45));
 	}
 	if (readed_line[i] == '<' || readed_line[i] == '>')
 	{
+		write(2, "minishell: Syntax error near unexpected token ", 46);
 		if (readed_line[i] == '<' && readed_line[i + 1] == '<')
-			write(2, "syntax error near unexpected token `<<'\n", 41);
+			write(2, "'<<'\n", 5);
 		else if (readed_line[i] == '>' && readed_line[i + 1] == '>')
-			write(2, "syntax error near unexpected token `>>'\n", 41);
+			write(2, "'>>'\n", 5);
 		else if (readed_line[i] == '<')
-			write(2, "syntax error near unexpected token `<'\n", 40);
+			write(2, "'<'\n", 4);
 		else
-			write(2, "syntax error near unexpected token `>'\n", 40);
+			write(2, "'>'\n", 4);
 		return (1);
 	}
 	return (0);

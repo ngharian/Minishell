@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:53:07 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/01 15:10:44 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/13 14:01:00 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	error_pipe(char *str, int i)
 		--i;
 	if (i < 0 || str[i] == '<' || str[i] == '>' || str[i] == '|')
 	{
-		write(2, "syntax error near unexpected token '|'\n", 39);
+		write(2, "minishell: syntax error near unexpected token '|'\n", 50);
 		return (1);
 	}
 	return (0);
@@ -42,6 +42,11 @@ static int	finish_line(char *line, int i)
 
 int	pipe_case(char **line, int i, t_env_vars **env)
 {
+	if (ft_strlen(*line) == 1)
+	{
+		write(2, "minishell: syntax error near unexpected token '|'\n", 50);
+		return (-3);
+	}
 	if (error_pipe(*line, i))
 		return (-3);
 	if (finish_line(*line, i))

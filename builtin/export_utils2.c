@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 19:35:29 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/09 17:30:03 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/13 13:50:31 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,6 @@ static void	append_or_not(int mode, char **new_env, char *str, int str_index)
 	}
 	else
 	{
-		(*new_env) = malloc((ft_strlen(str) + 1) * sizeof(char));
-		if (!(*new_env))
-			print_exit_error("Malloc error!\n", NULL, 1, NULL);
-		(*new_env)[ft_strlen(str)] = '\0';
 		(*new_env) = ft_strdup(str);
 		if (!(*new_env))
 			print_exit_error("Malloc error!\n", NULL, 1, NULL);

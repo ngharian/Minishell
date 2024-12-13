@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:21:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/12 16:25:48 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/13 14:03:29 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int	ft_builtins(t_commands *cmd, t_env_vars *vars, int index)
 	while (lower_cmd && cmd->cmd[0][++index])
 		lower_cmd[index] = ft_tolower(cmd->cmd[0][index]);
 	if (ft_strcmp(lower_cmd, "echo") == 0)
-		condition_met = ft_echo(cmd->cmd);
+		condition_met = ft_echo(cmd->cmd, vars, 1);
 	else if (ft_strcmp(lower_cmd, "cd") == 0)
 		condition_met = ft_cd(cmd, vars);
 	else if (ft_strcmp(lower_cmd, "pwd") == 0)
-		condition_met = ft_pwd(cmd->cmd, vars);
+		condition_met = ft_pwd(vars);
 	else if (ft_strcmp(lower_cmd, "export") == 0)
 		condition_met = ft_export(cmd->cmd, vars);
 	else if (ft_strcmp(lower_cmd, "unset") == 0)

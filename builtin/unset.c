@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:13:48 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/12 20:39:25 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/13 13:06:18 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,11 @@ int	is_there_equal(char *str, int mode)
 int	ft_unset(char **cmd, t_env_vars *vars)
 {
 	int	index;
+	int	exit_code;
 	int	str_len;
 
 	index = 0;
+	exit_code = 0;
 	while (cmd[++index])
 	{
 		str_len = ft_strlen(cmd[index]);
@@ -70,12 +72,12 @@ int	ft_unset(char **cmd, t_env_vars *vars)
 		{
 			print_exit_error("not a valid identifier", \
 			cmd[index], -1, "unset: ");
-			vars->exit_code = 1;
+			exit_code = 1;
 			continue ;
 		}
 		delete_var(vars->exp, cmd[index], str_len, 0);
 		delete_var(vars->env, cmd[index], str_len, 1);
 		continue ;
 	}
-	return (0); // probleme si unset 65465 HOME PATH etc -> error code bash 1 mais on ne peut pas quit apres une fausse cmd
+	return (exit_code);
 }

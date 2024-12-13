@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: gdero <gdero@student.s19.be>               +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/12/13 15:12:03 by gdero             #+#    #+#              #
+#    Updated: 2024/12/13 15:12:04 by gdero            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 SRCS = minishell.c \
 		./parsing/parsing.c \
 		./parsing/pipe_parse.c \
@@ -33,7 +45,7 @@ OBJECTS = $(SRCS:.c=.o)
 
 HEADER = minishell.h
 NAME = minishell
-CFLAGS = -g -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS = -g -Wall -Wextra -Werror
 CC = gcc
 RM = rm -f
 MAKE_LIBFT = make -s -C ./libft
@@ -43,8 +55,6 @@ $(NAME): msg $(OBJECTS)
 	@printf "\033[K\033[0;34mBeast compiled.\n"
 	@$(MAKE_LIBFT)
 	@$(CC) $(CFLAGS) ${OBJECTS} ${LIBFT} -I ${HEADER}  -o ${NAME} -lreadline -L /Users/gdero/.brew/opt/readline/lib -I /Users/gdero/.brew/opt/readline/include
-	@#/Users/gdero/.brew/opt/readline/lib -I /Users/gdero/.brew/opt/readline/include
-	@#/Users/ngharian/homebrew/Cellar/readline/8.2.13/lib -I /Users/ngharian/homebrew/Cellar/readline/8.2.13/include
 	@printf "\r\033[0;31mThe Beast is ready.\033[0m\n"
 
 .c.o:

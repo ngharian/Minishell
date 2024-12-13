@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:42:08 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 14:03:39 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/13 14:26:34 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,8 @@ char	*get_path_line(char **env, char *line, int mode);
 void	update_oldpwd(char ***var, char *oldpwd, int mode);
 void	update_cwd(t_env_vars **env, int mode);
 void	change_pwd(char ***var, char *line, char *to_find);
-void	compare_string_and_join(char **string, char *to_find, char **oldpwd, char *line);
+void	compare_string_and_join(char **string, char *to_find, \
+		char **oldpwd, char *line);
 
 /*====================AUTRES====================*/
 
@@ -174,6 +175,5 @@ void	rl_replace_line(const char *text, int clear_undo);
 int		split_mini(char *s, char ***array, char to_split);
 void	fill_cmd_struct(t_commands **cmd, \
 		char **splitted, t_here_doc **heredoc);
-
 
 #endif

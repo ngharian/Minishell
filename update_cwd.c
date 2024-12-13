@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:37:16 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/13 13:24:37 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/13 14:23:56 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	update_env(t_env_vars **env, char *new_cmd, int mode, int is_old_there)
 	if (mode == 0)
 	{
 		if (is_old_there == 1)
-			ft_unset(oldpwd, *env); //oldpwd = NULL => pas noice
+			ft_unset(oldpwd, *env);
 		new_cmd = ft_strjoin("PWD=", new_cmd);
 		oldpwd = set_split(new_cmd, oldpwd);
 		ft_export(oldpwd, *env);

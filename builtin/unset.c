@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:13:48 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 13:06:18 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/13 14:24:09 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void	delete_var(char **vars, char *str, int str_len, int iteration)
 	}
 }
 
-//mode 1 == pour taille de string avant le = dans make_order
 int	is_there_equal(char *str, int mode)
 {
 	int	index;

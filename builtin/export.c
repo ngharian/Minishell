@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:13:12 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 13:13:11 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/13 14:24:58 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,18 +77,6 @@ int *index_str)
 	}
 	return (0);
 }
-//prob avec mode 2 et 5 et 7, quand teste dans l'ordre ca foire...
-//mode 1 == existe, pas de =
-//mode 2 == existe, avec = et = avant
-//mode 3 == n'existe pas, = present
-//mode 4 == n'existe pas, pas de =
-//mode 5 == existe, avec = et pas = avant
-//mode 6 == existe, avec = et = avant, mais en append 
-//mode 7 == existe, avec = et pas = avant, mais en append 
-//mode 8 == n'existe pas, = present mais en append
-//(9 == n'existe pas, = present mais vide, en append)
-//(10 == existe, avec = et pas egal avant, mais vide)
-//(11 == existe, = present mais vide, en append)
 
 int	ft_export(char **cmd, t_env_vars *vars)
 {
@@ -110,7 +98,7 @@ int	ft_export(char **cmd, t_env_vars *vars)
 			exit_code = 1;
 		if (must_export == true)
 			add_to_var(cmd[index], \
-			already_exists(cmd[index], &vars, &index_mode, index_str),\
+			already_exists(cmd[index], &vars, &index_mode, index_str), \
 			&vars, &index_mode);
 	}
 	return (exit_code);

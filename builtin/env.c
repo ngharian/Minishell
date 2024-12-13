@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:11:33 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/11 20:02:37 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/13 14:24:00 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h" 
 
-//mode 0 == env ; mode 1 == export
 int	ft_env(char **cmd, t_env_vars *vars, int mode)
 {
 	int		index;

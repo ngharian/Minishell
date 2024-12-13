@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:13:12 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/12 20:30:36 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/13 13:13:11 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,14 @@ int *index_mode, int index_str)
 	return (4);
 }
 
-static void	check_export_args(char *cmd, bool *must_export, \
-int *index_str, t_env_vars *vars)
+static int	check_export_args(char *cmd, bool *must_export, \
+int *index_str)
 {
 	if (cmd[0] == '=')
 	{
 		print_exit_error("not a valid identifier", cmd, -1, "export: ");
-		vars->exit_code = 1;
 		*must_export = false ;
-		return ;
+		return (1);
 	}
 	while (cmd[++(*index_str)] != '=' && cmd[(*index_str)] != '\0')
 	{
@@ -72,11 +71,11 @@ int *index_str, t_env_vars *vars)
 			&& cmd[(*index_str) + 1] == '=')
 				break ;
 			print_exit_error("not a valid identifier", cmd, -1, "export: ");
-			vars->exit_code = 1;
 			*must_export = false ;
-			break ;
+			return (1);
 		}
 	}
+	return (0);
 }
 //prob avec mode 2 et 5 et 7, quand teste dans l'ordre ca foire...
 //mode 1 == existe, pas de =
@@ -95,23 +94,24 @@ int	ft_export(char **cmd, t_env_vars *vars)
 {
 	int		index;
 	int		index_str;
-	int		mode;
+	int		exit_code;
 	int		index_mode;
 	bool	must_export;
 
 	index = 0;
+	exit_code = 0;
 	if (!cmd[1])
 		return (ft_env(cmd, vars, 1));
 	while (cmd[++index])
 	{
 		index_str = -1;
 		must_export = true;
-		check_export_args(cmd[index], &must_export, &index_str, vars);
+		if (check_export_args(cmd[index], &must_export, &index_str))
+			exit_code = 1;
 		if (must_export == true)
-		{
-			mode = already_exists(cmd[index], &vars, &index_mode, index_str);
-			add_to_var(cmd[index], mode, &vars, &index_mode);
-		}
+			add_to_var(cmd[index], \
+			already_exists(cmd[index], &vars, &index_mode, index_str),\
+			&vars, &index_mode);
 	}
-	return (0);
+	return (exit_code);
 }

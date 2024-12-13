@@ -6,13 +6,13 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:12:28 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/09 17:38:17 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/13 14:42:19 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h" 
 
-static int	exit_args(t_commands *cmd, t_env_vars *vars)
+static int	exit_args(t_commands *cmd)
 {
 	int	index;
 
@@ -27,10 +27,14 @@ static int	exit_args(t_commands *cmd, t_env_vars *vars)
 				exit(255);
 			}
 		}
+		if (cmd->cmd[1][0] == '-' && !isdigit(cmd->cmd[1][1]))
+		{
+			printf("exit\nminishell: exit: numeric argument required\n");
+			exit(255);
+		}
 		if (cmd->cmd[2])
 		{
 			printf("exit\nminishell: exit: too many arguments\n");
-			vars->exit_code = 1;
 			return (1);
 		}
 	}
@@ -44,8 +48,8 @@ int	ft_exit(t_commands *cmd, t_env_vars *vars)
 
 	if (!cmd->cmd[1])
 		exit(vars->exit_code);
-	if (exit_args(cmd, vars))
-		return (7);
+	if (exit_args(cmd))
+		return (1);
 	if (cmd->cmd[1])
 		vars->exit_code = ft_atoi(cmd->cmd[1]);
 	if (cmd->cmd[1][0] == '-')

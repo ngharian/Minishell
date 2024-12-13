@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:42:08 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/12 20:24:33 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/13 13:59:57 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ int		ft_builtins(t_commands *cmd, t_env_vars *vars, int index);
 void	add_char(char **env, int mode);
 void	make_order(t_env_vars *vars, int index);
 int		ft_cd(t_commands *cmd, t_env_vars *vars);
-int		ft_echo(char **cmd);
+int		ft_echo(char **cmd, t_env_vars *vars, int index);
 int		ft_env(char **cmd, t_env_vars *vars, int mode);
 int		ft_exit(t_commands *cmd, t_env_vars *vars);
 int		ft_export(char **cmd, t_env_vars *vars);
@@ -165,13 +165,6 @@ void	add_line_to_env(char ***env, char ***new_env, char *str, int mode);
 char	*get_path_line(char **env, char *line, int mode);
 void	update_oldpwd(char ***var, char *oldpwd, int mode);
 void	update_cwd(t_env_vars **env, int mode);
-//void	add_to_path(char **newpath, char *line, char *home, int mode);
-//int		change_directory_1_6(t_env_vars *vars,
-//		int mode, char *line, char *home);
-//int		change_directory_else(t_env_vars *vars,
-//		int mode, char *line, char *home);
-//void	change_dir(t_env_vars *vars, int mode, char *line, char *newpath);
-
 void	change_pwd(char ***var, char *line, char *to_find);
 void	compare_string_and_join(char **string, char *to_find, char **oldpwd, char *line);
 

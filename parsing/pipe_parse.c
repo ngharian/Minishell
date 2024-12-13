@@ -6,14 +6,12 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:53:07 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 14:01:00 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/13 14:05:58 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//verifies qu'un pipe ne soit pas au debut de la commande, et
-//qu'il a bien des arguments autres que seulement des symboles
 static int	error_pipe(char *str, int i)
 {
 	if (i == 0)
@@ -29,7 +27,6 @@ static int	error_pipe(char *str, int i)
 	return (0);
 }
 
-//verifies si un pipe finit la ligne
 static int	finish_line(char *line, int i)
 {
 	++i;

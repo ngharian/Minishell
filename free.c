@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:54:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 12:59:11 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/13 14:06:43 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,3 @@ int exit_code, char *builtin)
 	if (exit_code >= 0)
 		exit(exit_code);
 }
-
-/*-1 = ctrl+d (->quitter)
--2 = quottes unclosed (->continuer) 258
--3 = parsing erreur (->continue) 258
--4 = malloc error (->quitter)
--5 = empty_line -> (continue) sans exit code
-//-6 = ctrl+c (-> continuer + exit code = 1)*/

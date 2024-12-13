@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:54:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/12 17:43:55 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/13 12:59:11 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int	exit_parsing(int mode, t_env_vars **env)
 		clear_history();
 	if (mode == -1)
 	{
-		system("leaks minishell");
 		write(1, "Exit...\n", 8);
 		if ((*env)->exit_code == 258)
 			exit(2);

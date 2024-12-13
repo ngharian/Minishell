@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:25:38 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 15:12:16 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/13 17:27:42 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ static void	open_files(t_commands *cmd, t_file *file, t_here_doc **hd, char *s)
 		if ((*file).mode == 1)
 			cmd->outfile = open(s, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	}
-	infile_case(cmd, file, hd);
+	if ((*file).type == '<')
+		infile_case(cmd, file, hd);
 	free(s);
 }
 

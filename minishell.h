@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:42:08 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 13:59:57 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/13 14:03:39 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int		ft_echo(char **cmd, t_env_vars *vars, int index);
 int		ft_env(char **cmd, t_env_vars *vars, int mode);
 int		ft_exit(t_commands *cmd, t_env_vars *vars);
 int		ft_export(char **cmd, t_env_vars *vars);
-int		ft_pwd(char **cmd, t_env_vars *vars);
+int		ft_pwd(t_env_vars *vars);
 int		ft_unset(char **cmd, t_env_vars *vars);
 int		is_there_equal(char *str, int mode);
 void	add_to_var(char *str, int mode, t_env_vars **vars, int *index_mode);

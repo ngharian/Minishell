@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:54:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 15:11:58 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/16 15:10:29 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	exit_parsing(int mode, t_env_vars **env)
 		exit(0);
 	}
 	if (mode == -2 || mode == -3)
-		(*env)->exit_code = 258;
+		(*env)->exit_code = 2;
 	if (mode == -4)
 		exit(EXIT_FAILURE);
 	return (1);

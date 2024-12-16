@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:25:38 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/16 14:32:34 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/16 15:44:00 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ static void	open_files(t_commands *cmd, t_file *file, t_here_doc **hd, char *s)
 	free(s);
 }
 
-void	checking_in_and_out(t_commands *cmd, char *splitted, t_here_doc **hd, int str_index)
+void	checking_in_and_out(t_commands *cmd, char *splitted, \
+							t_here_doc **hd, int str_index)
 {
 	t_file	file;
 

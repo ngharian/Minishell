@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:42:08 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/16 14:30:49 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/16 15:30:34 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,16 @@ int		get_line(char **readed_line, t_here_doc **heredoc, \
 		t_env_vars **env_vars);
 int		quote_case(char *str, int i);
 bool	check_empty_line(char *buffer);
-int		pipe_case(char **line, int i, t_env_vars **env);
+int		pipe_case(char **line, int i);
 int		arrow_case(char *readed_line, int i, \
 		t_here_doc **pipe_hd, t_env_vars **env_vars);
 int		ft_here_doc(t_here_doc **heredoc, \
 		char *readed_line, int i, t_env_vars **env_vars);
 char	*find_eof(char *line, int i);
-int		ft_wait_single_process(pid_t pid, int fd, int i, t_env_vars **env);
+int		ft_wait_single_process(pid_t pid, int fd, int i);
 void	expander(char **input, t_env_vars *vars);
 void	exchange_vars(char **input, char *var, char *to_find, int *index);
-int		finish_pipe(char **line, int i, t_env_vars **env);
+int		finish_pipe(char **line, int i);
 int		is_double(char *splitted, char c);
 
 /*====================REDIRECTION====================*/

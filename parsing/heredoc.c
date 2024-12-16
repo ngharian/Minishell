@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:39:11 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/13 15:11:38 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/16 15:42:21 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,13 @@ static void	fill_heredoc(int fd, char *line, int i, t_env_vars *env_vars)
 	{
 		readed = readline("here_doc >");
 		if (!readed)
+		{
+			write(2, "minishell: warning: ", 20);
+			write(2, "here-document delimited by end-of-file (wanted `", 48);
+			write(2, eof_string, ft_strlen(eof_string));
+			write(2, "')\n", 3);
 			exit (0);
+		}
 		if (ft_strcmp(readed, eof_string) == 0)
 			exit(3);
 		expander(&readed, env_vars);
@@ -35,7 +41,7 @@ static void	fill_heredoc(int fd, char *line, int i, t_env_vars *env_vars)
 	}
 }
 
-int	ft_wait_single_process(pid_t pid, int fd, int i, t_env_vars **env)
+int	ft_wait_single_process(pid_t pid, int fd, int i)
 {
 	int	status;
 
@@ -52,7 +58,7 @@ int	ft_wait_single_process(pid_t pid, int fd, int i, t_env_vars **env)
 			if ((status >> 8) == SIGINT || status >> 8 == 0)
 			{
 				if ((status >> 8) == SIGINT)
-					(*env)->exit_code = 258;
+					exit (2);
 				close(fd);
 				return (-6);
 			}
@@ -111,7 +117,7 @@ int	ft_here_doc(t_here_doc **heredoc, char *readed_line, \
 	if (pid == 0)
 		fill_heredoc(pipefd[1], readed_line, i, *env_vars);
 	close(pipefd[1]);
-	ret = ft_wait_single_process(pid, pipefd[0], i, env_vars);
+	ret = ft_wait_single_process(pid, pipefd[0], i);
 	ft_set_sig(1);
 	return (ret);
 }

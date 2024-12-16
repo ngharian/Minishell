@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 16:53:07 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 15:11:45 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/16 15:21:58 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	finish_line(char *line, int i)
 	return (0);
 }
 
-int	pipe_case(char **line, int i, t_env_vars **env)
+int	pipe_case(char **line, int i)
 {
 	if (ft_strlen(*line) == 1)
 	{
@@ -47,6 +47,6 @@ int	pipe_case(char **line, int i, t_env_vars **env)
 	if (error_pipe(*line, i))
 		return (-3);
 	if (finish_line(*line, i))
-		return (finish_pipe(line, i, env));
+		return (finish_pipe(line, i));
 	return (i + 1);
 }

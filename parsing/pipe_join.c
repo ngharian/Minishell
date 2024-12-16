@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_join.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:32:29 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 15:11:42 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/16 15:21:28 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ static void	complete_pipe(int outfile, char *line)
 	{
 		to_add = readline("pipe>");
 		if (!to_add)
-			print_exit_error("Syntax error: ", \
-			"unexpected end of file", 258, NULL);
+			print_exit_error("unexpected end of file\nexit", \
+			"syntax error", 258, NULL);
 		if (check_empty_line(line))
 			continue ;
 		break ;
@@ -60,7 +60,7 @@ static void	complete_pipe(int outfile, char *line)
 	exit(3);
 }
 
-int	finish_pipe(char **line, int i, t_env_vars **env)
+int	finish_pipe(char **line, int i)
 {
 	int		pipefd[2];
 	pid_t	pid;
@@ -74,7 +74,7 @@ int	finish_pipe(char **line, int i, t_env_vars **env)
 		print_exit_error("Error while using 'fork()'", NULL, 1, NULL);
 	if (pid == 0)
 		complete_pipe(pipefd[1], *line);
-	ret = ft_wait_single_process(pid, pipefd[0], i, env);
+	ret = ft_wait_single_process(pid, pipefd[0], i);
 	ft_set_sig(1);
 	close(pipefd[1]);
 	if (ret == -6)

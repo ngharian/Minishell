@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:32:56 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/16 13:12:39 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/16 15:27:27 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_here_doc **hd, t_env_vars **env_vars, int i)
 		else if ((*readed_line)[i] == '<' || (*readed_line)[i] == '>')
 			i = arrow_case(*readed_line, i, hd, env_vars);
 		else if ((*readed_line)[i] == '|')
-			i = pipe_case(readed_line, i, env_vars);
+			i = pipe_case(readed_line, i);
 		else
 			++i;
 		if (i < 0)
@@ -87,7 +87,7 @@ int	get_line(char **readed_line, t_here_doc **heredoc, t_env_vars **env_vars)
 		return (exit_parsing(0, env_vars));
 	if (g_signal == SIGINT)
 	{
-		(*env_vars)->exit_code = 1;
+		(*env_vars)->exit_code = 130;
 		g_signal = 0;
 	}
 	return (verif_line(readed_line, heredoc, env_vars, 0));

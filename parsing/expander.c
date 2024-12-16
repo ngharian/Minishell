@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:51:48 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 15:11:34 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/16 14:00:15 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,26 +70,26 @@ static void	dollar_case(char **input, t_env_vars *vars, int *index)
 	}
 }
 
-static void	double_quotes_case(char **input, int index, t_env_vars *vars)
+static void	double_quotes_case(char **input, int *index, t_env_vars *vars)
 {
-	if ((*input)[index] == '"')
+	if ((*input)[*index] == '"')
 	{
-		index++;
-		while ((*input)[index] != '"')
+		*index = *index + 1;
+		while ((*input)[*index] != '"')
 		{
-			if ((*input)[index] == '\0')
+			if ((*input)[*index] == '\0')
 				break ;
-			if ((*input)[index] == '$')
+			if ((*input)[*index] == '$')
 			{
-				index++;
-				if ((*input)[index] == ' ')
+				*index = *index + 1;
+				if ((*input)[*index] == ' ')
 					continue ;
-				if ((*input)[index] == '\0')
+				if ((*input)[*index] == '\0')
 					break ;
-				dollar_case(input, vars, &index);
-				index -= 1;
+				dollar_case(input, vars, index);
+				*index = *index - 1;
 			}
-			index++;
+			*index = *index + 1;
 		}
 	}
 }
@@ -101,9 +101,10 @@ void	expander(char **input, t_env_vars *vars)
 	index = -1;
 	while ((*input)[++index])
 	{
-		double_quotes_case(input, index, vars);
+		double_quotes_case(input, &index, vars);
+		//printf("%i index\n", index);
 		if ((*input)[index] == 39)
-			index = skip_quotes((*input), index);
+			index = skip_quotes((*input), index) - 1;
 		if ((*input)[index] == '\0')
 			break ;
 		if ((*input)[index] == '$')

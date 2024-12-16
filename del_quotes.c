@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   del_quotes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:33:04 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 15:11:50 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/16 13:36:00 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	cmd_without_quotes(char **string)
 	{
 		if ((*string)[str_i] == 39 || (*string)[str_i] == '"')
 		{
-			str_i = skip_quotes((*string), str_i);
+			str_i = skip_quotes((*string), str_i) - 1;
 			str_j -= 2;
 			continue ;
 		}

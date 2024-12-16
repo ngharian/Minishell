@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:25:38 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 17:27:42 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/16 13:34:33 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	checking_in_and_out(t_commands *cmd, char *splitted, t_here_doc **hd)
 	while (splitted[++str_index])
 	{
 		if (splitted[str_index] == 39 || splitted[str_index] == '"')
-			str_index = skip_quotes(splitted, str_index);
+			str_index = skip_quotes(splitted, str_index) - 1;
 		if (splitted[str_index] == '\0')
 			return ;
 		else if (splitted[str_index] == '>' || splitted[str_index] == '<')

@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:28:50 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/16 13:13:44 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/16 15:55:02 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static void	handle_argv(char **argv)
 		if (access(join, X_OK) == 0)
 			print_exit_error("cannot execute binary file", join, 126, NULL);
 		else
-			print_exit_error("command not found", join, 127, NULL);
+			print_exit_error("No such file or directory", join, 127, NULL);
 	}
 }
 

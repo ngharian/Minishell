@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 14:39:37 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/16 13:12:58 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/16 15:51:20 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	sigint_block(int sig)
 	(void) sig;
 	g_signal = sig;
 	if (sig == SIGQUIT)
-		write(1, "QUIT: 3", 7);
+		write(1, "Quit (core dumped)", 18);
 	write(1, "\n", 1);
 }
 

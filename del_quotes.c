@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:33:04 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/16 19:27:58 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/16 19:31:27 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,11 @@ void	delete_quotes(t_commands *cmd)
 				ft_strlcpy(cmd->cmd[index], cmd->cmd[index] + 1, \
 				ft_strlen(cmd->cmd[index]));
 				if (ft_strchr(cmd->cmd[index], 6) != NULL)
+				{
 					temp = ft_strdup(ft_strchr(cmd->cmd[index], 6));
+					if (!temp)
+						print_exit_error("Malloc error", NULL, 1, NULL);
+				}
 				else
 					continue ;
 				while (cmd->cmd[index][index2] != 6)
@@ -158,6 +162,8 @@ void	delete_quotes(t_commands *cmd)
 				cmd->cmd[index][index2] = '\0';
 				cmd_without_quotes(&temp);
 				final = ft_strjoin(cmd->cmd[index], temp);
+				if (!final)
+					print_exit_error("Malloc error", NULL, 1, NULL);
 				free(cmd->cmd[index]);
 				free(temp);
 				cmd->cmd[index] = final;

@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:32:56 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/13 15:11:40 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/16 13:12:39 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+extern int	g_signal;
 
 bool	check_empty_line(char *buffer)
 {

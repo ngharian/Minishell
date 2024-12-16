@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 13:59:19 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/13 15:11:52 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/16 13:13:47 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_signal;
 
 int	ft_strrncmp(char *verif, char *base, int len)
 {

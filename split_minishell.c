@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_minishell.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 17:07:34 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 15:12:24 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/16 13:09:58 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	count_splits(char *str, char to_split, size_t index)
 	while (index < ft_strlen(str))
 	{
 		if (str[index] == 39 || str[index] == '"')
-			index = skip_quotes(str, index);
+			index = skip_quotes(str, index) - 1;
 		if (str[index] == to_split || str[index] == '\0')
 		{
 			counter++;
@@ -81,7 +81,7 @@ static int	fill_split(char *str, char ***array, char to_split, size_t str_j)
 	while (str_j < ft_strlen(str) + 1)
 	{
 		if (str[str_j] == 39 || str[str_j] == '"')
-			str_j = skip_quotes(str, str_j);
+			str_j = skip_quotes(str, str_j) - 1;
 		if (str[str_j] == to_split || str[str_j] == '\0')
 		{
 			(*array)[array_i] = ft_fill(str_i, str_j, str);

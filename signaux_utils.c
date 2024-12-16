@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signaux_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 14:39:37 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/13 15:12:19 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/16 13:12:58 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_signal;
 
 void	set_ctrl(int mode)
 {

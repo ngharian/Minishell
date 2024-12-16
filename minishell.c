@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:28:50 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/13 15:12:02 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/16 13:13:44 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+volatile int	g_signal;
 
 static void	update_shlvl(char **env)
 {
@@ -36,7 +38,7 @@ static void	update_shlvl(char **env)
 	}
 }
 
-static int	programme_loop(t_env_vars **env_vars, \
+static void	programme_loop(t_env_vars **env_vars, \
 							t_here_doc *here_doc, t_commands *cmd)
 {
 	char	*input;

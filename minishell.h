@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:42:08 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 15:12:13 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/16 13:08:02 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,6 @@
 # include <stdbool.h>
 # include <signal.h>
 # include <termios.h>
-
-/*====================GLOBAL_VAR====================*/
-
-volatile int	g_signal;
 
 /*====================COMMAND_STRUCT====================*/
 

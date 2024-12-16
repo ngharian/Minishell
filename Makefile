@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gdero <gdero@student.s19.be>               +#+  +:+       +#+         #
+#    By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 15:12:03 by gdero             #+#    #+#              #
-#    Updated: 2024/12/13 15:12:04 by gdero            ###   ########.fr        #
+#    Updated: 2024/12/16 13:03:40 by ngharian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,13 +48,13 @@ NAME = minishell
 CFLAGS = -g -Wall -Wextra -Werror
 CC = gcc
 RM = rm -f
-MAKE_LIBFT = make -s -C ./libft
+MAKE_LIBFT = make -s -C ./Libft
 LIBFT = ./Libft/libft.a
 
 $(NAME): msg $(OBJECTS)
 	@printf "\033[K\033[0;34mBeast compiled.\n"
 	@$(MAKE_LIBFT)
-	@$(CC) $(CFLAGS) ${OBJECTS} ${LIBFT} -I ${HEADER}  -o ${NAME} -lreadline -L /Users/gdero/.brew/opt/readline/lib -I /Users/gdero/.brew/opt/readline/include
+	@$(CC) $(CFLAGS) ${OBJECTS} ${LIBFT} -I ${HEADER}  -o ${NAME} -lreadline
 	@printf "\r\033[0;31mThe Beast is ready.\033[0m\n"
 
 .c.o:

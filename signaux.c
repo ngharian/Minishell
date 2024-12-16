@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signaux.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 12:25:19 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/13 15:12:21 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/16 13:13:02 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
+
+extern int	g_signal;
 
 void	ft_set_sig(int mode)
 {

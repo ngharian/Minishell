@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   del_quotes.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:33:04 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/16 16:12:35 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/16 19:27:58 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,64 @@ void	cmd_without_quotes(char **string)
 	*string = new_string;
 }
 
+static int	count_clean_str(char *str)
+{
+	int	i;
+	int	cond;
+	int	counter;
+
+	cond = 0;
+	i = 0;
+	counter = 0;
+	while (str[i])
+	{
+		++counter;
+		if (str[i] == 6 || str[i] == 7)
+		{
+			cond = 1;
+			--counter;
+		}
+		++i;
+	}
+	if (cond == 0)
+		return (-1);
+	return (counter);
+}
+
+static char	**clean_args(char **split, int i, int index, int j)
+{
+	int		counter;
+	char	*new_str;
+
+	while (split[++i])
+	{
+		j = -1;
+		index = -1;
+		counter = count_clean_str(split[i]);
+		if (counter == -1)
+			continue ;
+		new_str = malloc(sizeof(char) * (counter + 1));
+		if (!new_str)
+			print_exit_error("Malloc error", NULL, 1, NULL);
+		while (split[i][++j])
+		{
+			if (split[i][j] == 7 || split[i][j] == 6)
+				continue ;
+			new_str[++index] = split[i][j];
+		}
+		new_str[++index] = '\0';
+		free(split[i]);
+		split[i] = new_str;
+	}
+	return (split);
+}
+
 void	delete_quotes(t_commands *cmd)
 {
-	int	index;
+	int		index;
+	int		index2;
+	char	*temp;
+	char	*final;
 
 	while (cmd != NULL)
 	{
@@ -91,12 +146,26 @@ void	delete_quotes(t_commands *cmd)
 		{
 			if (cmd->cmd[index][0] == 7)
 			{
+				index2 = 0;
 				ft_strlcpy(cmd->cmd[index], cmd->cmd[index] + 1, \
 				ft_strlen(cmd->cmd[index]));
+				if (ft_strchr(cmd->cmd[index], 6) != NULL)
+					temp = ft_strdup(ft_strchr(cmd->cmd[index], 6));
+				else
+					continue ;
+				while (cmd->cmd[index][index2] != 6)
+					index2++;
+				cmd->cmd[index][index2] = '\0';
+				cmd_without_quotes(&temp);
+				final = ft_strjoin(cmd->cmd[index], temp);
+				free(cmd->cmd[index]);
+				free(temp);
+				cmd->cmd[index] = final;
 				continue ;
 			}
 			cmd_without_quotes(&cmd->cmd[index]);
 		}
+		cmd->cmd = clean_args(cmd->cmd, -1, -1, -1);
 		cmd = cmd->next;
 	}
 }

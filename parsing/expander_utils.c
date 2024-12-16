@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 12:41:26 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 15:11:32 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/16 18:22:19 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	lenght_newstring(char *input, char *to_find, char *var)
 			counter++;
 	}
 	new_lenght = ft_strlen(input) - ft_strlen(to_find) \
-	+ ft_strlen(var) + counter;
+	+ ft_strlen(var) + counter + 1;
 	return (new_lenght);
 }
 
@@ -62,6 +62,7 @@ static void	copy_var(char **new_string, char *var, int *str_index, int *index)
 		else
 			(*new_string)[(*str_index)++] = var[index_var];
 	}
+	(*new_string)[(*str_index)++] = 6;
 	*index = *str_index;
 }
 

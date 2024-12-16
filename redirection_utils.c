@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 13:35:47 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/13 15:12:13 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/16 14:33:42 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static void	update_trim_string(char *trimmed)
 			str_index = skip_quotes(trimmed, str_index);
 			continue ;
 		}
+		if (trimmed[str_index] == '<' || trimmed[str_index] == '>')
+			break ;
 		if (trimmed[str_index] == ' ' || trimmed[str_index] == '\0')
 			break ;
 		str_index++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
+/*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:15:36 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 15:11:47 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/16 14:30:58 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	fill_cmd_struct(t_commands **cmd, char **splitted, t_here_doc **heredoc)
 	{
 		temp->acces_file = 0;
 		temp->error_file = NULL;
-		checking_in_and_out(temp, splitted[index], heredoc);
+		checking_in_and_out(temp, splitted[index], heredoc, 0);
 		trimmed = ft_strtrim(splitted[index], " ");
 		if (!trimmed)
 			print_exit_error("Malloc error!\n", NULL, 1, NULL);

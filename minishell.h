@@ -6,7 +6,7 @@
 /*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:42:08 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/16 13:08:02 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/16 14:30:49 by ngharian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int		is_double(char *splitted, char c);
 /*====================REDIRECTION====================*/
 
 void	checking_in_and_out(t_commands *cmd, \
-		char *splitted, t_here_doc **heredoc);
+		char *splitted, t_here_doc **heredoc, int str_index);
 void	get_file_name_trimmed(t_file *file, int *str_index, char **splitted);
 void	in_the_pipes(t_commands **cmd);
 

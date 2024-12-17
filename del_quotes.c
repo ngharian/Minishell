@@ -6,29 +6,11 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:33:04 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/16 19:31:27 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/17 16:49:15 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	is_double(char *splitted, char c)
-{
-	int	str_index;
-
-	str_index = 0;
-	while (splitted[str_index])
-	{
-		if (splitted[str_index] == c)
-		{
-			if (splitted[str_index + 1] == c)
-				return (1);
-			break ;
-		}
-		str_index++;
-	}
-	return (0);
-}
 
 static void	no_more_quotes(char *string, char *new_string)
 {

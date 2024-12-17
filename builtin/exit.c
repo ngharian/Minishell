@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:12:28 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 15:10:59 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/17 17:00:50 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static int	exit_args(t_commands *cmd)
 			if ((!ft_isdigit(cmd->cmd[1][index])) && (cmd->cmd[1][0] != '-'))
 			{
 				printf("exit\nminishell: exit: numeric argument required\n");
-				exit(255);
+				exit(2);
 			}
 		}
 		if (cmd->cmd[1][0] == '-' && !isdigit(cmd->cmd[1][1]))
 		{
 			printf("exit\nminishell: exit: numeric argument required\n");
-			exit(255);
+			exit(2);
 		}
 		if (cmd->cmd[2])
 		{
@@ -65,7 +65,7 @@ int	ft_exit(t_commands *cmd, t_env_vars *vars)
 	&& ft_strncmp("9223372036854775808", temp, 19) != 0))
 	{
 		printf("minishell: exit: %s: numeric argument required\n", cmd->cmd[1]);
-		vars->exit_code = 255;
+		exit (2);
 	}
 	exit((unsigned char)vars->exit_code);
 }

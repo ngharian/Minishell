@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 11:48:13 by ngharian          #+#    #+#             */
-/*   Updated: 2024/12/13 15:11:54 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/17 17:19:15 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	child(t_commands *cmd, t_env_vars *env)
 	int	ret;
 
 	ft_redirect(cmd, 1);
-	ret = ft_builtins(cmd, env, -1);
+	ret = ft_builtins(cmd, env);
 	if (ret != -1)
 		exit(ret);
 	execute_cmd(env, cmd);
@@ -86,7 +86,7 @@ static void	single_command(t_commands **cmd, t_env_vars **env, int ret)
 		(*env)->exit_code = 1;
 		return ;
 	}
-	ret = ft_builtins(*cmd, *env, -1);
+	ret = ft_builtins(*cmd, *env);
 	if (ret == -1)
 		multiple_commands(cmd, env, NULL);
 	else

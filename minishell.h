@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:42:08 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/16 15:30:34 by ngharian         ###   ########.fr       */
+/*   Updated: 2024/12/17 16:44:45 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int		ft_strrncmp(char *verif, char *base, int len);
 
 /*====================BUILTINS====================*/
 
-int		ft_builtins(t_commands *cmd, t_env_vars *vars, int index);
+int		ft_builtins(t_commands *cmd, t_env_vars *vars);
 void	add_char(char **env, int mode);
 void	make_order(t_env_vars *vars, int index);
 int		ft_cd(t_commands *cmd, t_env_vars *vars);

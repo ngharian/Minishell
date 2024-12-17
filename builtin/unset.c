@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:13:48 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 15:11:10 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/17 16:57:27 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,6 @@ int	is_there_equal(char *str, int mode)
 	return (0);
 }
 
-static int	is_there_spe_char(char *cmd)
-{
-	int	index;
-
-	index = -1;
-	while (cmd[++index])
-	{
-		if (!isalnum(cmd[index]))
-			return (1);
-	}
-	return (0);
-}
-
 int	ft_unset(char **cmd, t_env_vars *vars)
 {
 	int	index;
@@ -80,14 +67,6 @@ int	ft_unset(char **cmd, t_env_vars *vars)
 	while (cmd[++index])
 	{
 		str_len = ft_strlen(cmd[index]);
-		if (!ft_isalpha(cmd[index][0]) || is_there_equal(cmd[index], 0) \
-		|| is_there_spe_char(cmd[index]))
-		{
-			print_exit_error("not a valid identifier", \
-			cmd[index], -1, "unset: ");
-			exit_code = 1;
-			continue ;
-		}
 		delete_var(vars->exp, cmd[index], str_len, 0);
 		delete_var(vars->env, cmd[index], str_len, 1);
 		continue ;

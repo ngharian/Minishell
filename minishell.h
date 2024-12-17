@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:42:08 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/17 16:44:45 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/17 17:41:47 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void	in_the_pipes(t_commands **cmd);
 
 void	delete_quotes(t_commands *cmd);
 void	cmd_without_quotes(char **string);
+char	**clean_args(char **split, int i, int index, int j);
 
 /*====================FREES & EXIT====================*/
 void	free_split(char **split);

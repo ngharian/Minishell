@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ngharian <ngharian@student.42.fr>          +#+  +:+       +#+         #
+#    By: gdero <gdero@student.s19.be>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/13 15:12:03 by gdero             #+#    #+#              #
-#    Updated: 2024/12/16 13:03:40 by ngharian         ###   ########.fr        #
+#    Updated: 2024/12/17 17:41:58 by gdero            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRCS = minishell.c \
 		split_minishell.c \
 		commands.c \
 		del_quotes.c \
+		clean_input.c \
 		redirection.c \
 		redirection_utils.c \
 		execution.c \

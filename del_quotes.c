@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:33:04 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/17 16:49:15 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/17 17:46:33 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,65 +62,40 @@ void	cmd_without_quotes(char **string)
 	*string = new_string;
 }
 
-static int	count_clean_str(char *str)
+static void	bell(int index2, char **cmd, char **temp, char **final)
 {
-	int	i;
-	int	cond;
-	int	counter;
-
-	cond = 0;
-	i = 0;
-	counter = 0;
-	while (str[i])
+	index2 = 0;
+	ft_strlcpy((*cmd), (*cmd) + 1, \
+	ft_strlen((*cmd)));
+	if (ft_strchr((*cmd), 6) != NULL)
 	{
-		++counter;
-		if (str[i] == 6 || str[i] == 7)
-		{
-			cond = 1;
-			--counter;
-		}
-		++i;
-	}
-	if (cond == 0)
-		return (-1);
-	return (counter);
-}
-
-static char	**clean_args(char **split, int i, int index, int j)
-{
-	int		counter;
-	char	*new_str;
-
-	while (split[++i])
-	{
-		j = -1;
-		index = -1;
-		counter = count_clean_str(split[i]);
-		if (counter == -1)
-			continue ;
-		new_str = malloc(sizeof(char) * (counter + 1));
-		if (!new_str)
+		(*temp) = ft_strdup(ft_strchr((*cmd), 6));
+		if (!(*temp))
 			print_exit_error("Malloc error", NULL, 1, NULL);
-		while (split[i][++j])
-		{
-			if (split[i][j] == 7 || split[i][j] == 6)
-				continue ;
-			new_str[++index] = split[i][j];
-		}
-		new_str[++index] = '\0';
-		free(split[i]);
-		split[i] = new_str;
 	}
-	return (split);
+	else
+		return ;
+	while ((*cmd)[index2] != 6)
+		index2++;
+	(*cmd)[index2] = '\0';
+	cmd_without_quotes(&(*temp));
+	(*final) = ft_strjoin((*cmd), (*temp));
+	if (!(*final))
+		print_exit_error("Malloc error", NULL, 1, NULL);
+	free((*cmd));
+	free((*temp));
+	(*cmd) = (*final);
+	return ;
 }
 
 void	delete_quotes(t_commands *cmd)
 {
 	int		index;
-	int		index2;
 	char	*temp;
 	char	*final;
 
+	temp = NULL;
+	final = NULL;
 	while (cmd != NULL)
 	{
 		index = -1;
@@ -128,27 +103,7 @@ void	delete_quotes(t_commands *cmd)
 		{
 			if (cmd->cmd[index][0] == 7)
 			{
-				index2 = 0;
-				ft_strlcpy(cmd->cmd[index], cmd->cmd[index] + 1, \
-				ft_strlen(cmd->cmd[index]));
-				if (ft_strchr(cmd->cmd[index], 6) != NULL)
-				{
-					temp = ft_strdup(ft_strchr(cmd->cmd[index], 6));
-					if (!temp)
-						print_exit_error("Malloc error", NULL, 1, NULL);
-				}
-				else
-					continue ;
-				while (cmd->cmd[index][index2] != 6)
-					index2++;
-				cmd->cmd[index][index2] = '\0';
-				cmd_without_quotes(&temp);
-				final = ft_strjoin(cmd->cmd[index], temp);
-				if (!final)
-					print_exit_error("Malloc error", NULL, 1, NULL);
-				free(cmd->cmd[index]);
-				free(temp);
-				cmd->cmd[index] = final;
+				bell(0, &cmd->cmd[index], &temp, &final);
 				continue ;
 			}
 			cmd_without_quotes(&cmd->cmd[index]);

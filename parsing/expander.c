@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 15:51:48 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/16 14:00:15 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/17 17:43:37 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ void	expander(char **input, t_env_vars *vars)
 	while ((*input)[++index])
 	{
 		double_quotes_case(input, &index, vars);
-		//printf("%i index\n", index);
 		if ((*input)[index] == 39)
 			index = skip_quotes((*input), index) - 1;
 		if ((*input)[index] == '\0')

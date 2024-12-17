@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:10:16 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/13 15:10:53 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/17 17:50:45 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	check_for_n(char **cmd, int *index, bool *must_new_line)
 	return ;
 }
 
-int	ft_echo(char **cmd, t_env_vars *vars, int index)
+int	ft_echo(char **cmd, int index)
 {
 	bool	must_new_line;
 
@@ -63,16 +63,10 @@ int	ft_echo(char **cmd, t_env_vars *vars, int index)
 	{
 		if (!cmd[index + 1])
 		{
-			if (cmd[index][0] == '~' && !cmd[index][1])
-				printf("%s", get_path_line(vars->env, "HOME=", 0));
-			else
-				printf("%s", cmd[index]);
+			printf("%s", cmd[index]);
 			break ;
 		}
-		if (cmd[index][0] == '~' && !cmd[index][1])
-			printf("%s ", get_path_line(vars->env, "HOME=", 0));
-		else
-			printf("%s ", cmd[index]);
+		printf("%s ", cmd[index]);
 		index++;
 	}
 	if (must_new_line)

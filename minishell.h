@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 19:42:08 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/17 17:41:47 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/17 17:51:04 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ int		ft_builtins(t_commands *cmd, t_env_vars *vars);
 void	add_char(char **env, int mode);
 void	make_order(t_env_vars *vars, int index);
 int		ft_cd(t_commands *cmd, t_env_vars *vars);
-int		ft_echo(char **cmd, t_env_vars *vars, int index);
+int		ft_echo(char **cmd, int index);
 int		ft_env(char **cmd, t_env_vars *vars, int mode);
 int		ft_exit(t_commands *cmd, t_env_vars *vars);
 int		ft_export(char **cmd, t_env_vars *vars);

@@ -6,7 +6,7 @@
 /*   By: gdero <gdero@student.s19.be>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 19:21:58 by gdero             #+#    #+#             */
-/*   Updated: 2024/12/17 16:44:33 by gdero            ###   ########.fr       */
+/*   Updated: 2024/12/17 17:52:54 by gdero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_builtins(t_commands *cmd, t_env_vars *vars)
 
 	condition_met = -1;
 	if (ft_strcmp(cmd->cmd[0], "echo") == 0)
-		condition_met = ft_echo(cmd->cmd, vars, 1);
+		condition_met = ft_echo(cmd->cmd, 1);
 	else if (ft_strcmp(cmd->cmd[0], "cd") == 0)
 		condition_met = ft_cd(cmd, vars);
 	else if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
